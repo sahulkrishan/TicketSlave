@@ -1,0 +1,29 @@
+name: Linting
+
+on:
+  push:
+    branches:
+      - master # Hier de naam van je hoofdbranch
+  pull_request:
+    branches:
+      - master # Hier de naam van je hoofdbranch
+
+jobs:
+  eslint:
+    name: ESLint
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14' # Kies de gewenste Node.js-versie
+
+      - name: Install dependencies
+        run: npm install # Of gebruik 'yarn install' als je Yarn gebruikt
+
+      - name: Run ESLint
+        run: npm run lint # Voer het commando uit om je linter te draaien

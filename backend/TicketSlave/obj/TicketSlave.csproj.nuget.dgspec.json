@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SKRISHAN\\OneDrive\\Documenten\\School\\Windesheim\\2324\\PSEMO\\Portfolio\\Realiseren\\Codebase\\backend\\TicketSlave\\TicketSlave.csproj": {}
+    "C:\\Users\\james ibn batuta\\Source\\Repos\\TicketSlave\\backend\\TicketSlave\\TicketSlave.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SKRISHAN\\OneDrive\\Documenten\\School\\Windesheim\\2324\\PSEMO\\Portfolio\\Realiseren\\Codebase\\backend\\TicketSlave\\TicketSlave.csproj": {
+    "C:\\Users\\james ibn batuta\\Source\\Repos\\TicketSlave\\backend\\TicketSlave\\TicketSlave.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SKRISHAN\\OneDrive\\Documenten\\School\\Windesheim\\2324\\PSEMO\\Portfolio\\Realiseren\\Codebase\\backend\\TicketSlave\\TicketSlave.csproj",
+        "projectUniqueName": "C:\\Users\\james ibn batuta\\Source\\Repos\\TicketSlave\\backend\\TicketSlave\\TicketSlave.csproj",
         "projectName": "TicketSlave",
-        "projectPath": "C:\\Users\\SKRISHAN\\OneDrive\\Documenten\\School\\Windesheim\\2324\\PSEMO\\Portfolio\\Realiseren\\Codebase\\backend\\TicketSlave\\TicketSlave.csproj",
-        "packagesPath": "C:\\Users\\SKRISHAN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SKRISHAN\\OneDrive\\Documenten\\School\\Windesheim\\2324\\PSEMO\\Portfolio\\Realiseren\\Codebase\\backend\\TicketSlave\\obj\\",
+        "projectPath": "C:\\Users\\james ibn batuta\\Source\\Repos\\TicketSlave\\backend\\TicketSlave\\TicketSlave.csproj",
+        "packagesPath": "C:\\Users\\james ibn batuta\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\james ibn batuta\\Source\\Repos\\TicketSlave\\backend\\TicketSlave\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\SKRISHAN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\james ibn batuta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
