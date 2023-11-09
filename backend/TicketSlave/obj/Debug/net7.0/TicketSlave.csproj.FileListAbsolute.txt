@@ -1,0 +1,7 @@
+C:\Users\SKRISHAN\OneDrive\Documenten\School\Windesheim\2324\PSEMO\Portfolio\Realiseren\Codebase\backend\TicketSlave\obj\Debug\net7.0\TicketSlave.csproj.AssemblyReference.cache
+C:\Users\SKRISHAN\OneDrive\Documenten\School\Windesheim\2324\PSEMO\Portfolio\Realiseren\Codebase\backend\TicketSlave\obj\Debug\net7.0\TicketSlave.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SKRISHAN\OneDrive\Documenten\School\Windesheim\2324\PSEMO\Portfolio\Realiseren\Codebase\backend\TicketSlave\obj\Debug\net7.0\TicketSlave.AssemblyInfoInputs.cache
+C:\Users\SKRISHAN\OneDrive\Documenten\School\Windesheim\2324\PSEMO\Portfolio\Realiseren\Codebase\backend\TicketSlave\obj\Debug\net7.0\TicketSlave.AssemblyInfo.cs
+C:\Users\SKRISHAN\OneDrive\Documenten\School\Windesheim\2324\PSEMO\Portfolio\Realiseren\Codebase\backend\TicketSlave\obj\Debug\net7.0\TicketSlave.csproj.CoreCompileInputs.cache
+C:\Users\SKRISHAN\OneDrive\Documenten\School\Windesheim\2324\PSEMO\Portfolio\Realiseren\Codebase\backend\TicketSlave\obj\Debug\net7.0\TicketSlave.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\SKRISHAN\OneDrive\Documenten\School\Windesheim\2324\PSEMO\Portfolio\Realiseren\Codebase\backend\TicketSlave\obj\Debug\net7.0\TicketSlave.MvcApplicationPartsAssemblyInfo.cache
