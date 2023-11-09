@@ -13,6 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+        path: ./TicketSlave
 
       - name: Use Node.js
         uses: actions/setup-node@v2
@@ -24,10 +26,4 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint # Voer het commando uit om je linter te draaien
-  lint:
-    runs-on: windows-latest
-    uses: actions/checkout@v2
-    - name: Super-Linter
-      uses: super-linter/super-linter@v5.6.1
-      env:
-          GITHUB_TOKEN:${{secrets.GITHUB_TOKEN}}
+
