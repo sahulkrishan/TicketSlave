@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master # Hier de naam van je hoofdbranch
-  pull_request:
-    branches:
-      - master # Hier de naam van je hoofdbranch
 
 jobs:
   eslint:
@@ -20,6 +17,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          path: ./TicketSlave
 
       - name: Use Node.js
         uses: actions/setup-node@v2
@@ -31,3 +30,4 @@ jobs:
 
       - name: Run ESLint
         run: npm run lint # Voer het commando uit om je linter te draaien
+
