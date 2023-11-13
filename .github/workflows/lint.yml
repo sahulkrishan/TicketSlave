@@ -9,10 +9,6 @@ jobs:
   eslint:
     name: ESLint
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
-        working-directory: ${{github.workspace}}/frontend
 
     steps:
       - name: Checkout repository
