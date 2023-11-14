@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace TicketSlave.Classes
 {
     public class User : IdentityUser
     {
-        [Required]
-        public string Id { get; set; }
         [Required] 
         public string FirstName { get; set; }
         [Required]

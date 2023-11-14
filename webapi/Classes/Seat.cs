@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using webapi.Classes;
 
 namespace TicketSlave.Classes
 {
@@ -11,10 +13,10 @@ namespace TicketSlave.Classes
         public string Name {  get; set; }
         public string Zone {  get; set; }
         public string SeatNumber {  get; set; }
-        public ICollection<SeatType> SeatType {  get; set; }
-        public Guid LocationId {  get; set; }
+        public List<SeatType> SeatType {  get; set; }
+        [ForeignKey("Location")] public Guid LocationId {  get; set; }
         public Location Location {  get; set; }
-        public int MaxCapacity {  get; set; }
+        public int Capacity {  get; set; }
     }
 
     public enum SeatType
