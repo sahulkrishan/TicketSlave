@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using webapi.Classes;
 
 namespace TicketSlave.Classes
 {

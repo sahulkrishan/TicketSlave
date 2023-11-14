@@ -1,13 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Cryptography.X509Certificates;
+using webapi.Classes;
 
 namespace TicketSlave.Classes
 {
     public class Order
     {
+        [Key]
         [Required]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public string UserId { get; set; }
         [Required]
@@ -20,9 +22,9 @@ namespace TicketSlave.Classes
         public string Status { get; set; }
         public string PaymentMethod { get; set; }
         public string TransactionId { get; set; }
-        public string LocationId { get; set; }
+        [ForeignKey("Location")] public Guid LocationId { get; set; }
         public Location Location { get; set; }
-        public string VoucherId { get; set; }
+        [ForeignKey("Voucher")] public Guid VoucherId { get; set; }
         public Voucher Voucher { get; set; }
     }
 }
