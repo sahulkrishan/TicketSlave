@@ -13,15 +13,15 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.403'
+          dotnet-version: '7.0.x'
 
-      - name: Restore NuGet packages
+      - name: Restore dependencies
         run: dotnet restore
 
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
 
-      - name: Run C# linter (e.g., StyleCop, Roslyn Analyzers, etc.)
+      - name: Run analyzer
         run: dotnet analyze webapi
         
       - name: Test
