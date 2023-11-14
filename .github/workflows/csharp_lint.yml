@@ -9,13 +9,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '7.0.403' # Change to your desired version
+          dotnet-version: '7.0.403'
 
       - name: Restore NuGet packages
         run: dotnet restore
@@ -25,3 +23,6 @@ jobs:
 
       - name: Run C# linter (e.g., StyleCop, Roslyn Analyzers, etc.)
         run: dotnet analyze webapi
+        
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
