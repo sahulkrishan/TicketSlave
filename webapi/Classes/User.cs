@@ -1,8 +1,9 @@
 ﻿
+using System;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace TicketSlave.Classes
+namespace webapi.Classes
 {
     public class User : IdentityUser
     {

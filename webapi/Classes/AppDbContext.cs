@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TicketSlave.Classes;
+using webapi.Classes;
 
 namespace webapi.Classes
 {

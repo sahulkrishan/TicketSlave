@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using webapi.Classes;
 
-namespace TicketSlave.Classes
+namespace webapi.Classes
 {
     public class Event
     {
