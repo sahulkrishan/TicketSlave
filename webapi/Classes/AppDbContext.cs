@@ -15,7 +15,6 @@ namespace webapi.Classes
         public DbSet<ReservationSession> ReservationSessions { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
