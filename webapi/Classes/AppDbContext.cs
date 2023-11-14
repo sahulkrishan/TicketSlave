@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TicketSlave.Classes;
 
 namespace webapi.Classes
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -18,12 +19,7 @@ namespace webapi.Classes
         public DbSet<Voucher> Vouchers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Event>()
-                .Property(e => e.ImageUrls)
-                .HasConversion(
-                    v => string.Join(";", v),
-                    v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList()
-                );
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

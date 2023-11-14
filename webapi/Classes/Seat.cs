@@ -13,7 +13,7 @@ namespace TicketSlave.Classes
         public string Name {  get; set; }
         public string Zone {  get; set; }
         public string SeatNumber {  get; set; }
-        public SeatType SeatType {  get; set; }
+        public List<SeatType> SeatType {  get; set; }
         [ForeignKey("Location")] public Guid LocationId {  get; set; }
         public Location Location {  get; set; }
         public int Capacity {  get; set; }

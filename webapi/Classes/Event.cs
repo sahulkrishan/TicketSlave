@@ -14,7 +14,7 @@ namespace TicketSlave.Classes
         public Location Location { get; set; }
         public Guid CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ICollection<string> ImageUrls { get; set; }
+        public List<string> ImageUrls { get; set; }
         public DateTime EventStartAt { get; set; }
         public DateTime EventEndAt { get; set; }
         public DateTime SaleStartAt { get; set; }
