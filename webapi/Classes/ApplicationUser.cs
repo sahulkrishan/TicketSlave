@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace webapi.Classes
 {
-    public class User : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         [Required] 
         public string FirstName { get; set; }

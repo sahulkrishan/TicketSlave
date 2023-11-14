@@ -4,7 +4,7 @@ using webapi.Classes;
 
 namespace webapi.Classes
 {
-    public class AppDbContext : IdentityDbContext<User>
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -15,6 +15,7 @@ namespace webapi.Classes
         public DbSet<ReservationSession> ReservationSessions { get; set; }
         public DbSet<Seat> Seats { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Voucher> Vouchers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

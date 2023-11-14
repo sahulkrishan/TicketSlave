@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.HttpSys;
 using webapi.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequiredLength = 12;
+        options.Password.RequireDigit = true; 
+        options.Password.RequireLowercase = true; 
+        options.Password.RequireUppercase = true; 
+        options.Password.RequireNonAlphanumeric = true; 
+        
+        options.User.RequireUniqueEmail = true;
+        options.SignIn.RequireConfirmedEmail = true;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -17,12 +33,25 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// Apply database migrations at application startup
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+}
+
+// Seed database with default values
+var seeder = new Seeder(app.Services);
+seeder.AddRoles();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    await seeder.AddAdministrator();
 }
+
 
 app.UseHttpsRedirection();
 
