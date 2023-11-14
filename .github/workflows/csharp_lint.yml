@@ -20,9 +20,14 @@ jobs:
 
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
-
-      - name: Run C# linter (e.g., StyleCop, Roslyn Analyzers, etc.)
-        run: dotnet analyze webapi
         
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --logger trx --results-directory "TestResults"
+
+      - name: Upload dotnet test results
+        uses: actions/upload-artifact@v3
+        with:
+          name: dotnet-results-${{ matrix.dotnet-version }}
+          path: TestResults-${{ matrix.dotnet-version }}
+        # Use always() to always run this step to publish test results when there are test failures
+        if: ${{ always() }}
