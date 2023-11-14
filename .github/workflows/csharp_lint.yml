@@ -14,8 +14,8 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: | 
-            '4.7.X'
-            '7.0.403'
+            4.7.2
+            7.0.403
 
       - name: Restore NuGet packages
         run: dotnet restore
