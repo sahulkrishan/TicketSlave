@@ -1,12 +1,14 @@
 name: Angular Lint
 
 on:
-  push:
   pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: angularapp 
 
     steps:
       - name: Checkout code
@@ -16,9 +18,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.9.0'
-
-      - name: Navigate to Angular directory
-        run: cd angularapp
 
       - name: Install Angular CLI
         run: npm install -g @angular/cli
