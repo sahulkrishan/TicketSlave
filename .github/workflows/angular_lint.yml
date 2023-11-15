@@ -1,7 +1,6 @@
 name: Angular Lint
 
 on:
-  push:
   pull_request:
 
 jobs:
