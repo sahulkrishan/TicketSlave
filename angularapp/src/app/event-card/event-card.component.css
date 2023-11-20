@@ -1,0 +1,16 @@
+.event-card {
+    max-width: 300px;
+}
+
+
+.space{
+  height: 100px;
+}
+.seeMoreButton{
+  align-items: center;
+}
+
+.event-header-image {
+    background-image: url('https://th.bing.com/th/id/OIP.wbjIIP8bQudTnShXyFymDgHaE8?rs=1&pid=ImgDetMain');
+    background-size: cover;
+}
