@@ -1,0 +1,98 @@
+<mat-card class="mat-typography card">
+
+
+  <div class="card-header">
+
+    <button mat-icon-button aria-label="Terug naar home">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <div class="card-header-title">
+      <img src="assets/logo_singleline_dark.svg" alt="" height="21" width="124"/>
+      <h1 class="zero-margin">Registreren</h1>
+    </div>
+    <div style="width: 48px; height: 1px"></div>
+
+  </div>
+
+  <mat-card-content class="card-content">
+
+    <div *ngIf="registrationStatus === RegistrationStep.Success">
+      <mat-icon class="color-confirm">check_circle</mat-icon>
+      <h1>Registratie voltooid</h1>
+      <body>Welkom bij TicketSlave, {{this.registrationForm.controls.firstName.value}}! Je account is succesvol aangemaakt.</body>
+    </div>
+
+    <form
+      *ngIf="registrationStatus === RegistrationStep.Form"
+      [formGroup]="registrationForm"
+      (ngSubmit)="submitForm()"
+      class="form">
+
+      <div class="horizontal-list">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Voornaam</mat-label>
+          <input matInput formControlName="firstName" type="text" name="firstName" autocomplete="on">
+          <mat-error *ngIf="this.registrationForm.controls.firstName.hasError('required')">
+            Voornaam is vereist
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Achternaam</mat-label>
+          <input matInput formControlName="lastName" type="text" name="lastName" autocomplete="on">
+          <mat-error *ngIf="this.registrationForm.controls.lastName.hasError('required')">
+            Achternaam is vereist
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>E-mailadres</mat-label>
+        <input matInput formControlName="email" type="email" name="email" autocomplete="on">
+        <mat-error *ngIf="this.registrationForm.controls.email.hasError('required')">
+          E-mailadres is vereist
+        </mat-error>
+        <mat-error *ngIf="this.registrationForm.controls.email.hasError('UserExists')">
+          E-mailadres is al in gebruik
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Wachtwoord</mat-label>
+        <input matInput formControlName="password" type="password" name="new-password" autocomplete="on">
+        <mat-error
+          *ngIf="registrationForm.controls.password.invalid">{{ getErrorMessageUserFormPassword() }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Herhaal wachtwoord</mat-label>
+        <input matInput formControlName="confirmPassword" type="password" name="new-password" autocomplete="on">
+        <mat-error *ngIf="this.registrationForm.controls.confirmPassword.hasError('NoPasswordMatch')">
+          Wachtwoord komt niet overeen
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="acceptedTerms">
+        <div [class.color-warn]="this.registrationForm.controls.acceptedTerms.hasError('RequiredTrue')">Ik ga akkoord met de <a href="https://google.nl/" target="_blank"><u>Privacyverklaring</u></a>*</div>
+      </mat-checkbox>
+
+      <div
+        matTooltip="Vul het registratieformulier in"
+        [matTooltipDisabled]="registrationForm.valid"
+        [matTooltipHideDelay]="500"
+        [matTooltipShowDelay]="100">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!registrationForm.valid && false || loading"> <!--FIXME-->
+          <mat-spinner *ngIf="loading" [diameter]="24"/>
+          <ng-container *ngIf="!loading">Registreren</ng-container>
+        </button>
+      </div>
+    </form>
+
+  </mat-card-content>
+</mat-card>

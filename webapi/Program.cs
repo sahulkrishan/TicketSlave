@@ -2,7 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Server.HttpSys;
+using webapi;
 using webapi.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +28,34 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState
+                .Where(e => e.Value is { Errors.Count: > 0 })
+                .SelectMany(e => e.Value!.Errors.Select(error => new ErrorResponse
+                {
+                    Code = "ValidationError",
+                    Field = e.Key,
+                    Description = error.ErrorMessage
+                }))
+                .ToList();
+            
+            
+            var errorResponse = new Response<object>
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Errors = errors
+            };
+
+            return new BadRequestObjectResult(errorResponse)
+            {
+                ContentTypes = { "application/problem+json" }
+            };
+        };
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

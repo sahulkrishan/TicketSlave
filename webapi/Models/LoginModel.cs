@@ -1,4 +1,4 @@
-﻿namespace webapi.Classes;
+﻿namespace webapi.Models;
 
 public class LoginModel
 {
