@@ -1,36 +1,50 @@
-.color-warn {
-  color: var(--mat-form-field-error-text-color)
+$card-padding: 24px;
+$card-gap: 16px;
+$card-radius: 16px;
+$max-width: 500px;
+
+@media (max-width: $max-width) {
+  .horizontal-list {
+    flex-wrap: wrap;
+  }
+  .card {
+    min-height: 100vh;
+    border-radius: 0;
+  }
+}
+@media (min-width: $max-width) {
+  .card {
+    border-radius: 16px;
+  }
+}
+
+mat-typography, h1, h2, h3, h4, h5, h6, p, mat-icon  {
+  color: rgb(255, 255, 255, 0.9);
 }
 
 .color-confirm {
    color: #00ac52
  }
 
-.centered-card {
-  display: flex;
-  padding: 24px;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  align-self: stretch;
-}
-
 .card {
   display: flex;
+  flex: 1 1 auto;
   align-items: flex-start;
+  justify-content: center;
   max-width: 500px;
-  border-radius: 12px;
   gap: 16px;
+  background: rgba(25, 25, 25, 0.40);
+  backdrop-filter: blur(50px);
 }
 
 .card-header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex: 1 0 0;
+  flex-direction: column;
+  gap: 4px;
   width: 100%;
   box-sizing: border-box;
-  padding: 16px 16px 0;
+  padding: $card-padding $card-padding 0;
 }
 .card-header-title {
   display: flex;
@@ -51,7 +65,7 @@ mat-card-header {
 .form {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
   gap: 12px;
   align-self: stretch;
   width: 100%;
@@ -68,6 +82,7 @@ mat-card-header {
   display: flex;
   flex-direction: column;
   align-self: stretch;
+  padding: 0 $card-padding $card-padding;
 }
 
 mat-form-field, mat-checkbox {
@@ -76,4 +91,8 @@ mat-form-field, mat-checkbox {
 
 .zero-margin {
   margin: 0;
+}
+
+.text-center {
+  text-align: center;
 }

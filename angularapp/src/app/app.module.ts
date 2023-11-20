@@ -6,6 +6,14 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {RegisterComponent} from "./register/register.component";
+import {MatCardModule} from "@angular/material/card";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -13,7 +21,7 @@ import {RegisterComponent} from "./register/register.component";
     LoginComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule, RegisterComponent
+    BrowserModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule, RegisterComponent, MatCardModule, MatIconModule, MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,6 +4,7 @@ import {catchError, Observable} from 'rxjs';
 import {ResponseModel} from "../model/response.model";
 import {RegistrationModel} from "../model/registration.model";
 import {BaseService} from "./base.service";
+import {LoginModel} from "../model/login.model";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,8 @@ export class AuthenticationService extends BaseService {
     super(http);
   }
 
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(this.apiUrl + '/login', { username, password });
+  login(loginModel: LoginModel): Observable<ResponseModel<undefined>> {
+    return this.http.post<ResponseModel<undefined>>(this.apiUrl + '/login', loginModel);
   }
 
   register(registrationModel: RegistrationModel): Observable<ResponseModel<undefined>> {

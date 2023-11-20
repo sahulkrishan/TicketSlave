@@ -1,18 +1,11 @@
 <mat-card class="mat-typography card">
-
-
   <div class="card-header">
 
-    <button mat-icon-button aria-label="Terug naar home">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-
-    <div class="card-header-title">
-      <img src="assets/logo_singleline_dark.svg" alt="" height="21" width="124"/>
+    <mat-icon>account_circle</mat-icon>
+    <div class="text-center">
       <h1 class="zero-margin">Registreren</h1>
+      <p class="zero-margin">Word vandaag nog lid en profiteer van alle voordelen die TicketSlave te bieden heeft</p>
     </div>
-    <div style="width: 48px; height: 1px"></div>
-
   </div>
 
   <mat-card-content class="card-content">
@@ -24,7 +17,6 @@
     </div>
 
     <form
-      *ngIf="registrationStatus === RegistrationStep.Form"
       [formGroup]="registrationForm"
       (ngSubmit)="submitForm()"
       class="form">
@@ -74,6 +66,7 @@
         </mat-error>
       </mat-form-field>
 
+      <!--FIXME-->
       <mat-checkbox formControlName="acceptedTerms">
         <div [class.color-warn]="this.registrationForm.controls.acceptedTerms.hasError('RequiredTrue')">Ik ga akkoord met de <a href="https://google.nl/" target="_blank"><u>Privacyverklaring</u></a>*</div>
       </mat-checkbox>
@@ -87,11 +80,17 @@
           mat-raised-button
           color="primary"
           type="submit"
-          [disabled]="!registrationForm.valid && false || loading"> <!--FIXME-->
+          [disabled]="!registrationForm.valid || loading">
           <mat-spinner *ngIf="loading" [diameter]="24"/>
           <ng-container *ngIf="!loading">Registreren</ng-container>
         </button>
       </div>
+      <button
+        mat-button
+        type="button"
+        color="primary">
+        Heb je al een account?
+      </button>
     </form>
 
   </mat-card-content>

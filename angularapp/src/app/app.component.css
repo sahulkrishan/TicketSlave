@@ -1,12 +1,12 @@
+/* display: flex causes weird behaviour om small screens (<260px) */
 .background {
   background: radial-gradient(75% 75% at 20% 63%, rgba(147, 28, 210, 0.4), transparent),
   radial-gradient(75% 75% at 99% 89%, rgba(3, 189, 37, 0.4), transparent),
   radial-gradient(75% 75% at 42% 9%, rgba(10, 177, 200, 0.4), transparent),
   #000;
-  animation: animateBackground 10s linear infinite;
-  height: 100vh;
-  width: 100vw;
+  background-attachment: fixed;
+  min-height: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
