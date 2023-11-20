@@ -5,16 +5,21 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { EventOverviewComponent } from './event-overview/event-overview.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EventCardComponent } from './event-card/event-card.component';
+import { EventCarouselComponent } from './event-carousel/event-carousel.component';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
   declarations: [
     AppComponent,
-    EventOverviewComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule, BrowserAnimationsModule
+    BrowserModule, HttpClientModule, BrowserAnimationsModule, MatCardModule, EventOverviewComponent, EventCardComponent, EventCarouselComponent,
   ],
   providers: [],
+  exports: [
+    EventCardComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

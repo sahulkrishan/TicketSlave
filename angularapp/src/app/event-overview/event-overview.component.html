@@ -1,1 +1,9 @@
-<p>event-overview works!</p>
+<app-event-carousel *ngIf = "events.length > 0" [eventData] = "events[0]">
+</app-event-carousel>
+<div id="eventContainer">
+  <h1> Opkomende events</h1>
+  <div id="cardContainer">
+    <app-event-card *ngFor="let event of events" [eventData]="event">
+    </app-event-card>
+  </div>
+</div>
