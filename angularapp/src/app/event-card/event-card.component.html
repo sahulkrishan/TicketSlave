@@ -4,7 +4,7 @@
       <mat-card-title>{{ eventData.title }}</mat-card-title>
       <p>{{ eventData.description}}</p>
       <mat-card-actions id="seeMoreButton">
-        <button  mat-button>See more</button>
+        <button (click)="navigateToEventDetails(eventData.id)" mat-flat-button color="primary">See more</button>
       </mat-card-actions>
     </mat-card-content>
 </mat-card>

@@ -6,7 +6,7 @@ import {EventOverviewComponent} from "./event-overview/event-overview.component"
 
 const routes: Routes = [
   { path: '', component: EventOverviewComponent }, // Default route
-  { path: 'details', component: EventDetailComponent },
+  { path: 'details/:id', component: EventDetailComponent },
   // Add more routes as needed
 ];
 

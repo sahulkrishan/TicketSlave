@@ -6,6 +6,7 @@ import {Event} from "../interfaces/event";
 import {EventCardComponent} from "../event-card/event-card.component";
 import { FastAverageColor } from 'fast-average-color';
 import {EventCarouselComponent} from "../event-carousel/event-carousel.component";
+import {Router} from "@angular/router";
 
 
 
@@ -20,7 +21,7 @@ export class EventOverviewComponent implements OnInit {
 
   events: Event[] = []
 
-  constructor(private eventsOverviewService: EventsOverviewService) { }
+  constructor(private eventsOverviewService: EventsOverviewService, private router: Router) { }
 
   ngOnInit() {
     this.eventsOverviewService.getEvents().subscribe(
@@ -45,6 +46,11 @@ export class EventOverviewComponent implements OnInit {
       .catch(e => {
         console.log(e);
       });
+  }
+  navigateToDetails(id: string){
+      const url    = '/details/' + id;
+      this.router.navigate([url]);
+
   }
 
   protected readonly event = event;

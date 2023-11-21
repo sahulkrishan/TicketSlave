@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
+  HttpClient
 } from '@angular/common/http';
-import { Component } from '@angular/core';
 import {Event} from "./interfaces/event";
 
 
@@ -20,6 +16,9 @@ export class EventsOverviewService {
 
   getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>('/event');
+  }
+  getEventById(id: string): Observable<Event> {
+    return this.http.get<Event>('/event/' + id);
   }
 
 }

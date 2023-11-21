@@ -3,7 +3,7 @@
 <div id="eventContainer">
   <h1> Opkomende events</h1>
   <div id="cardContainer">
-    <app-event-card *ngFor="let event of events" [eventData]="event">
+    <app-event-card (click)="navigateToDetails(event.id)" *ngFor="let event of events" [eventData]="event">
     </app-event-card>
   </div>
 </div>

@@ -5,6 +5,8 @@ import {CommonModule} from "@angular/common";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from '@angular/material/button';
 import {FastAverageColor} from "fast-average-color";
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -17,6 +19,9 @@ import {FastAverageColor} from "fast-average-color";
 export class EventCardComponent implements AfterViewInit{
   @Input()
   eventData!: Event;
+
+  constructor(private router: Router) {
+  }
   ngAfterViewInit() {
     this.getMainColor()
   }
@@ -37,6 +42,10 @@ export class EventCardComponent implements AfterViewInit{
       .catch(e => {
         console.log(e);
       });
+  }
+  navigateToEventDetails(id: string): void {
+    const url    = '/details/' + id;
+    this.router.navigate([url]);
   }
 
 }

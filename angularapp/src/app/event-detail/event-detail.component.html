@@ -1,1 +1,30 @@
-<p>event-detail works!</p>
+<app-event-carousel *ngIf="this.currentEvent !== undefined" [eventData]="this.currentEvent">
+</app-event-carousel>
+<mat-grid-list id="dataList" cols="2" rowHeight="6:1" style="width: 100%;">
+  <mat-grid-tile>
+    <div class="tile-content">
+      <h3>Description</h3>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div class="tile-content">
+      <p>{{ this.currentEvent?.description }}</p>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div class="tile-content">
+      <p>Nog geen locaties :(</p>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <div class="tile-content">
+      <h3>Place and Date</h3>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2">
+    <div class="tile-content center-content">
+      <button mat-flat-button color="primary">Buy now</button>
+    </div>
+  </mat-grid-tile>
+</mat-grid-list>
+

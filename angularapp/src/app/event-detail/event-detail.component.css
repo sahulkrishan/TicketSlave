@@ -1,0 +1,29 @@
+.tile-content {
+  padding: 15px;
+  text-align: center;
+  font-family: 'Arial', sans-serif; /* Change to your preferred font */
+}
+
+.tile-content h3 {
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: black; /* Change to your preferred color */
+}
+
+.tile-content p {
+  margin: 0;
+  font-size: 1em;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Divider style */
+mat-grid-tile:not(:last-child) {
+  border-bottom: 1px solid black; /* Change the color as desired */
+}
+
