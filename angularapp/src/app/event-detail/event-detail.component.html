@@ -1,6 +1,6 @@
 <app-event-carousel *ngIf="this.currentEvent !== undefined" [eventData]="this.currentEvent">
 </app-event-carousel>
-<mat-grid-list id="dataList" cols="2" rowHeight="6:1" style="width: 100%;">
+<mat-grid-list id="dataList" cols="2" rowHeight="6:1" style="width: 100%; height: 100%;">
   <mat-grid-tile>
     <div class="tile-content">
       <h3>Description</h3>
@@ -13,7 +13,7 @@
   </mat-grid-tile>
   <mat-grid-tile>
     <div class="tile-content">
-      <p>Nog geen locaties :(</p>
+      <p>{{this.currentEvent?.location?.id}}</p>
     </div>
   </mat-grid-tile>
   <mat-grid-tile>
