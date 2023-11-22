@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {booleanAttribute, Component, Input, OnInit} from '@angular/core';
 import {Event} from "../interfaces/event";
 import {MatButtonModule} from "@angular/material/button";
 
@@ -11,8 +11,16 @@ import {MatButtonModule} from "@angular/material/button";
   templateUrl: './event-carousel.component.html',
   styleUrls: ['./event-carousel.component.css']
 })
-export class EventCarouselComponent {
-  //kan het niet required worden?
+export class EventCarouselComponent implements OnInit{
   @Input() eventData!: Event;
+  @Input({transform:booleanAttribute}) buyButtonState: boolean = true;
 
+  ngOnInit(){
+    const button = document.getElementById("buyBtn");
+    if(button){
+      if(this.buyButtonState == false){
+        button.hidden = true;
+      }
+    }
+  }
 }
