@@ -1,26 +1,39 @@
+@media (max-width: 400px){
+  #cardContainer {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px)  and (min-width: 400px){
+  #cardContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 1000px) and (min-width:600px) {
+  #cardContainer {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1000px) {
+  #cardContainer {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 #cardContainer {
-  display: flex;
-  gap: 8px; /* Adjust spacing between cards */
-  justify-content: flex-start; /* Adjust alignment as needed */
-  align-items: flex-start; /* Adjust alignment as needed */
-  flex-wrap: wrap;
+  display: grid;
+  gap: 12px;
 }
 
 /* Adjust the styles of app-event-card */
 app-event-card {
-  flex: 1 1 300px; /* Adjust card width as needed */
-  max-width: calc(33.33% - 20px); /* Adjust for three cards per row with gap included */
   /* Adjust card styles */
 
 }
-#eventContainer {
+#overviewContainer {
+  padding: 32px;
   /* width: 100%; */
-  height: 100%; /* Set to full viewport height */
-  background-color: #f0f0f0; /* Change the background color if needed */
-  display: flex;
-  justify-content: left; /* Center content horizontally */
-  align-items: flex-start; /* Center content vertically */
-  flex-direction: column;
-  padding: 0px 156px;
+  /*height: 100%; !* Set to full viewport height *!*/
+  background: #f0f0f0 fixed; /* Change the background color if needed */
 }
 

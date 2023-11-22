@@ -1,9 +1,11 @@
-<app-event-carousel *ngIf = "events.length > 0" [eventData] = "events[0]">
+<app-event-carousel *ngIf="events.length > 0" [eventData]="events[0]">
 </app-event-carousel>
-<div id="eventContainer">
-  <h1> Opkomende events</h1>
+
+
+<div id="overviewContainer" class="mat-typography">
+  <h1 style="color:white;"> Opkomende events</h1>
   <div id="cardContainer">
-    <app-event-card (click)="navigateToDetails(event.id)" *ngFor="let event of events" [eventData]="event">
+    <app-event-card *ngFor="let event of events" [eventData]="event">
     </app-event-card>
   </div>
 </div>
