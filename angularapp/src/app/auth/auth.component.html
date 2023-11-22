@@ -1,27 +1,32 @@
 <div class="container">
 
   <app-login (goToRegistration)="changeAuthState(AuthState.register)"
+             [registrationCompleted]="registrationCompleted"
              *ngIf="authState === AuthState.login"/>
-  <app-register (goToLogin)="changeAuthState(AuthState.login)"
+  <app-register (goToLogin)="changeAuthState(AuthState.login, $event)"
                 *ngIf="authState === AuthState.register"/>
 </div>
 
-  <div class="gradient-bg">
-    <svg xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
-          <feBlend in="SourceGraphic" in2="goo" />
-        </filter>
-      </defs>
-    </svg>
-    <div class="gradients-container">
-      <div class="g1" [class.register]="authState === AuthState.register"></div>
-      <div class="g2" [class.register]="authState === AuthState.register"></div>
-      <div class="g3" [class.register]="authState === AuthState.register"></div>
-      <div class="g4" [class.register]="authState === AuthState.register"></div>
-      <div class="g5" [class.register]="authState === AuthState.register"></div>
-      <div class="interactive"></div>
-    </div>
+<div class="gradient-bg">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+        <feBlend in="SourceGraphic" in2="goo" />
+      </filter>
+    </defs>
+  </svg>
+  <div class="gradients-container" >
+    <div class="g1 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
+    <div class="g2 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
+    <div class="g3 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
+    <div class="g4 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
+    <div class="g5 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
+    <div class="g1" *ngIf="authState === AuthState.login" @fadeInOut></div>
+    <div class="g2" *ngIf="authState === AuthState.login" @fadeInOut></div>
+    <div class="g3" *ngIf="authState === AuthState.login" @fadeInOut></div>
+    <div class="g4" *ngIf="authState === AuthState.login" @fadeInOut></div>
+    <div class="g5" *ngIf="authState === AuthState.login" @fadeInOut></div>
   </div>
+</div>

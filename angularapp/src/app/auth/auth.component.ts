@@ -11,30 +11,26 @@ import {animate, style, transition, trigger} from "@angular/animations";
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
   animations: [
-    trigger(
-      'xAnimation',
-      [
-        transition(
-          '* => void',
-          [
-            style({height: 0, opacity: 1}),
-            animate('200ms cubic-bezier(0.2, 0.0, 0, 1.0)'
-            )
-          ]
-        ),
-      ]
-    )
+    trigger("fadeInOut", [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('5s 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [
+        animate('5s 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 0 })),
+      ]),
+    ]),
   ]
 })
 export class AuthComponent {
   authState: AuthState = AuthState.login;
+  registrationCompleted: boolean = false;
 
-  constructor() {
-  }
-
-  changeAuthState(state: AuthState) {
+  changeAuthState(state: AuthState, registrationCompleted?: boolean) {
     this.authState = state;
-
+    if (state == AuthState.login && registrationCompleted != undefined) {
+      this.registrationCompleted = registrationCompleted;
+    }
   }
 
   protected readonly AuthState = AuthState;

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {catchError, Observable} from 'rxjs';
-import {ResponseModel} from "../model/response.model";
 import {RegistrationModel} from "../model/registration.model";
 import {BaseService} from "./base.service";
 import {LoginModel} from "../model/login.model";
+import {ResponseResultModel} from "../model/response-result.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,17 +16,17 @@ export class AuthenticationService extends BaseService {
     super(http);
   }
 
-  login(loginModel: LoginModel): Observable<ResponseModel<undefined>> {
-    return this.http.post<ResponseModel<undefined>>(this.apiUrl + '/login', loginModel)
+  login(loginModel: LoginModel): Observable<ResponseResultModel> {
+    return this.http.post<ResponseResultModel>(this.apiUrl + '/login', loginModel)
       .pipe(
-        catchError(this.handleError<ResponseModel<undefined>>()) // Using handleError function
+        catchError(this.handleError<ResponseResultModel>()) // Using handleError function
       );
   }
 
-  register(registrationModel: RegistrationModel): Observable<ResponseModel<undefined>> {
-    return this.http.post<ResponseModel<undefined>>(this.apiUrl + '/register', registrationModel)
+  register(registrationModel: RegistrationModel): Observable<ResponseResultModel> {
+    return this.http.post<ResponseResultModel>(this.apiUrl + '/register', registrationModel)
       .pipe(
-        catchError(this.handleError<ResponseModel<undefined>>()) // Using handleError function
+        catchError(this.handleError<ResponseResultModel>()) // Using handleError function
       );
   }
 }

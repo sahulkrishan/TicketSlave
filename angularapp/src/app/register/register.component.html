@@ -1,6 +1,5 @@
 <mat-card class="mat-typography auth-card">
-  <div class="auth-card-header">
-
+  <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.Form">
     <mat-icon>person_add</mat-icon>
     <div class="text-center">
       <p class="zero-margin mat-headline-5">Registreren</p>
@@ -11,12 +10,37 @@
       mat-stroked-button
       type="button"
       color="primary"
-      (click)="goToLogin.emit(this.registrationForm.controls.email.value)">
+      (click)="goToLogin.emit(false)">
       Heb je al een account?
     </button>
   </div>
+  <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.ConfirmationRequired">
+    <mat-icon>mail</mat-icon>
+    <div class="text-center">
+      <p class="zero-margin mat-headline-5">Controleer uw email</p>
+      <p class="zero-margin mat-body-2">We hebben een verificatielink gestuurd naar het opgegeven e-mailadres. Open deze
+        link om uw account te verifiëren</p>
+    </div>
+    <div class="flex-row-space">
+      <button
+        mat-button
+        type="button"
+        color="primary"
+        (click)="goToLogin.emit(false)">
+        E-mail opnieuw verzenden
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        color="primary"
+        (click)="goToLogin.emit(false)">
+        Doorgaan
+      </button>
 
-  <mat-card-content class="auth-card-content">
+    </div>
+  </div>
+
+  <mat-card-content class="auth-card-content" *ngIf="registrationStep === RegistrationStep.Form">
     <form
       [formGroup]="registrationForm"
       (ngSubmit)="submitForm()"
@@ -54,14 +78,20 @@
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Wachtwoord</mat-label>
-        <input matInput formControlName="password" type="password" name="new-password" autocomplete="on">
+        <input matInput formControlName="password" name="new-password" autocomplete="on"
+               [type]="hidePassword ? 'password' : 'text'">
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
         <mat-error
           *ngIf="registrationForm.controls.password.invalid">{{ getErrorMessageUserFormPassword() }}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Herhaal wachtwoord</mat-label>
-        <input matInput formControlName="confirmPassword" type="password" name="new-password" autocomplete="on">
+        <input matInput formControlName="confirmPassword" name="new-password" autocomplete="on"
+               [type]="hidePassword ? 'password' : 'text'">
         <mat-error *ngIf="this.registrationForm.controls.confirmPassword.hasError('NoPasswordMatch')">
           Wachtwoord komt niet overeen
         </mat-error>

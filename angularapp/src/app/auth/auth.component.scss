@@ -20,6 +20,14 @@ $max-width: 500px;
     min-height: 100vh;
     border-radius: 0;
   }
+  app-login {
+    width: 100%;
+  }
+  app-banner {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
 }
 
 /* display: flex causes weird behaviour om small screens (<260px) */
@@ -30,9 +38,17 @@ $max-width: 500px;
   //#000;
   //background-attachment: fixed;
   min-height: 100%;
-  //display: flex;
+    //display: flex;
   //justify-content: center;
   //align-items: center;
+  display: grid;
+  grid-template-rows: 100vh;
+  grid-template-columns: 100vw;
+}
+
+app-register, app-login {
+  justify-self: center;
+  align-self: center;
 }
 
 .wrapping-horizontal-list {

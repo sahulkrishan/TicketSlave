@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {booleanAttribute, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
@@ -15,8 +15,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {BannerComponent, BannerState} from "../banner/banner.component";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ErrorCode} from "../../model/error-response.model";
-import {ResponseModel} from "../../model/response.model";
+import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
 
 @Component({
   selector: 'app-login',
@@ -50,10 +49,19 @@ import {ResponseModel} from "../../model/response.model";
 })
 export class LoginComponent {
   @Output() goToRegistration = new EventEmitter<string>();
+  @Input({ transform: booleanAttribute })
+  set registrationCompleted(value: boolean) {
+    if (!value) return;
+    this.showBanner = true;
+    this.bannerState = BannerState.success
+    this.bannerTitle = 'Account geregistreerd';
+    this.bannerText = 'Uw account is succesvol geregistreerd. U kunt nu inloggen.';
+  }
   loginForm: FormGroup<LoginForm>;
   loading: boolean = false;
-  showError: boolean = false;
+  showBanner: boolean = false;
   isLoggedIn: boolean = false;
+  hidePassword: boolean = true;
 
   bannerTitle: string = '';
   bannerText: string | undefined = undefined
@@ -86,7 +94,6 @@ export class LoginComponent {
     });
   }
 
-
   performLogin(): void {
     this.loading = true;
     const loginModel: LoginModel = this.loginForm.value
@@ -97,17 +104,17 @@ export class LoginComponent {
           setTimeout(() => {
             this.loading = false;
             this.isLoggedIn = false;
-            this.showError = true;
+            this.showBanner = true;
 
             this.bannerState = BannerState.error
             try {
-              const x = error.error as ResponseModel<null>
+              const result = error.error as ResponseResultModel[];
 
-              x.errors.forEach(e => {
+              result.forEach(e => {
                 switch (e.code) {
                   case ErrorCode.EmailNotFound:
                     this.loginForm.controls.email.setErrors({EmailNotFound: true});
-                    this.bannerTitle = "Emailadres niet bekend"
+                    this.bannerTitle = "E-mailadres niet bekend"
                     this.bannerText = "Het ingevoerde e-mailadres is niet bekend."
                     break;
                   case ErrorCode.IncorrectPassword:

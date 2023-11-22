@@ -39,7 +39,7 @@ export class BannerComponent {
   @Input({required: true}) title!: string;
   @Input() description: string | undefined;
   @Input({transform: booleanAttribute}) visible: boolean = true;
-  @Input() bannerState: BannerState = BannerState.info;
+  @Input() bannerState: BannerState = BannerState.default;
   @Input() icon: string | undefined;
   protected readonly BannerState = BannerState;
 
@@ -50,4 +50,5 @@ export enum BannerState {
   warning,
   success,
   info,
+  default,
 }

@@ -35,7 +35,7 @@ builder.Services.AddControllers()
         {
             var errors = context.ModelState
                 .Where(e => e.Value is { Errors.Count: > 0 })
-                .SelectMany(e => e.Value!.Errors.Select(error => new ErrorResponse
+                .SelectMany(e => e.Value!.Errors.Select(error => new ResponseResult
                 {
                     Code = "ValidationError",
                     Field = e.Key,
@@ -43,14 +43,7 @@ builder.Services.AddControllers()
                 }))
                 .ToList();
             
-            
-            var errorResponse = new Response<object>
-            {
-                Status = StatusCodes.Status400BadRequest,
-                Errors = errors
-            };
-
-            return new BadRequestObjectResult(errorResponse)
+            return new BadRequestObjectResult(errors)
             {
                 ContentTypes = { "application/problem+json" }
             };

@@ -1,4 +1,4 @@
-export interface ErrorResponseModel {
+export interface ResponseResultModel {
   code?: string;
   field?: string;
   description?: string;
@@ -17,4 +17,5 @@ export enum ErrorCode {
   UserLockedOut = 'UserLockedOut',
   VerificationRequired = 'VerificationRequired',
   ValidationError = 'ValidationError',
+  AwaitingAccountVerification = 'AwaitingAccountVerification',
 }

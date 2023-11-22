@@ -36,10 +36,9 @@ $grey-palette: (
     A700: $light-primary-text,
   )
 );
-
 $ts-primary: mat.define-palette(mat.$grey-palette, 100);
 $ts-accent: mat.define-palette(mat.$blue-palette, 200);
-$ts-warn: mat.define-palette(mat.$red-palette, 500);
+$ts-warn: mat.define-palette(mat.$red-palette, 300);
 
 $ts-typography: mat.define-typography-config(
   $headline-1: mat.define-typography-level(57px, 64px, 400, 'Bricolage Grotesque', $letter-spacing: -0.25pt), // M3: Display-large
@@ -60,6 +59,7 @@ $ts-theme: mat.define-dark-theme((
   color: (
     primary: $ts-primary,
     accent: $ts-accent,
+    warn: $ts-warn,
   ),
   typography: $ts-typography,
 ));

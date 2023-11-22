@@ -14,15 +14,15 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {AuthenticationService} from "../../service/authentication.service";
-import {ErrorCode, ErrorResponseModel} from "../../model/error-response.model";
+import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
 import {RegistrationModel} from "../../model/registration.model";
-import {ResponseModel} from "../../model/response.model";
 import {HttpErrorResponse} from "@angular/common/http";
+import {BannerComponent} from "../banner/banner.component";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatCheckboxModule, NgOptimizedImage, MatGridListModule, MatProgressSpinnerModule, MatTooltipModule],
+  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatCheckboxModule, NgOptimizedImage, MatGridListModule, MatProgressSpinnerModule, MatTooltipModule, BannerComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   animations: [
@@ -36,10 +36,11 @@ import {HttpErrorResponse} from "@angular/common/http";
   ]
 })
 export class RegisterComponent implements OnInit {
-  @Output() goToLogin = new EventEmitter<string>();
+  @Output() goToLogin = new EventEmitter<boolean>(); // true = registration successful
   registrationForm!: FormGroup<RegistrationForm>;
   loading: boolean = false;
-  registrationStatus: RegistrationStep = RegistrationStep.Form;
+  hidePassword: boolean = true;
+  registrationStep: RegistrationStep = RegistrationStep.Form;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -126,23 +127,27 @@ export class RegisterComponent implements OnInit {
         error: (response: HttpErrorResponse) => {
           console.error(response)
           try {
-            const x = response.error as ResponseModel<null>
-            x.errors.forEach((error: ErrorResponseModel) => {
-            error.code == ErrorCode.AcceptedTerms ? this.registrationForm.controls.acceptedTerms.setErrors({RequiredTrue: true}) : null;
-            error.code == ErrorCode.PasswordRequiresDigit ? this.registrationForm.controls.password.setErrors({hasNumber: true}) : null;
-            error.code == ErrorCode.PasswordRequiresLower ? this.registrationForm.controls.password.setErrors({hasSmallCase: true}) : null;
-            error.code == ErrorCode.PasswordRequiresUpper ? this.registrationForm.controls.password.setErrors({hasCapitalCase: true}) : null;
-            error.code == ErrorCode.PasswordRequiresNonAlphanumeric ? this.registrationForm.controls.password.setErrors({hasSpecialCharacters: true}) : null;
-            error.code == ErrorCode.UserExists ? this.registrationForm.controls.email.setErrors({UserExists: true}) : null;
-            // TODO add error handling for other errors
-          });} catch (e) {
+            const results = response.error as ResponseResultModel[]
+            results.forEach((error: ResponseResultModel) => {
+              error.code == ErrorCode.AcceptedTerms ? this.registrationForm.controls.acceptedTerms.setErrors({RequiredTrue: true}) : null;
+              error.code == ErrorCode.PasswordRequiresDigit ? this.registrationForm.controls.password.setErrors({hasNumber: true}) : null;
+              error.code == ErrorCode.PasswordRequiresLower ? this.registrationForm.controls.password.setErrors({hasSmallCase: true}) : null;
+              error.code == ErrorCode.PasswordRequiresUpper ? this.registrationForm.controls.password.setErrors({hasCapitalCase: true}) : null;
+              error.code == ErrorCode.PasswordRequiresNonAlphanumeric ? this.registrationForm.controls.password.setErrors({hasSpecialCharacters: true}) : null;
+              error.code == ErrorCode.UserExists ? this.registrationForm.controls.email.setErrors({UserExists: true}) : null;
+              // TODO add error handling for other errors
+            });
+          } catch (e) {
             console.error(e)
           }
 
         },
-        complete: () => {
-          this.registrationStatus = RegistrationStep.Success;
-          console.log("registration successful")
+        next: (response: ResponseResultModel) => {
+          if (response.code == ErrorCode.AwaitingAccountVerification) {
+            this.registrationStep = RegistrationStep.ConfirmationRequired;
+          } else {
+            this.goToLogin.emit(true)
+          }
         }
       }
     )
