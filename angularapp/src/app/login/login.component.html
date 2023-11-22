@@ -1,40 +1,53 @@
-<mat-card class="mat-typography card">
+<mat-card class="mat-typography auth-card">
 
-  <div class="banner"
-       *ngIf="loginFailed"
-       [@inOutAnimation]="loginFailed">
-    <mat-icon  [class.banner-error-state]="loginFailed">close</mat-icon>
-    <div class="banner-content">
-      <h4 class="zero-margin">{{ bannerTitle }}</h4>
-      <div class="white mat-body zero-margin">{{ bannerText }}</div>
-    </div>
-  </div>
-
-  <div class="card-header">
-    <mat-icon>account_circle</mat-icon>
-    <div class="text-center">
-      <h1 class="zero-margin">Inloggen</h1>
-      <p class="zero-margin">Log in met uw TicketSlave account</p>
-    </div>
-  </div>
-
-  <mat-card-content class="card-content">
-
-<!--    <div *ngIf="registrationStatus === RegistrationStep.Success">-->
-<!--      <mat-icon class="color-confirm">check_circle</mat-icon>-->
-<!--      <h1>Registratie voltooid</h1>-->
-<!--      <body>Welkom bij TicketSlave, {{this.loginForm.controls.firstName.value}}! Je account is succesvol aangemaakt.</body>-->
+<!--  <div class="banner"-->
+<!--       *ngIf="loginFailed"-->
+<!--       [@inOutAnimation]="loginFailed">-->
+<!--    <mat-icon [class.banner-error-state]="loginFailed">close</mat-icon>-->
+<!--    <div class="banner-content">-->
+<!--      <h2 class="zero-margin">{{ bannerTitle }}</h2>-->
+<!--      <div class="white mat-body zero-margin">{{ bannerText }}</div>-->
 <!--    </div>-->
+<!--  </div>-->
+
+  <app-banner
+    [title]="bannerTitle"
+    [description]="bannerText"
+    [bannerState]="bannerState"
+    [visible]="showError || isLoggedIn"
+    style="width:100%"/>
+
+  <div class="auth-card-header">
+    <mat-icon>login</mat-icon>
+    <div class="text-center">
+      <p class="zero-margin mat-headline-5">Inloggen</p>
+      <p class="zero-margin mat-body-2">Log in met uw TicketSlave account</p>
+    </div>
+    <button
+      mat-stroked-button
+      type="button"
+      color="primary"
+      (click)="goToRegistration.emit(loginForm.controls.email.value)">
+      Nog geen account?
+    </button>
+  </div>
+
+
+  <mat-card-content class="auth-card-content">
     <form
       [formGroup]="loginForm"
       (ngSubmit)="performLogin()"
-      class="form">
+
+      class="auth-form">
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>E-mailadres</mat-label>
         <input matInput formControlName="email" type="email" name="email" autocomplete="on">
         <mat-error *ngIf="this.loginForm.controls.email.hasError('required')">
           E-mailadres is vereist
+        </mat-error>
+        <mat-error *ngIf="this.loginForm.controls.email.hasError('EmailNotFound')">
+          E-mailadres is niet gevonden
         </mat-error>
       </mat-form-field>
 
@@ -44,35 +57,33 @@
         <mat-error *ngIf="this.loginForm.controls.password.hasError('required')">
           Wachtwoord is vereist
         </mat-error>
+        <mat-error *ngIf="this.loginForm.controls.password.hasError('IncorrectPassword')">
+          Wachtwoord is onjuist
+        </mat-error>
       </mat-form-field>
 
-      <div
-        matTooltip="Vul vereiste gegevens in"
-        [matTooltipDisabled]="loginForm.valid"
-        [matTooltipHideDelay]="500"
-        [matTooltipShowDelay]="100">
+      <div class="flex-row-space">
+
+        <div
+          matTooltip="Vul vereiste gegevens in"
+          [matTooltipDisabled]="loginForm.valid"
+          [matTooltipHideDelay]="500"
+          [matTooltipShowDelay]="100">
+          <button
+            mat-stroked-button
+            type="button"
+            color="primary">
+            Wachtwoord vergeten?
+          </button>
+        </div>
+
         <button
           mat-raised-button
           color="primary"
           type="submit"
-          [disabled]="!loginForm.valid || loading">
+          [disabled]="!loginForm.valid || loading || isLoggedIn">
           <mat-spinner *ngIf="loading" [diameter]="24"/>
           <ng-container *ngIf="!loading">Inloggen</ng-container>
-        </button>
-      </div>
-
-      <div class="button-column">
-        <button
-          mat-button
-          type="button"
-          color="primary">
-          Nog geen account?
-        </button>
-        <button
-          mat-button
-          type="button"
-          color="primary">
-          Wachtwoord vergeten?
         </button>
       </div>
     </form>

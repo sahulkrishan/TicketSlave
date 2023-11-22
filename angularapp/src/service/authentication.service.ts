@@ -17,7 +17,10 @@ export class AuthenticationService extends BaseService {
   }
 
   login(loginModel: LoginModel): Observable<ResponseModel<undefined>> {
-    return this.http.post<ResponseModel<undefined>>(this.apiUrl + '/login', loginModel);
+    return this.http.post<ResponseModel<undefined>>(this.apiUrl + '/login', loginModel)
+      .pipe(
+        catchError(this.handleError<ResponseModel<undefined>>()) // Using handleError function
+      );
   }
 
   register(registrationModel: RegistrationModel): Observable<ResponseModel<undefined>> {

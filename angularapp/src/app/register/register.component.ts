@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
@@ -17,6 +17,7 @@ import {AuthenticationService} from "../../service/authentication.service";
 import {ErrorCode, ErrorResponseModel} from "../../model/error-response.model";
 import {RegistrationModel} from "../../model/registration.model";
 import {ResponseModel} from "../../model/response.model";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-register',
@@ -35,6 +36,7 @@ import {ResponseModel} from "../../model/response.model";
   ]
 })
 export class RegisterComponent implements OnInit {
+  @Output() goToLogin = new EventEmitter<string>();
   registrationForm!: FormGroup<RegistrationForm>;
   loading: boolean = false;
   registrationStatus: RegistrationStep = RegistrationStep.Form;
@@ -121,9 +123,11 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     const registrationModel: RegistrationModel = this.registrationForm.value
     this.authService.register(registrationModel).subscribe({
-        error: (response: ResponseModel<undefined>) => {
-          console.log(response)
-          response.errors.forEach((error: ErrorResponseModel) => {
+        error: (response: HttpErrorResponse) => {
+          console.error(response)
+          try {
+            const x = response.error as ResponseModel<null>
+            x.errors.forEach((error: ErrorResponseModel) => {
             error.code == ErrorCode.AcceptedTerms ? this.registrationForm.controls.acceptedTerms.setErrors({RequiredTrue: true}) : null;
             error.code == ErrorCode.PasswordRequiresDigit ? this.registrationForm.controls.password.setErrors({hasNumber: true}) : null;
             error.code == ErrorCode.PasswordRequiresLower ? this.registrationForm.controls.password.setErrors({hasSmallCase: true}) : null;
@@ -131,7 +135,10 @@ export class RegisterComponent implements OnInit {
             error.code == ErrorCode.PasswordRequiresNonAlphanumeric ? this.registrationForm.controls.password.setErrors({hasSpecialCharacters: true}) : null;
             error.code == ErrorCode.UserExists ? this.registrationForm.controls.email.setErrors({UserExists: true}) : null;
             // TODO add error handling for other errors
-          });
+          });} catch (e) {
+            console.error(e)
+          }
+
         },
         complete: () => {
           this.registrationStatus = RegistrationStep.Success;

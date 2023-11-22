@@ -24,28 +24,59 @@ public class AuthController : ControllerBase
         _userManager = userManager;
         _signInManager = signInManager;
     }
-    
+
     [HttpPost]
     [Route("Login")]
     public async Task<ActionResult> Login([FromBody] LoginModel login)
     {
         var user = await _userManager.FindByEmailAsync(login.Email);
         if (user == null)
-            return Unauthorized();
+            return BadRequest(new Response<object>
+            {
+                Errors = new List<ErrorResponse>
+                    { EmailNotFoundError() }
+            });
 
         var signInResult = await _signInManager.PasswordSignInAsync(user, login.Password, true, true);
+        if (signInResult == SignInResult.Failed)
+        {
+            return Unauthorized(new Response<object>
+            {
+                Errors = new List<ErrorResponse>
+                    { IncorrectPasswordError() }
+            });
+        }
+
+        if (signInResult == SignInResult.LockedOut)
+        {
+            return Unauthorized(new Response<object>
+            {
+                Errors = new List<ErrorResponse>
+                    { UserLockedOutError() }
+            });
+        }
+
+        if (signInResult == SignInResult.NotAllowed)
+        {
+            if (user.EmailConfirmed == false)
+                return Unauthorized(new Response<object>
+                {
+                    Errors = new List<ErrorResponse>
+                        { VerificationRequiredError() }
+                });
+            if (user.LockoutEnabled)
+                return Unauthorized(new Response<object>
+                {
+                    Errors = new List<ErrorResponse>
+                        { UserSignInNotAllowedError() }
+                });
+        }
+
         if (signInResult == SignInResult.Success)
         {
-            if (user.AcceptedTerms == false)
-                return BadRequest(new List<ErrorResponse>
-                {
-                    DeclinedTermsError()
-                });
-
             return Ok();
         }
 
-        var events = _context.Events.ToList();
         return Unauthorized(signInResult);
     }
 
@@ -53,12 +84,13 @@ public class AuthController : ControllerBase
     [Route("Register")]
     public async Task<ActionResult<Response<object>>> Register([FromBody] RegisterModel registerModel)
     {
-        if (!registerModel.AcceptedTerms)
-            return BadRequest(new Response<object>
-            {
-                Errors = new List<ErrorResponse>
-                    { DeclinedTermsError() }
-            });
+        // TODO: Decide what to do when user has not yet accepted the terms & conditions
+        // if (!registerModel.AcceptedTerms)
+        //     return BadRequest(new Response<object>
+        //     {
+        //         Errors = new List<ErrorResponse>
+        //             { DeclinedTermsError() }
+        //     });
 
         var userExists = await _userManager.FindByNameAsync(registerModel.Email);
         if (userExists != null)
@@ -93,15 +125,16 @@ public class AuthController : ControllerBase
         // Assign User role to newly created user
         var roles = new[] { ApplicationRoles.User };
         var assignRolesResult = await _userManager.AddToRolesAsync(user, roles);
-        if (assignRolesResult != IdentityResult.Success) 
+        if (assignRolesResult != IdentityResult.Success)
             return BadRequest(new Response<object>
             {
                 Status = StatusCodes.Status400BadRequest,
-                Errors = assignRolesResult.Errors.Select(identityError => new ErrorResponse().Parse(identityError)).ToList()
+                Errors = assignRolesResult.Errors.Select(identityError => new ErrorResponse().Parse(identityError))
+                    .ToList()
             });
 
         // Send confirmation email
-        await SendConfirmationEmail(user);
+        // await SendConfirmationEmail(user);
 
         return Ok();
     }
@@ -143,6 +176,51 @@ public class AuthController : ControllerBase
         {
             Code = "UserExists",
             Description = "User already exists"
+        };
+    }
+
+    private static ErrorResponse EmailNotFoundError()
+    {
+        return new ErrorResponse
+        {
+            Code = "EmailNotFound",
+            Description = "Email does not exist"
+        };
+    }
+
+    private static ErrorResponse IncorrectPasswordError()
+    {
+        return new ErrorResponse
+        {
+            Code = "IncorrectPassword",
+            Description = "Password is invalid"
+        };
+    }
+
+    private static ErrorResponse VerificationRequiredError()
+    {
+        return new ErrorResponse
+        {
+            Code = "VerificationRequired",
+            Description = "Account requires verification"
+        };
+    }
+
+    private static ErrorResponse UserLockedOutError()
+    {
+        return new ErrorResponse
+        {
+            Code = "UserLockedOut",
+            Description = "User is locked out"
+        };
+    }
+
+    private static ErrorResponse UserSignInNotAllowedError()
+    {
+        return new ErrorResponse
+        {
+            Code = "UserSignInNotAllowed",
+            Description = "User is not allowed to sign in"
         };
     }
 }

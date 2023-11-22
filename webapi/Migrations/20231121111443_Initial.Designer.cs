@@ -13,8 +13,8 @@ using webapi.Classes;
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231118014839_ApplicationUser-AddProperty_AccepedTerms")]
-    partial class ApplicationUserAddProperty_AccepedTerms
+    [Migration("20231121111443_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

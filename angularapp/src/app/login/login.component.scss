@@ -1,114 +1,4 @@
-$card-padding: 24px;
-$card-gap: 16px;
-$card-radius: 16px;
-$max-width: 500px;
-
-@media (max-width: $max-width) {
-  .horizontal-list {
-    flex-wrap: wrap;
-  }
-  .card {
-    min-height: 100vh;
-    border-radius: 0;
-  }
-}
-
-@media (min-width: $max-width) {
-  .card {
-    border-radius: 16px;
-  }
-}
-
-.white, mat-typography, h1, h2, h3, h4, h5, h6, p, mat-icon {
-  color: rgb(255, 255, 255, 0.9);
-}
-
-.color-confirm {
-  color: #00ac52
-}
-
-.card {
-  display: flex;
-  flex: 1 1 auto;
-  align-items: flex-start;
-  justify-content: center;
-  max-width: 300px;
-  background: rgba(25, 25, 25, 0.40);
-  backdrop-filter: blur(50px);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.08);
-
-
-  mat-card-header {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 8px;
-    align-self: stretch;
-
-  }
-  .card-header {
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 4px;
-    width: 100%;
-    box-sizing: border-box;
-    padding: $card-padding $card-padding $card-gap;
-
-    .card-header-title {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 16px;
-      flex: 1 0 0;
-    }
-  }
-
-  .card-content {
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
-    padding: 0 $card-padding $card-padding;
-
-    .form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      align-self: stretch;
-      width: 100%;
-      mat-form-field, mat-checkbox {
-        width: 100%;
-      }
-    }
-  }
-
-}
-
-.button-column {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  align-items: center;
-}
-
-
-.horizontal-list {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  align-self: stretch;
-}
-
-
-
-.zero-margin {
-  margin: 0;
-}
-
-.text-center {
-  text-align: center;
-}
+@import '/src/app/auth/auth.component.scss';
 
 .banner {
   display: block;
@@ -116,19 +6,10 @@ $max-width: 500px;
   gap: $card-gap;
   border-radius: $card-radius $card-radius 0 0;
   background: rgba(244, 67, 54, 0.13);
+  overflow: hidden;
 }
-
 
 .banner-error-state {
   color: var(--mat-form-field-error-text-color)
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: #ffffff;
-  transition: background-color 5000s ease-in-out 0s;
-  box-shadow: inset 0 0 20px 20px #23232329;
-}

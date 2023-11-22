@@ -1,27 +1,28 @@
-<mat-card class="mat-typography card">
-  <div class="card-header">
+<mat-card class="mat-typography auth-card">
+  <div class="auth-card-header">
 
-    <mat-icon>account_circle</mat-icon>
+    <mat-icon>person_add</mat-icon>
     <div class="text-center">
-      <h1 class="zero-margin">Registreren</h1>
-      <p class="zero-margin">Word vandaag nog lid en profiteer van alle voordelen die TicketSlave te bieden heeft</p>
+      <p class="zero-margin mat-headline-5">Registreren</p>
+      <p class="zero-margin mat-body-2">Word vandaag nog lid en profiteer van alle voordelen die TicketSlave te bieden
+        heeft!</p>
     </div>
+    <button
+      mat-stroked-button
+      type="button"
+      color="primary"
+      (click)="goToLogin.emit(this.registrationForm.controls.email.value)">
+      Heb je al een account?
+    </button>
   </div>
 
-  <mat-card-content class="card-content">
-
-    <div *ngIf="registrationStatus === RegistrationStep.Success">
-      <mat-icon class="color-confirm">check_circle</mat-icon>
-      <h1>Registratie voltooid</h1>
-      <body>Welkom bij TicketSlave, {{this.registrationForm.controls.firstName.value}}! Je account is succesvol aangemaakt.</body>
-    </div>
-
+  <mat-card-content class="auth-card-content">
     <form
       [formGroup]="registrationForm"
       (ngSubmit)="submitForm()"
-      class="form">
+      class="auth-form">
 
-      <div class="horizontal-list">
+      <div class="wrapping-horizontal-list">
         <mat-form-field appearance="outline" subscriptSizing="dynamic">
           <mat-label>Voornaam</mat-label>
           <input matInput formControlName="firstName" type="text" name="firstName" autocomplete="on">
@@ -68,29 +69,27 @@
 
       <!--FIXME-->
       <mat-checkbox formControlName="acceptedTerms">
-        <div [class.color-warn]="this.registrationForm.controls.acceptedTerms.hasError('RequiredTrue')">Ik ga akkoord met de <a href="https://google.nl/" target="_blank"><u>Privacyverklaring</u></a>*</div>
+        <div [class.color-warn]="this.registrationForm.controls.acceptedTerms.hasError('RequiredTrue')">Ik ga akkoord
+          met de <a href="https://google.nl/" target="_blank"><u>Privacyverklaring</u></a>*
+        </div>
       </mat-checkbox>
 
-      <div
-        matTooltip="Vul het registratieformulier in"
-        [matTooltipDisabled]="registrationForm.valid"
-        [matTooltipHideDelay]="500"
-        [matTooltipShowDelay]="100">
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="!registrationForm.valid || loading">
-          <mat-spinner *ngIf="loading" [diameter]="24"/>
-          <ng-container *ngIf="!loading">Registreren</ng-container>
-        </button>
+      <div class="flex-row-end">
+        <div
+          matTooltip="Vul het registratieformulier in"
+          [matTooltipDisabled]="registrationForm.valid"
+          [matTooltipHideDelay]="500"
+          [matTooltipShowDelay]="100">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!registrationForm.valid || loading">
+            <mat-spinner *ngIf="loading" [diameter]="24"/>
+            <ng-container *ngIf="!loading">Registreren</ng-container>
+          </button>
+        </div>
       </div>
-      <button
-        mat-button
-        type="button"
-        color="primary">
-        Heb je al een account?
-      </button>
     </form>
 
   </mat-card-content>

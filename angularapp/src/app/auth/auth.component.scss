@@ -1,0 +1,265 @@
+@import "src/app/app.component.scss";
+
+$max-width: 500px;
+
+@media (min-width: $max-width) {
+  .auth-card {
+    border-radius: $card-radius;
+  }
+}
+@media (max-width: $max-width) {
+  .wrapping-horizontal-list {
+    flex-wrap: wrap;
+  }
+  .flex-row-space {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-self: center;
+  }
+  .auth-card {
+    min-height: 100vh;
+    border-radius: 0;
+  }
+}
+
+/* display: flex causes weird behaviour om small screens (<260px) */
+.container {
+  //background: radial-gradient(75% 75% at 20% 63%, rgba(147, 28, 210, 0.4), transparent),
+  //radial-gradient(75% 75% at 99% 89%, rgba(3, 189, 37, 0.4), transparent),
+  //radial-gradient(75% 75% at 42% 9%, rgba(10, 177, 200, 0.4), transparent),
+  //#000;
+  //background-attachment: fixed;
+  min-height: 100%;
+  //display: flex;
+  //justify-content: center;
+  //align-items: center;
+}
+
+.wrapping-horizontal-list {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+}
+
+
+.auth-card {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: $max-width;
+  background: rgba(25, 25, 25, 0.4);
+  backdrop-filter: blur(50px);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+
+  .auth-card-header {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: $card-padding $card-padding $card-gap;
+  }
+
+  .auth-card-content {
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    padding: 0 $card-padding $card-padding;
+
+    .auth-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      align-self: stretch;
+      width: 100%;
+      mat-form-field, mat-checkbox {
+        width: 100%;
+      }
+    }
+  }
+}
+
+
+$color1-register: #8221AF;
+$color2-register: #02BF2B;
+$color3-register: #0AB1C8;
+$color4-register: #0ac879;
+$color5-register: #3a0ac8;
+
+$color1: rgb(87, 33, 175);
+$color2: rgb(0, 17, 82);
+$color3: rgb(191, 93, 2);
+$color4: rgb(200, 29, 10);
+$color5: rgb(191, 93, 2);
+$color-interactive: rgb(140, 100, 255);
+$circle-size: 100%;
+$blending: hard-light;
+
+@keyframes moveInCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes moveVertical {
+  0% {
+    transform: translateY(-50%);
+  }
+  50% {
+    transform: translateY(50%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes moveHorizontal {
+  0% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+  50% {
+    transform: translateX(50%) translateY(10%);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-10%);
+  }
+}
+
+
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  overflow: hidden;
+  background: #0a0a0a;
+  top: 0;
+  left: 0;
+  z-index: -1;
+
+  svg {
+    display: none;
+  }
+
+
+  .gradients-container {
+    filter: url(#goo) blur(40px);
+    width: 100%;
+    height: 100%;
+  }
+
+  .g1 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba($color1, 0.8) 0, rgba($color1, 0) 50%) no-repeat;
+    mix-blend-mode: $blending;
+
+    width: $circle-size;
+    height: $circle-size;
+    top: calc((50% - $circle-size) / 2);
+    left: calc((50% - $circle-size) / 2);
+
+    transform-origin: center center;
+    animation: moveVertical 30s ease infinite;
+
+    opacity: 1;
+
+    transition: background 5s ease;
+  }
+
+  .g1.register {
+    background: radial-gradient(circle at center, rgba($color1-register, 0.8) 0, rgba($color1-register, 0) 50%) no-repeat;
+  }
+
+  .g2 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba($color2, 0.8) 0, rgba($color2, 0) 50%) no-repeat;
+    mix-blend-mode: $blending;
+
+    width: $circle-size;
+    height: $circle-size;
+    top: calc((50% - $circle-size) / 2);
+    left: calc((50% - $circle-size) / 2);
+
+    transform-origin: calc(50% - 400px);
+    animation: moveInCircle 40s reverse infinite;
+
+    opacity: 1;
+
+    transition: background 5s ease;
+  }
+  .g2.register {
+    background: radial-gradient(circle at center, rgba($color2-register, 0.8) 0, rgba($color2-register, 0) 50%) no-repeat;
+  }
+
+  .g3 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba($color3, 0.8) 0, rgba($color3, 0) 50%) no-repeat;
+    mix-blend-mode: $blending;
+
+    width: $circle-size;
+    height: $circle-size;
+    top: calc((50% - $circle-size) / 2);
+    left: calc((50% - $circle-size) / 2);
+
+    transform-origin: calc(50% + 400px);
+    animation: moveInCircle 60s linear infinite;
+
+    opacity: 1;
+
+    transition: background 5s ease;
+  }
+  .g3.register {
+    background: radial-gradient(circle at center, rgba($color3-register, 0.8) 0, rgba($color3-register, 0) 50%) no-repeat;
+  }
+
+  .g4 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba($color4, 0.8) 0, rgba($color4, 0) 50%) no-repeat;
+    mix-blend-mode: $blending;
+
+    width: $circle-size;
+    height: $circle-size;
+    top: calc((50% - $circle-size) / 2);
+    left: calc((50% - $circle-size) / 2);
+
+    transform-origin: calc(50% - 200px);
+    animation: moveHorizontal 60s ease infinite;
+
+    opacity: 0.7;
+
+    transition: background 5s ease;
+  }
+  .g4.register {
+    background: radial-gradient(circle at center, rgba($color4-register, 0.8) 0, rgba($color4-register, 0) 50%) no-repeat;
+  }
+
+  .g5 {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba($color5, 0.8) 0, rgba($color5, 0) 50%) no-repeat;
+    mix-blend-mode: $blending;
+
+    width: calc($circle-size) * 2;
+    height: calc($circle-size) * 2;
+    top: calc(50% - $circle-size);
+    left: calc(50% - $circle-size);
+
+    transform-origin: calc(50% - 800px) calc(50% + 200px);
+    animation: moveInCircle 40s ease infinite;
+
+    transition: background 5s ease;
+    opacity: 1;
+  }
+  .g5.register {
+    background: radial-gradient(circle at center, rgba($color5-register, 0.8) 0, rgba($color5-register, 0) 50%) no-repeat;
+  }
+}

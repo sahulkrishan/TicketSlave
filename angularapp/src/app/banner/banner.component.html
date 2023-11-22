@@ -1,0 +1,34 @@
+<div class="banner"
+     *ngIf="visible"
+     [@inOutAnimation]="visible"
+     [class.banner-error-state]="bannerState === BannerState.error"
+     [class.banner-warning-state]="bannerState === BannerState.warning"
+     [class.banner-success-state]="bannerState === BannerState.success"
+     [class.banner-neutral-state]="bannerState === BannerState.info">
+
+  <div *ngIf="icon !== undefined">
+    <mat-icon *ngIf="icon !== undefined">{{ icon }}</mat-icon>
+  </div>
+
+  <div *ngIf="icon === undefined">
+    @switch (bannerState) {
+      @case (BannerState.error) {
+        <mat-icon>close</mat-icon>
+      }
+      @case (BannerState.warning) {
+        <mat-icon>error_outline</mat-icon>
+      }
+      @case (BannerState.success) {
+        <mat-icon>check_circle</mat-icon>
+      }
+      @case (BannerState.info) {
+        <mat-icon>info</mat-icon>
+      }
+    }
+  </div>
+
+  <div class="banner-content">
+    <p class="zero-margin headline-small">{{ title }}</p>
+    <div class="translucent-white mat-body zero-margin" *ngIf="description !== undefined"> {{ description }} </div>
+  </div>
+</div>

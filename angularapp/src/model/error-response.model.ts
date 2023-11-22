@@ -11,5 +11,10 @@ export enum ErrorCode {
   PasswordRequiresLower = 'PasswordRequiresLower',
   PasswordRequiresUpper = 'PasswordRequiresUpper',
   PasswordRequiresDigit = 'PasswordRequiresDigit',
+  IncorrectPassword = 'IncorrectPassword',
+  UserSignInNotAllowed = 'UserSignInNotAllowed',
+  EmailNotFound = 'EmailNotFound',
+  UserLockedOut = 'UserLockedOut',
+  VerificationRequired = 'VerificationRequired',
   ValidationError = 'ValidationError',
 }
