@@ -35,7 +35,7 @@ export class EventOverviewComponent implements OnInit {
 
   getMainColor():void {
     const fac = new FastAverageColor();
-    const eventcontainer = document.getElementById('eventContainer');
+    const eventcontainer = document.getElementById('overviewContainer');
     fac.getColorAsync(this.events[0].imageUrls[0])
       .then(color => {
         eventcontainer!.style.background = `linear-gradient(to bottom, ${color.rgba}, black)`;

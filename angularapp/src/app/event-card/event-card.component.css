@@ -1,16 +1,37 @@
-.event-card {
-    max-width: 300px;
+mat-card-content {
+  padding: 16px;
 }
-
-
-.space{
-  height: 100px;
+mat-card {
+  background: #0a0a0a;
 }
 .seeMoreButton{
   align-items: center;
 }
 
 .event-header-image {
-    background-image: url('https://th.bing.com/th/id/OIP.wbjIIP8bQudTnShXyFymDgHaE8?rs=1&pid=ImgDetMain');
     background-size: cover;
+}
+
+.img-aspect-ratio-square {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+.event-card-title {
+  display: block;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+
+.event-card-description {
+  display: block;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 3.6em;
+  line-height: 1.8em;
 }
