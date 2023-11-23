@@ -1,0 +1,28 @@
+
+<mat-toolbar>
+  <span>TicketSlave</span>
+  <span class="example-spacer"></span>
+  <mat-form-field class="example-full-width">
+    <mat-label>Events</mat-label>
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      @for (option of filteredOptions | async; track option) {
+      <mat-option (click)="navigateToDetails(option)" [value]="option">{{option.title}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <span>Account info</span>
+    </button>
+    <button mat-menu-item>
+      <span>menu item 2</span>
+    </button>
+    <button mat-menu-item>
+      <span>menu item 3</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

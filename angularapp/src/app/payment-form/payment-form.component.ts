@@ -16,15 +16,16 @@ export class PaymentFormComponent {
   constructor(private paymentService: PaymentService) {
   }
   verwerkString() {
-    this.paymentService.chargePayment("50")
-      .subscribe(
-        (response: string) => {
-        // Assign the HTML response to the variable
-        this.htmlResponse = response;
+    this.paymentService.chargePayment("50").subscribe(
+      (response) => {
+        // Hier kun je de logica schrijven om met de respons om te gaan
+        console.log('Response:', response);
+        // Verwerk de HTML-respons of voer andere acties uit op basis van de ontvangen gegevens
       },
       (error) => {
-        // Handle error if any
-        console.error(error);
-      });
+        // Hier kun je omgaan met eventuele fouten die zich voordoen tijdens het HTTP-verzoek
+        console.error('Error:', error);
+      }
+    );
   }
 }

@@ -1,0 +1,14 @@
+.example-spacer {
+  flex: 1 1 auto;
+  padding: 5px;
+}
+.example-form {
+  min-width: 100px;
+  max-width: 500px;
+  width: 100%;
+  height: 20px;
+}
+
+.example-full-width {
+  width: 100%;
+}
