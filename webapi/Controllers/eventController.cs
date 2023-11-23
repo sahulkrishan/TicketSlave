@@ -102,7 +102,7 @@ public class eventController : ControllerBase
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    return StatusCode(777, "Evenement maken is mislukt");
+                    return StatusCode(400, "Evenement maken is mislukt");
                 }
             }
         }

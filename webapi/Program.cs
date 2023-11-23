@@ -1,12 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Stripe;
 using System;
+using System.Configuration;
 using webapi.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.var Configuration = builder.Configuration;
+StripeConfiguration.ApiKey = "sk_test_51OFHWkKVCBU41NoxWMHjM9EzavGIpjAbunSvIqWxp7yB0JOk7j8vv6ccT1VKkyUiqHClyhgVXzNKBD1LyQIyE60V00IGrqvLnL";
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 

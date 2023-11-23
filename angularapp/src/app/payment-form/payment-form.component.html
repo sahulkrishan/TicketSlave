@@ -1,0 +1,8 @@
+<div [innerHTML]="htmlResponse">
+</div>
+<form *ngIf="htmlResponse === ''">
+  <label for="inputString">Voer een string in:</label><br>
+  <input type="text" id="inputString" name="inputString"><br><br>
+
+  <input type="button" value="Verzenden" (click)="verwerkString()">
+</form>

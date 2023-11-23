@@ -1,6 +1,7 @@
 import {booleanAttribute, Component, Input, OnInit} from '@angular/core';
 import {Event} from "../interfaces/event";
 import {MatButtonModule} from "@angular/material/button";
+import {Router} from "@angular/router";
 
 @Component({
   standalone: true,
@@ -15,6 +16,9 @@ export class EventCarouselComponent implements OnInit{
   @Input() eventData!: Event;
   @Input({transform:booleanAttribute}) buyButtonState: boolean = true;
 
+  constructor(private router: Router) {
+  }
+
   ngOnInit(){
     const button = document.getElementById("buyBtn");
     if(button){
@@ -22,5 +26,10 @@ export class EventCarouselComponent implements OnInit{
         button.hidden = true;
       }
     }
+  }
+  navigateToDetails(){
+    const url    = '/details/' + this.eventData.id;
+    this.router.navigate([url]);
+
   }
 }

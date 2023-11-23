@@ -13,6 +13,7 @@ body, html {
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  backdrop-filter: blur(30px);
 }
 
 /* Place text in the middle of the image */
