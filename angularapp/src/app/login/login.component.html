@@ -1,21 +1,7 @@
 <mat-card class="mat-typography auth-card">
 
-<!--  <div class="banner"-->
-<!--       *ngIf="loginFailed"-->
-<!--       [@inOutAnimation]="loginFailed">-->
-<!--    <mat-icon [class.banner-error-state]="loginFailed">close</mat-icon>-->
-<!--    <div class="banner-content">-->
-<!--      <h2 class="zero-margin">{{ bannerTitle }}</h2>-->
-<!--      <div class="white mat-body zero-margin">{{ bannerText }}</div>-->
-<!--    </div>-->
-<!--  </div>-->
-
   <app-banner
-    [title]="bannerTitle"
-    [description]="bannerText"
-    [bannerState]="bannerState"
-    [visible]="showBanner || isLoggedIn"
-    style="width:100%"/>
+    [bannerOptions]="bannerOptions"/>
 
   <div class="auth-card-header">
     <mat-icon>login</mat-icon>
@@ -53,8 +39,10 @@
 
       <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Wachtwoord</mat-label>
-        <input matInput formControlName="password" type="password" name="new-password" autocomplete="on" [type]="hidePassword ? 'password' : 'text'">
-        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+        <input matInput formControlName="password" type="password" name="new-password" autocomplete="on"
+               [type]="hidePassword ? 'password' : 'text'">
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
           <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         <mat-error *ngIf="this.loginForm.controls.password.hasError('required')">
@@ -66,28 +54,28 @@
       </mat-form-field>
 
       <div class="flex-row-space">
+        <button
+          mat-stroked-button
+          type="button"
+          color="primary">
+          Wachtwoord vergeten?
+        </button>
 
         <div
           matTooltip="Vul vereiste gegevens in"
           [matTooltipDisabled]="loginForm.valid"
           [matTooltipHideDelay]="500"
           [matTooltipShowDelay]="100">
+
           <button
-            mat-stroked-button
-            type="button"
-            color="primary">
-            Wachtwoord vergeten?
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!loginForm.valid || loading || isLoggedIn">
+            <mat-spinner *ngIf="loading" [diameter]="24"/>
+            <ng-container *ngIf="!loading">Inloggen</ng-container>
           </button>
         </div>
-
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="!loginForm.valid || loading || isLoggedIn">
-          <mat-spinner *ngIf="loading" [diameter]="24"/>
-          <ng-container *ngIf="!loading">Inloggen</ng-container>
-        </button>
       </div>
     </form>
 

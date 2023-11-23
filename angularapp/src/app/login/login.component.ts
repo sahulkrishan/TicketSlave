@@ -13,9 +13,9 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {BannerComponent, BannerState} from "../banner/banner.component";
+import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.component";
 import {HttpErrorResponse} from "@angular/common/http";
-import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
+import {AuthComponent} from "../auth/auth.component";
 
 @Component({
   selector: 'app-login',
@@ -49,23 +49,17 @@ import {ErrorCode, ResponseResultModel} from "../../model/response-result.model"
 })
 export class LoginComponent {
   @Output() goToRegistration = new EventEmitter<string>();
-  @Input({ transform: booleanAttribute })
-  set registrationCompleted(value: boolean) {
-    if (!value) return;
-    this.showBanner = true;
-    this.bannerState = BannerState.success
-    this.bannerTitle = 'Account geregistreerd';
-    this.bannerText = 'Uw account is succesvol geregistreerd. U kunt nu inloggen.';
-  }
   loginForm: FormGroup<LoginForm>;
   loading: boolean = false;
-  showBanner: boolean = false;
   isLoggedIn: boolean = false;
   hidePassword: boolean = true;
-
-  bannerTitle: string = '';
-  bannerText: string | undefined = undefined
-  bannerState: BannerState = BannerState.success;
+  bannerOptions: BannerOptions = {
+    state: BannerState.error,
+    title: 'Onbekende fout',
+    description: undefined,
+    visible: false,
+  };
+  protected readonly BannerState = BannerState;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -94,6 +88,15 @@ export class LoginComponent {
     });
   }
 
+  @Input({transform: booleanAttribute})
+  set registrationCompleted(value: boolean) {
+    if (!value) return;
+    this.bannerOptions.visible = true;
+    this.bannerOptions.state = BannerState.success
+    this.bannerOptions.title = 'Account geregistreerd';
+    this.bannerOptions.description = 'Uw account is succesvol geregistreerd. U kunt nu inloggen.';
+  }
+
   performLogin(): void {
     this.loading = true;
     const loginModel: LoginModel = this.loginForm.value
@@ -101,58 +104,20 @@ export class LoginComponent {
     this.authService.login(loginModel).subscribe(
       {
         error: (error: HttpErrorResponse) => {
+          // Set timeout to wait for banner animation to finish
           setTimeout(() => {
             this.loading = false;
             this.isLoggedIn = false;
-            this.showBanner = true;
-
-            this.bannerState = BannerState.error
-            try {
-              const result = error.error as ResponseResultModel[];
-
-              result.forEach(e => {
-                switch (e.code) {
-                  case ErrorCode.EmailNotFound:
-                    this.loginForm.controls.email.setErrors({EmailNotFound: true});
-                    this.bannerTitle = "E-mailadres niet bekend"
-                    this.bannerText = "Het ingevoerde e-mailadres is niet bekend."
-                    break;
-                  case ErrorCode.IncorrectPassword:
-                    this.loginForm.controls.password.setErrors({IncorrectPassword: true});
-                    this.bannerTitle = "Wachtwoord onjuist"
-                    this.bannerText = "Het ingevoerde wachtwoord is onjuist.";
-                    break;
-                  case ErrorCode.VerificationRequired:
-                    this.bannerTitle = "Account niet geactiveerd"
-                    this.bannerText = "Uw account is nog niet geactiveerd. Controleer uw e-mail voor de activatielink.";
-                    break;
-                  case ErrorCode.UserLockedOut:
-                    this.bannerTitle = "Account geblokkeerd"
-                    this.bannerText = "Uw account is geblokkeerd. Wacht een paar minuten of neem contact op met de beheerder.";
-                    break;
-                  case ErrorCode.UserSignInNotAllowed:
-                    this.bannerTitle = "Account uitgeschakeld"
-                    this.bannerText = "U kunt op dit moment niet inloggen, probeer het op een later moment opnieuw.";
-                    break;
-                  default:
-                    this.bannerTitle = 'Inloggen mislukt';
-                    this.bannerText = "Controleer uw gegevens en probeer het opnieuw.";
-                    break;
-                }
-              });
-            } catch (e) {
-              console.error(e)
-            }
-            // this.bannerText = this.getBannerErrorMsg(error);
+            this.bannerOptions = AuthComponent.parseBannerError(error);
           }, 300)
         },
         complete: () => {
           this.loading = false;
           this.isLoggedIn = true;
 
-          this.bannerState = BannerState.success
-          this.bannerTitle = 'Ingelogd';
-          this.bannerText = 'Je wordt over enkele ogenblikken doorgestuurd.';
+          this.bannerOptions.state = BannerState.success
+          this.bannerOptions.title = 'Ingelogd';
+          this.bannerOptions.description = 'Je wordt over enkele ogenblikken doorgestuurd.';
           this.loginForm.disable();
           setTimeout(() => {
             this.router.navigate(['/']).then(r => console.log(r));
@@ -161,17 +126,4 @@ export class LoginComponent {
       }
     );
   }
-
-  getBannerErrorMsg(error: HttpErrorResponse): string {
-    console.log(error)
-    if (error.status == 504) {
-      return 'De server is niet bereikbaar, controleer de internetverbinding of probeer het later opnieuw.';
-    } else if (error.status == 401) {
-      return 'Controleer uw gegevens en probeer het opnieuw.';
-    } else {
-      return 'Er is een onbekende fout opgetreden. Probeer het later opnieuw.';
-    }
-  }
-
-  protected readonly BannerState = BannerState;
 }

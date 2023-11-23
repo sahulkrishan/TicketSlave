@@ -17,7 +17,8 @@ import {AuthenticationService} from "../../service/authentication.service";
 import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
 import {RegistrationModel} from "../../model/registration.model";
 import {HttpErrorResponse} from "@angular/common/http";
-import {BannerComponent} from "../banner/banner.component";
+import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.component";
+import {AuthComponent} from "../auth/auth.component";
 
 @Component({
   selector: 'app-register',
@@ -41,6 +42,14 @@ export class RegisterComponent implements OnInit {
   loading: boolean = false;
   hidePassword: boolean = true;
   registrationStep: RegistrationStep = RegistrationStep.Form;
+
+  // Banner
+  bannerOptions: BannerOptions = {
+    state: BannerState.error,
+    title: 'Onbekende fout',
+    description: undefined,
+    visible: false,
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -124,10 +133,11 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     const registrationModel: RegistrationModel = this.registrationForm.value
     this.authService.register(registrationModel).subscribe({
-        error: (response: HttpErrorResponse) => {
-          console.error(response)
+        error: (error: HttpErrorResponse) => {
+          console.error(error)
+          this.bannerOptions = AuthComponent.parseBannerError(error);
           try {
-            const results = response.error as ResponseResultModel[]
+            const results = error.error as ResponseResultModel[]
             results.forEach((error: ResponseResultModel) => {
               error.code == ErrorCode.AcceptedTerms ? this.registrationForm.controls.acceptedTerms.setErrors({RequiredTrue: true}) : null;
               error.code == ErrorCode.PasswordRequiresDigit ? this.registrationForm.controls.password.setErrors({hasNumber: true}) : null;
@@ -135,7 +145,6 @@ export class RegisterComponent implements OnInit {
               error.code == ErrorCode.PasswordRequiresUpper ? this.registrationForm.controls.password.setErrors({hasCapitalCase: true}) : null;
               error.code == ErrorCode.PasswordRequiresNonAlphanumeric ? this.registrationForm.controls.password.setErrors({hasSpecialCharacters: true}) : null;
               error.code == ErrorCode.UserExists ? this.registrationForm.controls.email.setErrors({UserExists: true}) : null;
-              // TODO add error handling for other errors
             });
           } catch (e) {
             console.error(e)

@@ -1,4 +1,8 @@
 <mat-card class="mat-typography auth-card">
+
+  <app-banner
+    [bannerOptions]="bannerOptions"/>
+
   <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.Form">
     <mat-icon>person_add</mat-icon>
     <div class="text-center">
@@ -19,7 +23,7 @@
     <div class="text-center">
       <p class="zero-margin mat-headline-5">Controleer uw email</p>
       <p class="zero-margin mat-body-2">We hebben een verificatielink gestuurd naar het opgegeven e-mailadres. Open deze
-        link om uw account te verifiëren</p>
+        link om uw account te verifiëren. Uw account moet geverifiëerd worden voordat u kan inloggen.</p>
     </div>
     <div class="flex-row-space">
       <button

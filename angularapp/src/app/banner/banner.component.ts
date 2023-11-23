@@ -1,4 +1,4 @@
-import {booleanAttribute, Component, Input} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {MatIconModule} from "@angular/material/icon";
 import {animate, style, transition, trigger} from "@angular/animations";
@@ -36,11 +36,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
   ]
 })
 export class BannerComponent {
-  @Input({required: true}) title!: string;
-  @Input() description: string | undefined;
-  @Input({transform: booleanAttribute}) visible: boolean = true;
-  @Input() bannerState: BannerState = BannerState.default;
-  @Input() icon: string | undefined;
+  @Input({required: true}) bannerOptions!: BannerOptions;
   protected readonly BannerState = BannerState;
 
 }
@@ -51,4 +47,12 @@ export enum BannerState {
   success,
   info,
   default,
+}
+
+export interface BannerOptions {
+  state: BannerState;
+  title: string;
+  description: string | undefined;
+  visible: boolean;
+  icon?: string;
 }

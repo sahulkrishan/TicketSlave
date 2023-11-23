@@ -1,17 +1,17 @@
 <div class="banner"
-     *ngIf="visible"
-     [@inOutAnimation]="visible"
-     [class.banner-error-state]="bannerState === BannerState.error"
-     [class.banner-warning-state]="bannerState === BannerState.warning"
-     [class.banner-success-state]="bannerState === BannerState.success"
-     [class.banner-neutral-state]="bannerState === BannerState.info">
+     *ngIf="bannerOptions.visible"
+     [@inOutAnimation]="bannerOptions.visible"
+     [class.banner-error-state]="bannerOptions.state === BannerState.error"
+     [class.banner-warning-state]="bannerOptions.state === BannerState.warning"
+     [class.banner-success-state]="bannerOptions.state === BannerState.success"
+     [class.banner-neutral-state]="bannerOptions.state === BannerState.info">
 
-  <div *ngIf="icon !== undefined">
-    <mat-icon *ngIf="icon !== undefined">{{ icon }}</mat-icon>
+  <div *ngIf="bannerOptions.icon !== undefined">
+    <mat-icon *ngIf="bannerOptions.icon !== undefined">{{ bannerOptions.icon }}</mat-icon>
   </div>
 
-  <div *ngIf="icon === undefined">
-    @switch (bannerState) {
+  <div *ngIf="bannerOptions.icon === undefined">
+    @switch (bannerOptions.state) {
       @case (BannerState.error) {
         <mat-icon>close</mat-icon>
       }
@@ -28,7 +28,7 @@
   </div>
 
   <div class="banner-content">
-    <p class="zero-margin headline-small">{{ title }}</p>
-    <div class="translucent-white mat-body zero-margin" *ngIf="description !== undefined"> {{ description }} </div>
+    <p class="zero-margin headline-small">{{ bannerOptions.title }}</p>
+    <div class="translucent-white mat-body zero-margin" *ngIf="bannerOptions.description !== undefined"> {{ bannerOptions.description }} </div>
   </div>
 </div>
