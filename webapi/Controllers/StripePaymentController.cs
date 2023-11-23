@@ -17,7 +17,7 @@ namespace webapi.Controllers
         [HttpPost]
         public ActionResult Create(string amount)
         {
-            var domain = "http://localhost:7074";
+            var domain = "https://localhost:7074";
             var options = new SessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>

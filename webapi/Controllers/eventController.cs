@@ -96,13 +96,17 @@ public class eventController : ControllerBase
             {
                 try
                 {
-                    var deletedEvent = _context.Events.Remove(foundedEvent);
+                    _context.Events.Remove(foundedEvent);
                     await _context.SaveChangesAsync();
-                    return Ok(deletedEvent);
+                    var deletedEvent = await _context.Events.FindAsync(resultGuid);
+                    if (deletedEvent == null) {
+                        return Ok(new { message = "Event deleted successfully" });
+                    }
+                    return StatusCode(400, "Het evenement is niet succesvol gedelete, hij returned niet null");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    return StatusCode(400, "Evenement maken is mislukt");
+                    return StatusCode(400, "Evenement deleten is mislukt");
                 }
             }
         }
