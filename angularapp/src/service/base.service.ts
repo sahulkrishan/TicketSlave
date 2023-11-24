@@ -12,7 +12,7 @@ export class BaseService {
   }
 
   handleError<T>() {
-    return (error: any): Observable<T> => {
+    return (error: T): Observable<T> => {
 
       return throwError(() => error);
     };

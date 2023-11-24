@@ -29,36 +29,88 @@ public class Seeder
         }
     }
 
-    public async Task<IdentityResult> AddAdministrator()
-    {
-        using (var scope = _serviceProvider.CreateScope())
+        public async Task AddTestUsers()
         {
+            using var scope = _serviceProvider.CreateScope();
             var scopedServiceProvider = scope.ServiceProvider;
             var userManager = scopedServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-            var roles = ApplicationRoles.GetAllRoles();
-            var user = new ApplicationUser
+            var allRoles = ApplicationRoles.GetAllRoles();
+            var userRole = new [] { ApplicationRoles.User };
+            var adminUser = new ApplicationUser
             {
-                FirstName = "Administrator",
+                FirstName = "Admin",
                 LastName = "TicketSlave",
-                Email = "sahul.krishan@windesheim.nl",
+                Email = "admin@example.com",
                 EmailConfirmed = true,
-                UserName = "sahul.krishan@windesheim.nl",
+                UserName = "admin@example.com",
                 LockoutEnabled = false,
                 SecurityStamp = Guid.NewGuid().ToString(),
             };
+            var user = new ApplicationUser
+            {
+                FirstName = "User",
+                LastName = "TicketSlave",
+                Email = "user@example.com",
+                EmailConfirmed = true,
+                UserName = "user@example.com",
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
+            };
+            var lockedUser = new ApplicationUser
+            {
+                FirstName = "LockedUser",
+                LastName = "TicketSlave",
+                Email = "locked@example.com",
+                EmailConfirmed = true,
+                UserName = "locked@example.com",
+                LockoutEnd = DateTime.MaxValue.ToUniversalTime(),
+                LockoutEnabled = true,
+                SecurityStamp = Guid.NewGuid().ToString(),
+            };
+            var unverifiedUser = new ApplicationUser
+            {
+                FirstName = "UnverifiedUser",
+                LastName = "TicketSlave",
+                Email = "unverified@example.com",
+                EmailConfirmed = false,
+                UserName = "unverified@example.com",
+                LockoutEnabled = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
+            };
+            // Check if users already exist
+            var adminExists = await userManager.FindByNameAsync(adminUser.Email);
             var userExists = await userManager.FindByNameAsync(user.Email);
-            
-            var assignRolesResult = await AssignRoles(_serviceProvider, user.UserName, roles);
-            if (assignRolesResult != IdentityResult.Success) return assignRolesResult;
-            
-            if (userExists != null) return IdentityResult.Failed();
-            
-            var userCreationResult= await userManager.CreateAsync(user, "16SuperBanaanSorbets!");
-            if (userCreationResult != IdentityResult.Success) return userCreationResult;
-            
-            return IdentityResult.Success;
+            var lockedUserExists = await userManager.FindByNameAsync(lockedUser.Email);
+            var unverifiedUserExists = await userManager.FindByNameAsync(unverifiedUser.Email);
+            const string password = "TestPassword123!";
+            // Create users if they do not exist
+            if (adminExists == null)
+            {
+                await userManager.CreateAsync(adminUser, password);
+                await AssignRoles(_serviceProvider, adminUser.UserName, allRoles);
+            }
+
+            if (userExists == null)
+            {
+                await userManager.CreateAsync(user, password);
+                await AssignRoles(_serviceProvider, user.UserName, userRole);
+            }
+
+            if (lockedUserExists == null)
+            {
+                await userManager.CreateAsync(lockedUser, password);
+                // Add roles for lockedUser if needed
+                await AssignRoles(_serviceProvider, lockedUser.UserName, userRole);
+            }
+
+            if (unverifiedUserExists == null)
+            {
+                await userManager.CreateAsync(unverifiedUser, password);
+                // Add roles for unverifiedUser if needed
+                await AssignRoles(_serviceProvider, unverifiedUser.UserName, userRole);
+            }
         }
-    }
+    
     private static async Task<IdentityResult> AssignRoles(IServiceProvider services, string userName, string[] roles)
     {
         using (var scope = services.CreateScope())

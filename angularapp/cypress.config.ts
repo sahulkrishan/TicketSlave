@@ -1,4 +1,4 @@
-import { defineConfig } from "cypress";
+import {defineConfig} from "cypress";
 
 export default defineConfig({
   component: {
@@ -7,5 +7,9 @@ export default defineConfig({
       bundler: "webpack",
     },
     specPattern: "**/*.cy.ts",
+  },
+
+  e2e: {
+    baseUrl: 'https://localhost:4200',
   },
 });

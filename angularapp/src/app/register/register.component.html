@@ -6,9 +6,10 @@
   <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.Form">
     <mat-icon>person_add</mat-icon>
     <div class="text-center">
-      <p class="zero-margin mat-headline-5">Registreren</p>
-      <p class="zero-margin mat-body-2">Word vandaag nog lid en profiteer van alle voordelen die TicketSlave te bieden
-        heeft!</p>
+      <div class="zero-margin mat-headline-5">Registreren</div>
+      <div class="zero-margin mat-body-2">Word vandaag nog lid en profiteer van alle voordelen die TicketSlave te bieden
+        heeft!
+      </div>
     </div>
     <button
       mat-stroked-button
@@ -96,6 +97,9 @@
         <mat-label>Herhaal wachtwoord</mat-label>
         <input matInput formControlName="confirmPassword" name="new-password" autocomplete="on"
                [type]="hidePassword ? 'password' : 'text'">
+        <mat-error *ngIf="this.registrationForm.controls.confirmPassword.hasError('required')">
+          Wachtwoord herhalen is vereist
+        </mat-error>
         <mat-error *ngIf="this.registrationForm.controls.confirmPassword.hasError('NoPasswordMatch')">
           Wachtwoord komt niet overeen
         </mat-error>

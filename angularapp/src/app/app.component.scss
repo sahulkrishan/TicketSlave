@@ -13,7 +13,7 @@ $button-gap: 8px;
   text-align: center;
 }
 
-.translucent-white, mat-typography, h1, h2, h3, h4, h5, h6, p, mat-icon  {
+.translucent-white, mat-typography, h1, h2, h3, h4, h5, h6, p, mat-icon, div  {
   color: rgb(255, 255, 255, 0.9);
 }
 
@@ -52,4 +52,9 @@ mat-form-field, mat-checkbox {
   gap: $button-gap;
   justify-content: flex-end;
   align-self: stretch;
+}
+
+.margin-center-horizontal {
+  margin-left: auto;
+  margin-right: auto;
 }

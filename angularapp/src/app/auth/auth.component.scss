@@ -5,6 +5,7 @@ $max-width: 500px;
 @media (min-width: $max-width) {
   .auth-card {
     border-radius: $card-radius;
+    width: $max-width;
   }
 }
 @media (max-width: $max-width) {
