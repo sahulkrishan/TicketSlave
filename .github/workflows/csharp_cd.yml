@@ -9,6 +9,9 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Stop server
+        run: appcmd stop sites "TicketSlave"
+        
       - uses: actions/checkout@v3
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v3
@@ -23,9 +26,6 @@ jobs:
         
       - name: Test
         run: dotnet test --logger trx --results-directory "TestResults"
-
-      - name: Stop server
-        run: appcmd stop sites "TicketSlave"
 
       - name: Publish release
         run: dotnet publish webapi --configuration Release -o C:\inetpub\wwwroot\ticketslave
