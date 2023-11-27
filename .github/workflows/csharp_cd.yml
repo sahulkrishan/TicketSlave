@@ -30,7 +30,7 @@ jobs:
           appcmd stop sites "TicketSlave"
 
       - name: Publish release
-        run: dotnet publish TicketSlave -configuration Release -o C:\inetpub\wwwroot\ticketslave
+        run: dotnet publish TicketSlave --configuration Release -o C:\inetpub\wwwroot\ticketslave
 
       - name: Start server
         shell: powershell
