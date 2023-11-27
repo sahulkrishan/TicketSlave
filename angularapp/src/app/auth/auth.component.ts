@@ -78,7 +78,7 @@ export class AuthComponent {
     } catch (e) {
       if (error.status == 504) {
         bannerOptions.title = 'Geen verbinding';
-        bannerOptions.description = 'Kan de server is niet bereiken. Controleer de internetverbinding of probeer het later opnieuw.';
+        bannerOptions.description = 'Kan de server niet bereiken. Controleer de internetverbinding of probeer het later opnieuw.';
       }
     }
     return bannerOptions;
