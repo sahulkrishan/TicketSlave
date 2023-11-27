@@ -6,7 +6,7 @@ import {Observable, throwError} from "rxjs";
   providedIn: 'root'
 })
 export class BaseService {
-  protected baseApiUrl = 'api/v1';
+  protected baseApiUrl = './api/v1';
 
   constructor(protected http: HttpClient) {
   }
