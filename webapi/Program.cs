@@ -89,4 +89,17 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
+
+app.UseSpa(spa =>
+{
+    spa.Options.SourcePath = "angularapp";
+    if(app.Environment.IsDevelopment())
+    {
+        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+    }
+});
+
 app.Run();

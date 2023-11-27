@@ -3,7 +3,7 @@ name: C# Deployment
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
         run: npm ci
         
       - name: Publish release
-        run: dotnet publish webapi --configuration Release -o C:\inetpub\websites\ticketslave
+        run: dotnet publish webapi --configuration Release -o C:\inetpub\websites\ticketslave-dev
 
       - name: Start server
         run: appcmd start sites "TicketSlave"
