@@ -1,14 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.HttpSys;
-using webapi;
 using webapi.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
 
+        
+builder.Services.AddSpaStaticFiles(configuration =>
+{
+    configuration.RootPath = "angularapp/dist";
+});
 
 // Add services to the container.var Configuration = builder.Configuration;
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -74,8 +75,15 @@ if (app.Environment.IsDevelopment())
     await seeder.AddTestUsers();
 }
 
-
 app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseSpaStaticFiles();
+}
+app.UseCors(b => 
+    b.WithOrigins("http://localhost:4200"));
 
 app.UseAuthorization();
 
