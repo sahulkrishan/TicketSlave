@@ -24,10 +24,17 @@ jobs:
         run: dotnet test --logger trx --results-directory "TestResults"
 
       - name: Stop server
-        run: appcmd stop sites "TicketSlave"
+        shell: powershell
+        run: |
+          cd $env:systemroot\system32\inetsrv\
+          appcmd stop sites "TicketSlave"
 
       - name: Publish release
-        run: dotnet publish TicketSlave -configuration Release -o C:\inetpub\wwwroot\ticketslave-dev
+        run: dotnet publish TicketSlave -configuration Release -o C:\inetpub\wwwroot\ticketslave
 
       - name: Start server
-        run: appcmd start sites "TicketSlave"
+        shell: powershell
+        run: |
+          cd $env:systemroot\system32\inetsrv\
+          appcmd start sites "TicketSlave"
+
