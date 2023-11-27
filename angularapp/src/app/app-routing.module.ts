@@ -4,11 +4,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {EventDetailComponent} from "./event-detail/event-detail.component";
 import {EventOverviewComponent} from "./event-overview/event-overview.component";
 import {PaymentFormComponent} from "./payment-form/payment-form.component";
+import {EventCreationformComponent} from "./event-creationform/event-creationform.component";
 
 const routes: Routes = [
   { path: '', component: EventOverviewComponent }, // Default route
   { path: 'details/:id', component: EventDetailComponent },
-  { path:'payment', component: PaymentFormComponent}
+  { path:'payment', component: PaymentFormComponent},
+  { path:'makeyoureventduudy', component: EventCreationformComponent}
   // Add more routes as needed
 ];
 

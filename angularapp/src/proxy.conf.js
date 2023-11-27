@@ -4,6 +4,7 @@ const PROXY_CONFIG = [
       "/weatherforecast",
       "/event",
       "/payment-form"
+
     ],
     target: "https://localhost:7074",
     secure: false

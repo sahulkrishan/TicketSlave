@@ -19,12 +19,40 @@ public class eventController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Event>>> GetAllEvents()
     {
-        var foundedEvents = await _context.Events.ToListAsync();
-        if (foundedEvents.Any()) { 
+        var foundedEvents = await _context.Events.OrderBy(e => e.EventStartAt).ToListAsync();
+
+        if (foundedEvents.Any())
+        {
             return Ok(foundedEvents);
+        }
+        if (foundedEvents == null) { 
+            return NotFound();
         }
         return BadRequest();
     }
+
+    [HttpGet("paginator/{id}")]
+    public async Task<ActionResult<List<Event>>> getPageEvents(string indexId, [FromQuery] string direction)
+    {
+        Guid resultGuid;
+        if (Guid.TryParse(indexId, out resultGuid))
+        {
+            //return
+        }
+
+        var foundedEvents = await _context.Events.OrderBy(e => e.EventStartAt).ToListAsync();
+
+        if (foundedEvents.Any())
+        {
+            return Ok(foundedEvents);
+        }
+        if (foundedEvents == null)
+        {
+            return NotFound();
+        }
+        return BadRequest();
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<Event>> GetEventById(string id)
     {
@@ -45,13 +73,13 @@ public class eventController : ControllerBase
 
         if (evenement == null)
         {
-            return BadRequest();
+            return NotFound();
             
         }
         var location = await _context.Locations.FindAsync(evenement.LocationId);
         if (location == null)
         {
-            return NotFound("Location not found.");
+            return StatusCode(400, "Location is null");
         }
         var newEvent = new Event() {
             Id = evenement.Id,
@@ -85,6 +113,19 @@ public class eventController : ControllerBase
         }
 
     }
+
+    [HttpDelete]
+
+    public async Task<ActionResult> delete()
+    {
+
+        var events = await _context.Events.ToListAsync();
+        _context.RemoveRange(events);
+        await _context.SaveChangesAsync();
+        return Ok("nice");
+
+    }
+
     [HttpDelete("{id}")]
 
     public async Task<ActionResult> delete(string id) {
@@ -109,8 +150,9 @@ public class eventController : ControllerBase
                     return StatusCode(400, "Evenement deleten is mislukt");
                 }
             }
+            return StatusCode(400, "De Id wordt niet gevonden");
         }
-        return BadRequest();
+        return BadRequest("parsing");
 
     }
 }

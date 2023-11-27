@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Bevestig Evenement Details</h1>
+<div mat-dialog-content>
+    <mat-list>
+        <mat-list-item>
+            <strong>Titel:</strong> {{ event.title }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>Beschrijving:</strong> {{ event.description }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>Start Datum:</strong> {{ event.eventStartAt | date: 'medium' }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>Eind Datum:</strong> {{ event.eventEndAt | date: 'medium' }}
+        </mat-list-item>
+    </mat-list>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="false">Annuleren</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Bevestigen</button>
+</div>

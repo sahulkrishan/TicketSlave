@@ -1,4 +1,4 @@
-<mat-card (click)="navigateToEventDetails(eventData.id)" mat-ripple>
+<mat-card (click)="navigateToEventDetails(eventData.id!)" mat-ripple>
   <img class="img-aspect-ratio-square" mat-card-image [src]="eventData.imageUrls[0]" alt="Photo">
   <mat-card-content  id="{{eventData.id}}" >
     <mat-card-title class="event-card-title">{{ eventData.title }}</mat-card-title>

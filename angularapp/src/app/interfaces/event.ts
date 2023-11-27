@@ -1,11 +1,11 @@
 import { Location } from "./location";
 
 export interface Event {
-  id: string;
+  id?: string;
   title: string;
   description: string;
   locationId: string;
-  location: Location;
+  location?: Location;
   createdBy: string;
   createdAt: string;
   imageUrls: string[];
@@ -16,7 +16,7 @@ export interface Event {
   presaleStartAt: string;
   presaleEndAt: string;
   presalePasswordHash: string;
-  visibility: Visibility;
+  visibility?: Visibility;
 }
 
 export enum Visibility {

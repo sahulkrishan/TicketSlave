@@ -31,11 +31,9 @@ export class EventCardComponent implements AfterViewInit{
     console.log(this.eventData)
 
     const fac = new FastAverageColor();
-    const eventcontainer = document.getElementById(this.eventData.id);
-    console.log(eventcontainer)
+    const eventcontainer = document.getElementById(this.eventData.id!);
     fac.getColorAsync(this.eventData.imageUrls[0])
       .then(color => {
-          console.log(color.rgb)
         eventcontainer!.style.background = `linear-gradient(to bottom, ${color.rgba}, transparent)`;
 
         // maakt text wit als kleur donker is, misschien handig voor later. maar voor nublijft de kaart wit

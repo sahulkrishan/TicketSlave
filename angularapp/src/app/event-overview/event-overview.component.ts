@@ -8,19 +8,20 @@ import { FastAverageColor } from 'fast-average-color';
 import {EventCarouselComponent} from "../event-carousel/event-carousel.component";
 import {Router} from "@angular/router";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
+import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 
 
 
 @Component({
   selector: 'app-event-overview',
   standalone: true,
-  imports: [MatGridListModule, CommonModule, EventCardComponent, EventCarouselComponent, NavigationBarComponent],
+  imports: [MatGridListModule, CommonModule, EventCardComponent, EventCarouselComponent, NavigationBarComponent, MatPaginatorModule],
   templateUrl: './event-overview.component.html',
   styleUrls: ['./event-overview.component.css']
 })
 export class EventOverviewComponent implements OnInit {
 
-  events: Event[] = []
+  events: Event[] = [];
   backgroundColor = '';
 
   constructor(private eventsOverviewService: EventsOverviewService, private router: Router) { }
@@ -51,6 +52,7 @@ export class EventOverviewComponent implements OnInit {
         console.log(e);
       });
   }
+
   navigateToDetails(id: string){
       const url    = '/details/' + id;
       this.router.navigate([url]);
