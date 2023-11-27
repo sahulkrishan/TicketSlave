@@ -18,7 +18,6 @@ import {ErrorCode, ResponseResultModel} from "../../model/response-result.model"
 import {RegistrationModel} from "../../model/registration.model";
 import {HttpErrorResponse} from "@angular/common/http";
 import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.component";
-import {AuthComponent} from "../auth/auth.component";
 
 @Component({
   selector: 'app-register',
@@ -134,8 +133,12 @@ export class RegisterComponent implements OnInit {
     const registrationModel: RegistrationModel = this.registrationForm.value
     this.authService.register(registrationModel).subscribe({
         error: (error: HttpErrorResponse) => {
-          console.error(error)
-          this.bannerOptions = AuthComponent.parseBannerError(error);
+          if (error.status == 504) {
+            this.bannerOptions.title = 'Geen verbinding';
+            this.bannerOptions.description = 'Kan de server is niet bereiken. Controleer de internetverbinding of probeer het later opnieuw.';
+            this.bannerOptions.visible = true;
+            this.bannerOptions.state = BannerState.error;
+          }
           try {
             const results = error.error as ResponseResultModel[]
             results.forEach((error: ResponseResultModel) => {
@@ -149,7 +152,7 @@ export class RegisterComponent implements OnInit {
           } catch (e) {
             console.error(e)
           }
-
+          this.loading = false;
         },
         next: (response: ResponseResultModel) => {
           if (response.code == ErrorCode.AwaitingAccountVerification) {
@@ -157,10 +160,10 @@ export class RegisterComponent implements OnInit {
           } else {
             this.goToLogin.emit(true)
           }
+          this.loading = false;
         }
       }
     )
-    this.loading = false;
   }
 
   getErrorMessageUserFormPassword() {

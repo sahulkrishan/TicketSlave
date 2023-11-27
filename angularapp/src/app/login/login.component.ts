@@ -115,9 +115,12 @@ export class LoginComponent {
           this.loading = false;
           this.isLoggedIn = true;
 
-          this.bannerOptions.state = BannerState.success
-          this.bannerOptions.title = 'Ingelogd';
-          this.bannerOptions.description = 'Je wordt over enkele ogenblikken doorgestuurd.';
+          this.bannerOptions = {
+            state: BannerState.success,
+            title: 'Ingelogd',
+            description: 'Je wordt over enkele ogenblikken doorgestuurd.',
+            visible: true,
+          }
           this.loginForm.disable();
           setTimeout(() => {
             this.router.navigate(['/']).then(r => console.log(r));

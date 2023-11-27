@@ -6,10 +6,7 @@ $bg-opacity: 0.15;
   display: block;
   padding: calc($card-padding - 4px) $card-padding;
   gap: $card-gap;
-  //border-radius: $card-radius $card-radius 0 0;
-  //background: rgba(255, 255, 255, 0.1);
   overflow: hidden;
-  width: 100%;
 }
 
 .banner-error-state {
