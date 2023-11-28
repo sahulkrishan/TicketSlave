@@ -17,10 +17,10 @@ import {BannerOptions, BannerState} from "../banner/banner.component";
     trigger("fadeInOut", [
       transition(':enter', [
         style({ opacity: 0 }),
-        animate('5s 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 1 })),
+        animate('3500ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 1 })),
       ]),
       transition(':leave', [
-        animate('5s 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 0 })),
+        animate('2000ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 0 })),
       ]),
     ]),
   ]

@@ -17,16 +17,18 @@
       </filter>
     </defs>
   </svg>
-  <div class="gradients-container" >
-    <div class="g1 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
-    <div class="g2 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
-    <div class="g3 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
-    <div class="g4 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
-    <div class="g5 register" *ngIf="authState === AuthState.register" @fadeInOut></div>
-    <div class="g1" *ngIf="authState === AuthState.login" @fadeInOut></div>
-    <div class="g2" *ngIf="authState === AuthState.login" @fadeInOut></div>
-    <div class="g3" *ngIf="authState === AuthState.login" @fadeInOut></div>
-    <div class="g4" *ngIf="authState === AuthState.login" @fadeInOut></div>
-    <div class="g5" *ngIf="authState === AuthState.login" @fadeInOut></div>
+  <div class="gradients-container" *ngIf="authState === AuthState.register" @fadeInOut>
+    <div class="g1 register"></div>
+    <div class="g2 register"></div>
+    <div class="g3 register"></div>
+    <div class="g4 register"></div>
+    <div class="g5 register"></div>
+  </div>
+  <div class="gradients-container" *ngIf="authState === AuthState.login" @fadeInOut>
+    <div class="g1"></div>
+    <div class="g2"></div>
+    <div class="g3"></div>
+    <div class="g4"></div>
+    <div class="g5"></div>
   </div>
 </div>
