@@ -17,7 +17,13 @@ jobs:
 
     steps:
       - name: Stop server
-        run: appcmd stop apppool "TicketSlaveStaging" | exit 0
+        run: |
+          $result = appcmd list apppool /name:"TicketSlaveStaging" | Select-String 'state:Stopped'
+          if ($result -eq $null) {
+            appcmd stop apppool "TicketSlaveStaging"
+          } else {
+            Write-Host "Application pool 'TicketSlaveStaging' is already stopped."
+          }
 
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
