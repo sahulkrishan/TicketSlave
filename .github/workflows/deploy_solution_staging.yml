@@ -1,4 +1,4 @@
-name: CD - Deploy Solution - Staging
+name: CD Deploy Solution Staging
 
 on:
   push:
