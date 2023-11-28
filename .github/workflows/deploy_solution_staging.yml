@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Stop server
-        run: %systemroot%\system32\inetsrv\appcmd stop apppool "TicketSlaveStaging" | exit 0
+        run: appcmd stop apppool "TicketSlaveStaging" | exit 0
 
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
@@ -42,5 +42,5 @@ jobs:
         run: dotnet publish webapi --configuration Staging -o C:\inetpub\websites\ticketslave-staging
 
       - name: Start server
-        run: %systemroot%\system32\inetsrv\appcmd start apppool "TicketSlaveStaging" | exit 0
+        run: appcmd start apppool "TicketSlaveStaging" | exit 0
 
