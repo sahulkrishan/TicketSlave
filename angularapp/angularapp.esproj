@@ -23,12 +23,12 @@
   </PropertyGroup>
   <!-- Command to create an optimized build of the project that's ready for publishing -->
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <ProductionBuildCommand>ng build --configuration development</ProductionBuildCommand>
+    <ProductionBuildCommand>npm run build-development</ProductionBuildCommand>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Staging' ">
-    <ProductionBuildCommand>ng build --configuration staging</ProductionBuildCommand>
+    <ProductionBuildCommand>npm run build-staging</ProductionBuildCommand>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <ProductionBuildCommand>ng build --configuration production</ProductionBuildCommand>
+    <ProductionBuildCommand>npm run build-production</ProductionBuildCommand>
   </PropertyGroup>
 </Project>
