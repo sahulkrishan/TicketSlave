@@ -13,7 +13,7 @@ using webapi.Classes;
 namespace webapi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231114125922_Initial")]
+    [Migration("20231121111443_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -158,217 +158,13 @@ namespace webapi.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TicketSlave.Classes.Event", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CreatedBy")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("EventEndAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("EventStartAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<List<string>>("ImageUrls")
-                        .IsRequired()
-                        .HasColumnType("text[]");
-
-                    b.Property<Guid>("LocationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("PresaleEndAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("PresalePasswordHash")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("PresaleStartAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("SaleEndAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("SaleStartAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Visibility")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
-
-                    b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("TicketSlave.Classes.EventSeat", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uuid");
-
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
-
-                    b.Property<Guid>("SeatId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("SeatId");
-
-                    b.ToTable("EventSeats");
-                });
-
-            modelBuilder.Entity("TicketSlave.Classes.Order", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("LocationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("OrderedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("OrderedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("TransactionId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("VoucherId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("VoucherId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("TicketSlave.Classes.Seat", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Capacity")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("LocationId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SeatNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int[]>("SeatType")
-                        .IsRequired()
-                        .HasColumnType("integer[]");
-
-                    b.Property<string>("Zone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
-
-                    b.ToTable("Seats");
-                });
-
-            modelBuilder.Entity("TicketSlave.Classes.Ticket", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("EventSeatId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("InvalidationReason")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("boolean");
-
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ValidUntil")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Tickets");
-                });
-
-            modelBuilder.Entity("TicketSlave.Classes.User", b =>
+            modelBuilder.Entity("webapi.Classes.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
+
+                    b.Property<bool>("AcceptedTerms")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
@@ -378,6 +174,9 @@ namespace webapi.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("DateAcceptedTerms")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
@@ -440,36 +239,89 @@ namespace webapi.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TicketSlave.Classes.Voucher", b =>
+            modelBuilder.Entity("webapi.Classes.Event", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("InvalidationReason")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsValid")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("ValidUntil")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Value")
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("VoucherType")
+                    b.Property<DateTime>("EventEndAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EventStartAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<List<string>>("ImageUrls")
+                        .IsRequired()
+                        .HasColumnType("text[]");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("PresaleEndAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("PresalePasswordHash")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("PresaleStartAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("SaleEndAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("SaleStartAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Visibility")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Vouchers");
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("webapi.Classes.EventSeat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uuid");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid>("SeatId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.HasIndex("SeatId");
+
+                    b.ToTable("EventSeats");
                 });
 
             modelBuilder.Entity("webapi.Classes.Location", b =>
@@ -515,6 +367,54 @@ namespace webapi.Migrations
                     b.ToTable("Locations");
                 });
 
+            modelBuilder.Entity("webapi.Classes.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("OrderedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OrderedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TransactionId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("VoucherId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("VoucherId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("webapi.Classes.ReservationSession", b =>
                 {
                     b.Property<Guid>("Id")
@@ -525,6 +425,7 @@ namespace webapi.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("ReservedById")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("ReserveredUntil")
@@ -539,6 +440,116 @@ namespace webapi.Migrations
                     b.ToTable("ReservationSessions");
                 });
 
+            modelBuilder.Entity("webapi.Classes.Seat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SeatNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int[]>("SeatType")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<string>("Zone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("Seats");
+                });
+
+            modelBuilder.Entity("webapi.Classes.Ticket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EventSeatId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("InvalidationReason")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("boolean");
+
+                    b.Property<Guid?>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ValidUntil")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("webapi.Classes.Voucher", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("InvalidationReason")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsValid")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("ValidUntil")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("VoucherType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vouchers");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -550,7 +561,7 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TicketSlave.Classes.User", null)
+                    b.HasOne("webapi.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -559,7 +570,7 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TicketSlave.Classes.User", null)
+                    b.HasOne("webapi.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -574,7 +585,7 @@ namespace webapi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TicketSlave.Classes.User", null)
+                    b.HasOne("webapi.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -583,14 +594,14 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TicketSlave.Classes.User", null)
+                    b.HasOne("webapi.Classes.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TicketSlave.Classes.Event", b =>
+            modelBuilder.Entity("webapi.Classes.Event", b =>
                 {
                     b.HasOne("webapi.Classes.Location", "Location")
                         .WithMany()
@@ -601,15 +612,15 @@ namespace webapi.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("TicketSlave.Classes.EventSeat", b =>
+            modelBuilder.Entity("webapi.Classes.EventSeat", b =>
                 {
-                    b.HasOne("TicketSlave.Classes.Event", "Event")
+                    b.HasOne("webapi.Classes.Event", "Event")
                         .WithMany()
                         .HasForeignKey("EventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TicketSlave.Classes.Seat", "Seat")
+                    b.HasOne("webapi.Classes.Seat", "Seat")
                         .WithMany()
                         .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -620,7 +631,7 @@ namespace webapi.Migrations
                     b.Navigation("Seat");
                 });
 
-            modelBuilder.Entity("TicketSlave.Classes.Order", b =>
+            modelBuilder.Entity("webapi.Classes.Order", b =>
                 {
                     b.HasOne("webapi.Classes.Location", "Location")
                         .WithMany()
@@ -628,7 +639,7 @@ namespace webapi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TicketSlave.Classes.Voucher", "Voucher")
+                    b.HasOne("webapi.Classes.Voucher", "Voucher")
                         .WithMany()
                         .HasForeignKey("VoucherId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -639,7 +650,26 @@ namespace webapi.Migrations
                     b.Navigation("Voucher");
                 });
 
-            modelBuilder.Entity("TicketSlave.Classes.Seat", b =>
+            modelBuilder.Entity("webapi.Classes.ReservationSession", b =>
+                {
+                    b.HasOne("webapi.Classes.EventSeat", "EventSeat")
+                        .WithMany()
+                        .HasForeignKey("EventSeatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Classes.ApplicationUser", "ReservedBy")
+                        .WithMany()
+                        .HasForeignKey("ReservedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EventSeat");
+
+                    b.Navigation("ReservedBy");
+                });
+
+            modelBuilder.Entity("webapi.Classes.Seat", b =>
                 {
                     b.HasOne("webapi.Classes.Location", "Location")
                         .WithMany()
@@ -650,39 +680,22 @@ namespace webapi.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("TicketSlave.Classes.Ticket", b =>
+            modelBuilder.Entity("webapi.Classes.Ticket", b =>
                 {
-                    b.HasOne("TicketSlave.Classes.Order", null)
+                    b.HasOne("webapi.Classes.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("webapi.Classes.Order", null)
                         .WithMany("Tickets")
                         .HasForeignKey("OrderId");
 
-                    b.HasOne("TicketSlave.Classes.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("webapi.Classes.ReservationSession", b =>
-                {
-                    b.HasOne("TicketSlave.Classes.EventSeat", "EventSeat")
-                        .WithMany()
-                        .HasForeignKey("EventSeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TicketSlave.Classes.User", "ReservedBy")
-                        .WithMany()
-                        .HasForeignKey("ReservedById");
-
-                    b.Navigation("EventSeat");
-
-                    b.Navigation("ReservedBy");
-                });
-
-            modelBuilder.Entity("TicketSlave.Classes.Order", b =>
+            modelBuilder.Entity("webapi.Classes.Order", b =>
                 {
                     b.Navigation("Tickets");
                 });

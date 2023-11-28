@@ -1,0 +1,42 @@
+@import "src/app/app.component.scss";
+
+$bg-opacity: 0.15;
+
+.banner {
+  display: block;
+  padding: calc($card-padding - 4px) $card-padding;
+  gap: $card-gap;
+  overflow: hidden;
+}
+
+.banner-error-state {
+  .mat-icon {
+    color: $error;
+  }
+
+  background: rgba($error, $bg-opacity);
+}
+
+.banner-warn-state {
+  .mat-icon {
+    color: $warn;
+  }
+
+  background: rgba($warn, $bg-opacity);
+}
+
+.banner-success-state {
+  .mat-icon {
+    color: $success;
+  }
+
+  background: rgba($success, $bg-opacity);
+}
+
+.banner-neutral-state {
+  .mat-icon {
+    color: $neutral;
+  }
+
+  background: rgba($neutral, $bg-opacity);
+}

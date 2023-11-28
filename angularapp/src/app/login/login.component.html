@@ -1,0 +1,84 @@
+<mat-card class="mat-typography auth-card">
+
+  <app-banner
+    [bannerOptions]="bannerOptions"/>
+
+  <div class="auth-card-header">
+    <mat-icon>login</mat-icon>
+    <div class="text-center">
+      <p class="zero-margin mat-headline-5">Inloggen</p>
+      <p class="zero-margin mat-body-2">Log in met uw TicketSlave account</p>
+    </div>
+    <button
+      mat-stroked-button
+      type="button"
+      color="primary"
+      (click)="goToRegistration.emit(loginForm.controls.email.value)">
+      Nog geen account?
+    </button>
+  </div>
+
+
+  <mat-card-content class="auth-card-content">
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="performLogin()"
+
+      class="auth-form">
+
+      <mat-form-field id="fn" appearance="outline" subscriptSizing="dynamic">
+        <mat-label>E-mailadres</mat-label>
+        <input matInput formControlName="email" type="email" name="email" autocomplete="on">
+        <mat-error *ngIf="this.loginForm.controls.email.hasError('required')">
+          E-mailadres is vereist
+        </mat-error>
+        <mat-error *ngIf="this.loginForm.controls.email.hasError('EmailNotFound')">
+          E-mailadres is niet gevonden
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Wachtwoord</mat-label>
+        <input matInput formControlName="password" type="password" name="password" autocomplete="on"
+               [type]="hidePassword ? 'password' : 'text'">
+        <button id="togglePassword" mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="this.loginForm.controls.password.hasError('required')">
+          Wachtwoord is vereist
+        </mat-error>
+        <mat-error *ngIf="this.loginForm.controls.password.hasError('IncorrectPassword')">
+          Wachtwoord is onjuist
+        </mat-error>
+      </mat-form-field>
+
+      <div class="flex-row-space">
+        <button
+          mat-stroked-button
+          type="button"
+          color="primary">
+          Wachtwoord vergeten?
+        </button>
+
+        <div
+          class="flex-row-space"
+          matTooltip="Vul vereiste gegevens in"
+          [matTooltipDisabled]="loginForm.valid"
+          [matTooltipHideDelay]="500"
+          [matTooltipShowDelay]="100">
+
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!loginForm.valid || loading || isLoggedIn">
+            <mat-spinner *ngIf="loading" [diameter]="24"/>
+            <ng-container *ngIf="!loading">Inloggen</ng-container>
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </mat-card-content>
+</mat-card>

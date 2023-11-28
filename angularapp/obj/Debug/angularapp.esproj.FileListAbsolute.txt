@@ -1,1 +1,1 @@
-C:\git\TicketSlave\angularapp\obj\Debug\angularapp.esproj.CoreCompileInputs.cache
+C:\git\angularapp\obj\Debug\angularapp.esproj.CoreCompileInputs.cache

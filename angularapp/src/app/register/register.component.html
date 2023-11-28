@@ -1,0 +1,134 @@
+<mat-card class="mat-typography auth-card">
+
+  <app-banner
+    [bannerOptions]="bannerOptions"/>
+
+  <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.Form">
+    <mat-icon>person_add</mat-icon>
+    <div class="text-center">
+      <div class="zero-margin mat-headline-5">Registreren</div>
+      <div class="zero-margin mat-body-2">Word vandaag nog lid en profiteer van alle voordelen die TicketSlave te bieden
+        heeft!
+      </div>
+    </div>
+    <button
+      mat-stroked-button
+      type="button"
+      color="primary"
+      (click)="goToLogin.emit(false)">
+      Heb je al een account?
+    </button>
+  </div>
+  <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.ConfirmationRequired">
+    <mat-icon>mail</mat-icon>
+    <div class="text-center">
+      <p class="zero-margin mat-headline-5">Controleer uw email</p>
+      <p class="zero-margin mat-body-2">We hebben een verificatielink gestuurd naar het opgegeven e-mailadres. Open deze
+        link om uw account te verifiëren. Uw account moet geverifiëerd worden voordat u kan inloggen.</p>
+    </div>
+    <div class="flex-row-space">
+      <button
+        mat-button
+        type="button"
+        color="primary"
+        (click)="goToLogin.emit(false)">
+        E-mail opnieuw verzenden
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        color="primary"
+        (click)="goToLogin.emit(false)">
+        Doorgaan
+      </button>
+
+    </div>
+  </div>
+
+  <mat-card-content class="auth-card-content" *ngIf="registrationStep === RegistrationStep.Form">
+    <form
+      [formGroup]="registrationForm"
+      (ngSubmit)="submitForm()"
+      class="auth-form">
+
+      <div class="wrapping-horizontal-list">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Voornaam</mat-label>
+          <input matInput formControlName="firstName" type="text" name="firstName" autocomplete="on">
+          <mat-error *ngIf="this.registrationForm.controls.firstName.hasError('required')">
+            Voornaam is vereist
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Achternaam</mat-label>
+          <input matInput formControlName="lastName" type="text" name="lastName" autocomplete="on">
+          <mat-error *ngIf="this.registrationForm.controls.lastName.hasError('required')">
+            Achternaam is vereist
+          </mat-error>
+        </mat-form-field>
+
+      </div>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>E-mailadres</mat-label>
+        <input matInput formControlName="email" type="email" name="email" autocomplete="on">
+        <mat-error *ngIf="this.registrationForm.controls.email.hasError('required')">
+          E-mailadres is vereist
+        </mat-error>
+        <mat-error *ngIf="this.registrationForm.controls.email.hasError('UserExists')">
+          E-mailadres is al in gebruik
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Wachtwoord</mat-label>
+        <input matInput formControlName="password" name="new-password" autocomplete="on"
+               [type]="hidePassword ? 'password' : 'text'">
+        <button mat-icon-button matSuffix type="button" (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error
+          *ngIf="registrationForm.controls.password.invalid">{{ getErrorMessageUserFormPassword() }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Herhaal wachtwoord</mat-label>
+        <input matInput formControlName="confirmPassword" name="new-password" autocomplete="on"
+               [type]="hidePassword ? 'password' : 'text'">
+        <mat-error *ngIf="this.registrationForm.controls.confirmPassword.hasError('required')">
+          Wachtwoord herhalen is vereist
+        </mat-error>
+        <mat-error *ngIf="this.registrationForm.controls.confirmPassword.hasError('NoPasswordMatch')">
+          Wachtwoord komt niet overeen
+        </mat-error>
+      </mat-form-field>
+
+      <!--FIXME-->
+      <mat-checkbox formControlName="acceptedTerms">
+        <div [class.color-warn]="this.registrationForm.controls.acceptedTerms.hasError('RequiredTrue')">Ik ga akkoord
+          met de <a href="https://google.nl/" target="_blank"><u>Privacyverklaring</u></a>*
+        </div>
+      </mat-checkbox>
+
+      <div class="flex-row-end">
+        <div
+          matTooltip="Vul het registratieformulier in"
+          [matTooltipDisabled]="registrationForm.valid"
+          [matTooltipHideDelay]="500"
+          [matTooltipShowDelay]="100">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="!registrationForm.valid || loading">
+            <mat-spinner *ngIf="loading" [diameter]="24"/>
+            <ng-container *ngIf="!loading">Registreren</ng-container>
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </mat-card-content>
+</mat-card>

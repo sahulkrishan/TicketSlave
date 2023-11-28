@@ -35,6 +35,8 @@ namespace webapi.Migrations
                     FirstName = table.Column<string>(type: "text", nullable: false),
                     LastName = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
+                    DateAcceptedTerms = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -317,6 +319,7 @@ namespace webapi.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventSeatId = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
+                    ApplicationUserId = table.Column<string>(type: "text", nullable: false),
                     Price = table.Column<string>(type: "text", nullable: false),
                     IsValid = table.Column<bool>(type: "boolean", nullable: false),
                     ValidUntil = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -327,8 +330,8 @@ namespace webapi.Migrations
                 {
                     table.PrimaryKey("PK_Tickets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tickets_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Tickets_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -346,7 +349,7 @@ namespace webapi.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     EventSeatId = table.Column<Guid>(type: "uuid", nullable: false),
                     ReserveredUntil = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ReservedById = table.Column<string>(type: "text", nullable: true)
+                    ReservedById = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -355,7 +358,8 @@ namespace webapi.Migrations
                         name: "FK_ReservationSessions_AspNetUsers_ReservedById",
                         column: x => x.ReservedById,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ReservationSessions_EventSeats_EventSeatId",
                         column: x => x.EventSeatId,
@@ -442,14 +446,14 @@ namespace webapi.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tickets_ApplicationUserId",
+                table: "Tickets",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tickets_OrderId",
                 table: "Tickets",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tickets_UserId",
-                table: "Tickets",
-                column: "UserId");
         }
 
         /// <inheritdoc />
