@@ -1,4 +1,4 @@
-name: Deploy Solution (Production)
+name: CD Deploy Solution Production
 
 on:
   push:
