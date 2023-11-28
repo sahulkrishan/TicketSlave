@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: Stop server
         run: appcmd stop apppool "TicketSlaveStaging"
-        
+
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
@@ -33,14 +33,14 @@ jobs:
 
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
-        
+
       - name: Test
         run: dotnet test --logger trx --results-directory "TestResults"
-        
+
       - name: Install npm dependencies
         working-directory: ./angularapp
         run: npm ci
-        
+
       - name: Publish release
         run: dotnet publish webapi --configuration Staging -o C:\inetpub\websites\ticketslave-staging
 
