@@ -64,4 +64,16 @@ public class ResponseResult
         Code = "AwaitingAccountVerification",
         Description = "Account is awaiting verification"
     };
+    
+    public static readonly ResponseResult RefreshTokenRequestInvalidError = new()
+    {
+        Code = "RefreshTokenRequestInvalid",
+        Description = "Request model for token refresh is invalid"
+    };
+    
+    public static readonly ResponseResult RefreshTokenInvalidError = new()
+    {
+        Code = "RefreshTokenInvalid",
+        Description = "Refresh token is invalid"
+    };
 }

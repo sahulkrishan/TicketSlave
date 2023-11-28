@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Classes;
+using webapi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,7 @@ builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "angularapp/dist";
 });
+builder.Services.AddTransient<ITokenService, TokenService>();
 
 // Add services to the container.var Configuration = builder.Configuration;
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -96,10 +98,6 @@ app.MapControllerRoute(
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = "angularapp";
-    if(app.Environment.IsDevelopment())
-    {
-        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-    }
 });
 
 app.Run();
