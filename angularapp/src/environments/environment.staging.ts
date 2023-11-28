@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  baseHref: '/ticketslave-staging/wwwroot/'
+  baseHref: '/ticketslave-staging'
 };
