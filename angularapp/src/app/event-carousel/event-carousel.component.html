@@ -1,7 +1,7 @@
 <div class="hero-image" [style.backgroundImage]="'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(' + eventData.imageUrls[0] + ')'">
   <div class="hero-text">
     <h1>{{eventData.title}}</h1>
-    <p>"Rotterdam"</p>
+    <p>{{eventData.location?.city}}</p>
     <button (click)="navigateToDetails()" id="buyBtn" mat-raised-button>See more</button>
   </div>
 </div>

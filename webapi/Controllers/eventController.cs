@@ -70,6 +70,7 @@ public class eventController : ControllerBase
 
     [HttpPost]
     public async Task<ActionResult<Event>> createEvent([FromBody] EventDTO evenement) {
+        evenement.CreatedBy = Guid.NewGuid();
 
         if (evenement == null)
         {
@@ -88,7 +89,6 @@ public class eventController : ControllerBase
             Description = evenement.Description,
             ImageUrls = evenement.ImageUrls,
             CreatedAt = evenement.CreatedAt,
-            CreatedBy = evenement.CreatedBy,
             LocationId = location.Id,
             Location = location,
             EventEndAt = evenement.EventEndAt,
@@ -97,7 +97,6 @@ public class eventController : ControllerBase
             SaleStartAt = evenement.SaleStartAt,
             PresaleStartAt = evenement.PresaleStartAt,
             PresaleEndAt = evenement.PresaleEndAt,
-            PresalePasswordHash = evenement.PresalePasswordHash,
             Visibility = evenement.Visibility,
         };
         _context.Events.Add(newEvent);

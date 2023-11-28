@@ -6,7 +6,7 @@ export interface Event {
   description: string;
   locationId: string;
   location?: Location;
-  createdBy: string;
+  createdBy?: string;
   createdAt: string;
   imageUrls: string[];
   eventStartAt: string;
@@ -15,7 +15,7 @@ export interface Event {
   saleEndAt: string;
   presaleStartAt: string;
   presaleEndAt: string;
-  presalePasswordHash: string;
+  presalePasswordHash?: string;
   visibility?: Visibility;
 }
 

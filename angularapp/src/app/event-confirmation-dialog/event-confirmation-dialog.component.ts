@@ -10,11 +10,12 @@ import {
 import {Event} from "../interfaces/event";
 import {MatListModule} from "@angular/material/list";
 import {MatButtonModule} from "@angular/material/button";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 @Component({
   selector: 'app-event-confirmation-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogClose, MatListModule, MatDialogActions, MatButtonModule, MatDialogContent, MatDialogTitle],
+    imports: [CommonModule, MatDialogClose, MatListModule, MatDialogActions, MatButtonModule, MatDialogContent, MatDialogTitle, MatButtonToggleModule],
   templateUrl: './event-confirmation-dialog.component.html',
   styleUrl: './event-confirmation-dialog.component.css'
 })

@@ -3,7 +3,9 @@ const PROXY_CONFIG = [
     context: [
       "/weatherforecast",
       "/event",
-      "/payment-form"
+      "/payment-form",
+      "/location",
+
 
     ],
     target: "https://localhost:7074",

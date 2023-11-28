@@ -8,6 +8,7 @@ import {EventCardComponent} from "../event-card/event-card.component";
 import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FastAverageColor} from "fast-average-color";
+import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 
 
 export interface Tile {
@@ -19,7 +20,7 @@ export interface Tile {
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [CommonModule, EventCarouselComponent, EventCardComponent, MatButtonModule, MatGridListModule],
+  imports: [CommonModule, EventCarouselComponent, EventCardComponent, MatButtonModule, MatGridListModule, NavigationBarComponent],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.css'
 })

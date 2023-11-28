@@ -11,7 +11,7 @@ namespace TicketSlave.Classes
         public string Title { get; set; }
         public string Description { get; set; }
         public Guid LocationId { get; set; }
-        public Guid CreatedBy { get; set; }
+        public Guid? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public List<string> ImageUrls { get; set; }
         public DateTime EventStartAt { get; set; }
@@ -20,7 +20,7 @@ namespace TicketSlave.Classes
         public DateTime SaleEndAt { get; set; }
         public DateTime PresaleStartAt { get; set; }
         public DateTime PresaleEndAt { get; set; }
-        public DateTime PresalePasswordHash { get; set; }
+        public DateTime? PresalePasswordHash { get; set; }
         public Visibility Visibility { get; set; }
     }
 

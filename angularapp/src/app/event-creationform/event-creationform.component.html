@@ -1,4 +1,7 @@
-<form #eventForm="ngForm" (ngSubmit)="submitForm(eventForm)">
+<app-navigation-bar>
+
+</app-navigation-bar>
+<form #eventForm="ngForm">
   <mat-form-field>
     <input matInput placeholder="Titel" id="title" name="title" maxlength="20" required [(ngModel)]="event.title" #title="ngModel">
   </mat-form-field>
@@ -7,6 +10,16 @@
     <textarea matInput placeholder="Beschrijving" id="description" name="description" maxlength="1000" required [(ngModel)]="event.description" #description="ngModel"></textarea>
   </mat-form-field>
 
+  <mat-form-field>
+    <mat-label>Selecteer een locatie</mat-label>
+    <mat-select [(value)]="selectedLocation" (selectionChange)="onLocationSelectionChange()">
+      <mat-option *ngFor="let location of locations" [value]="location">{{ location.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="imageurls" id="imageUrls" name="imageUrls" maxlength="1000" required ngModel #imageUrls></textarea>
+  </mat-form-field>
   <!-- Date Range Picker for eventStartAt and eventEndAt -->
   <mat-form-field class="example-form-field">
     <mat-label>Event Date Range</mat-label>
@@ -17,6 +30,7 @@
     <mat-datepicker-toggle matSuffix [for]="eventDateRangePicker"></mat-datepicker-toggle>
     <mat-date-range-picker #eventDateRangePicker></mat-date-range-picker>
   </mat-form-field>
+
 
   <!-- Date Range Picker for saleStartAt and saleEndAt -->
   <mat-form-field class="example-form-field">
@@ -32,7 +46,7 @@
   <!-- Date Range Picker for presaleStartAt and presaleEndAt -->
   <mat-form-field class="example-form-field">
     <mat-label>Presale Date Range</mat-label>
-    <mat-date-range-input [rangePicker]="presaleDateRangePicker" [comparisonStart]="event.saleStartAt" [comparisonEnd]="event.saleEndAt" name="presaleDateRange">
+    <mat-date-range-input [rangePicker]="presaleDateRangePicker" [comparisonStart]="event.eventStartAt"  [comparisonEnd]="event.saleEndAt" name="presaleDateRange">
       <input matStartDate placeholder="Start Date" [(ngModel)]="event.presaleStartAt" name="presaleStartAt">
       <input matEndDate placeholder="End Date" [(ngModel)]="event.presaleEndAt" name="presaleEndAt">
     </mat-date-range-input>
@@ -40,7 +54,7 @@
     <mat-date-range-picker #presaleDateRangePicker></mat-date-range-picker>
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="example-form-field">
     <input matInput placeholder="Presale Wachtwoord" type="password" id="presalePasswordHash" name="presalePasswordHash" [(ngModel)]="event.presalePasswordHash" #presalePasswordHash="ngModel">
   </mat-form-field>
 

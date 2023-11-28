@@ -1,6 +1,6 @@
 
 <mat-toolbar>
-  <span>TicketSlave</span>
+  <span (click)="navigateToOverview()">TicketSlave</span>
   <span class="example-spacer"></span>
   <mat-form-field class="example-full-width">
     <mat-label>Events</mat-label>
@@ -18,11 +18,8 @@
     <button mat-menu-item>
       <span>Account info</span>
     </button>
-    <button mat-menu-item>
-      <span>menu item 2</span>
-    </button>
-    <button mat-menu-item>
-      <span>menu item 3</span>
+    <button mat-menu-item (click)="this.navigateToCreateEvent()">
+      <span>Maak Event</span>
     </button>
   </mat-menu>
 </mat-toolbar>

@@ -46,11 +46,20 @@ export class NavigationBarComponent implements OnInit {
       })
 
   }
+  navigateToCreateEvent(){
+    const url    = '/makeyoureventduudy/';
+    this.router.navigate([url]);
+
+  }
 
   navigateToDetails(event: Event){
     const url    = '/details/' + event.id;
     this.router.navigate([url]);
+  }
 
+  navigateToOverview(){
+    const url    = '/';
+    this.router.navigate([url]);
   }
 
   displayFn(event: Event): string {
