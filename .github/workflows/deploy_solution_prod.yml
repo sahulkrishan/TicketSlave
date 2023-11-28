@@ -33,14 +33,14 @@ jobs:
 
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
-        
+
       - name: Test
         run: dotnet test --logger trx --results-directory "TestResults"
-        
+
       - name: Install npm dependencies
         working-directory: ./angularapp
         run: npm ci
-        
+
       - name: Publish release
         run: dotnet publish webapi --configuration Release -o C:\inetpub\websites\ticketslave
 
