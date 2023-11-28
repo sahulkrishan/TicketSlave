@@ -7,7 +7,7 @@ import {environment} from "../environments/environment";
   providedIn: 'root'
 })
 export class BaseService {
-  protected baseApiUrl = environment.baseHref + 'api/v1';
+  protected baseApiUrl = environment.baseHref + '/api/v1';
 
   constructor(protected http: HttpClient) {
   }

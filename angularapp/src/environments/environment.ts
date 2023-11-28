@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   config: "prod",
-  baseHref: '/ticketslave/wwwroot/'
+  baseHref: '/ticketslave'
 };
