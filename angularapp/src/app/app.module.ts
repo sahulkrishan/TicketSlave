@@ -14,6 +14,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {AuthComponent} from "./auth/auth.component";
+import {APP_BASE_HREF} from "@angular/common";
+import {environment} from "../environments/environment";
 
 @NgModule({
   declarations: [
@@ -22,7 +24,12 @@ import {AuthComponent} from "./auth/auth.component";
   imports: [
     BrowserModule, HttpClientModule, ReactiveFormsModule, BrowserAnimationsModule, RegisterComponent, MatCardModule, MatIconModule, MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatTooltipModule, AuthComponent
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_BASE_HREF,
+      useValue: environment.baseHref
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,9 +1,9 @@
-name: C# Deployment
+name: Deploy Solution (Staging)
 
 on:
   push:
     branches:
-      - master
+      - develop
   workflow_dispatch:
     inputs:
       logLevel:
@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Stop server
-        run: appcmd stop sites "TicketSlave"
+        run: appcmd stop apppool "TicketSlaveStaging"
         
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
@@ -42,8 +42,8 @@ jobs:
         run: npm ci
         
       - name: Publish release
-        run: dotnet publish webapi --configuration Release -o C:\inetpub\websites\ticketslave
+        run: dotnet publish webapi --configuration Staging -o C:\inetpub\websites\ticketslave-staging
 
       - name: Start server
-        run: appcmd start sites "TicketSlave"
+        run: appcmd start apppool "TicketSlaveStaging"
 
