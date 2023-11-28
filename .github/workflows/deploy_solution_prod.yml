@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Stop server
-        run: appcmd stop apppool "TicketSlaveProd"
+        run: %systemroot%\system32\inetsrv\appcmd stop apppool "TicketSlaveProd" | exit 0
         
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
@@ -42,5 +42,5 @@ jobs:
         run: dotnet publish webapi --configuration Release -o C:\inetpub\websites\ticketslave
 
       - name: Start server
-        run: appcmd start apppool "TicketSlaveProd"
+        run: %systemroot%\system32\inetsrv\appcmd start apppool "TicketSlaveProd" | exit 0
 
