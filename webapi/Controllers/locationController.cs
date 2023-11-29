@@ -35,19 +35,11 @@ namespace webapi.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> createLocation([FromBody] Location location)
         {
-            if (location != null || location.PostalCode != null || location.EmailAddress != null || location.Country != null || location.City != null)
+            if (location != null && location.PostalCode != null && location.EmailAddress != null && location.Country != null && location.City != null)
             {
-                Location newLocation = new Location();
-                newLocation.Id = Guid.NewGuid();
-                newLocation.Address = location.Address;
-                newLocation.City = location.City;  
-                newLocation.PhoneNumber = location.PhoneNumber;
-                newLocation.Country = location.Country;
-                newLocation.EmailAddress = location.EmailAddress;
-                newLocation.Name = location.Name;
-                _context.Locations.Add(newLocation);
+                _context.Locations.Add(location);
                 await _context.SaveChangesAsync();
-                return Ok(newLocation);
+                return Ok(location);
             }
             return BadRequest("Location is null");
         }
@@ -60,8 +52,27 @@ namespace webapi.Controllers
 
         // DELETE api/<locationController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(string id)
         {
+            Guid resultGuid;
+            if (Guid.TryParse(id, out resultGuid))
+            {
+                var foundedLocation = await _context.Locations.FindAsync(resultGuid);
+                if (foundedLocation != null)
+                {
+                    try { 
+                        _context.Locations.Remove(foundedLocation);
+                        _context.SaveChanges();
+                        return Ok("Location deleted successfully");
+                    }
+                    catch {
+                        return BadRequest("Deleting failed");
+                    }
+                    
+                }
+                return NotFound();
+            }
+            return BadRequest("id parsing failed");
         }
     }
 }

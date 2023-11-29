@@ -19,7 +19,7 @@ public class eventController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Event>>> GetAllEvents()
     {
-        var foundedEvents = await _context.Events.OrderBy(e => e.EventStartAt).ToListAsync();
+        var foundedEvents = await _context.Events.OrderBy(e => e.EventStartAt).Include(x => x.Location).ToListAsync();
 
         if (foundedEvents.Any())
         {
@@ -40,7 +40,7 @@ public class eventController : ControllerBase
             //return
         }
 
-        var foundedEvents = await _context.Events.OrderBy(e => e.EventStartAt).ToListAsync();
+        var foundedEvents = await _context.Events.OrderBy(e => e.EventStartAt).Include(x => x.Location).ToListAsync();
 
         if (foundedEvents.Any())
         {
@@ -59,7 +59,7 @@ public class eventController : ControllerBase
         Guid resultGuid;
         if (Guid.TryParse(id, out resultGuid))
         {
-           var foundedEvent =  await _context.Events.FindAsync(resultGuid);
+           var foundedEvent =  await _context.Events.Include(x => x.Location).FirstOrDefaultAsync(x => x.Id == resultGuid);
             if (foundedEvent != null)
             {
                 return Ok(foundedEvent);
