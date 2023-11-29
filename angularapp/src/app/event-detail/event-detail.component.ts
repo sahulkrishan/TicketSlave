@@ -31,16 +31,12 @@ export class EventDetailComponent implements OnInit{
   ngOnInit() {
     // Subscribe to route parameter changes
     this.route.paramMap.subscribe(params => {
-      // Get the ID from the URL
       const id = params.get('id');
 
-      // Do something with the extracted ID
-      console.log('ID from URL:', id);
-
-      // You can perform further actions with this ID here
       if(id){
         this.eventsOverViewService.getEventById(id).subscribe(result => {
           this.currentEvent = result;
+          console.log(result)
           this.getMainColor()
         });
       }
