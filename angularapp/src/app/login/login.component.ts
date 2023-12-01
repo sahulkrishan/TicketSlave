@@ -1,7 +1,7 @@
 import {booleanAttribute, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthenticationService} from '../../service/authentication.service';
+import {AuthService} from '../../service/auth.service';
 import {LoginForm} from "../../model/login.form";
 import {LoginModel} from "../../model/login.model";
 import {animate, style, transition, trigger} from "@angular/animations";
@@ -63,7 +63,7 @@ export class LoginComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
+    private authService: AuthService,
     private router: Router
   ) {
     this.loginForm = this.formBuilder.group<LoginForm>({

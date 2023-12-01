@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -16,6 +16,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {AuthComponent} from "./auth/auth.component";
 import {APP_BASE_HREF} from "@angular/common";
 import {environment} from "../environments/environment";
+import {AuthInterceptor} from "../interceptor/auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,11 @@ import {environment} from "../environments/environment";
     {
       provide: APP_BASE_HREF,
       useValue: environment.baseHref
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

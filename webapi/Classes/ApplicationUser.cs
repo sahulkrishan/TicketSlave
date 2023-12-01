@@ -10,8 +10,7 @@ namespace webapi.Classes
         [Required] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [Required] public bool AcceptedTerms { get; set; } = false;
         public DateTime? DateAcceptedTerms { get; set; } = DateTime.UtcNow;
-        public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiryTime { get; set; }
+        public List<RefreshToken> RefreshTokens { get; set; } = new ();
 
     }
 }

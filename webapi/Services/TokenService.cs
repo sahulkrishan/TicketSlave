@@ -17,17 +17,19 @@ public class TokenService : ITokenService
 
     public string GenerateAccessToken(IEnumerable<Claim> claims)
     {
-        var secretKey = _configuration.GetValue<string>("SecretKey") ??
-                    throw new InvalidOperationException("Secret key missing");
-        var url = _configuration.GetValue<string>("url") ?? throw new InvalidOperationException("Issuer is missing");
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+        var key = _configuration.GetValue<string>("JwtConfig:Key") ?? throw new InvalidOperationException("Jwt key missing");
+        var issuer = _configuration.GetValue<string>("JwtConfig:Issuer") ?? throw new InvalidOperationException("Issuer is missing");
+        var audience = _configuration.GetValue<string>("JwtConfig:Audience") ?? throw new InvalidOperationException("Audience is missing");
+        var expiresInMinutes = _configuration.GetValue<int?>("JwtConfig:ExpiresInMinutes") ?? throw new InvalidOperationException("Expiry time is missing");
+        
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
         var signinCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
         var tokenOptions = new JwtSecurityToken(
-            issuer: url,
-            audience: url,
+            issuer: issuer,
+            audience: audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(5),
+            expires: DateTime.UtcNow.AddMinutes(expiresInMinutes),
             signingCredentials: signinCredentials
         );
 
@@ -44,20 +46,20 @@ public class TokenService : ITokenService
     }
 
     public ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
-    {
-        var secretKey = _configuration.GetValue<string>("SecretKey") ??
-                    throw new InvalidOperationException("Secret key missing");
-        var url = _configuration.GetValue<string>("url") ??
-                  throw new InvalidOperationException("Issuer is missing");
+    { 
+        var key = _configuration.GetValue<string>("JwtConfig:Key") ?? throw new InvalidOperationException("Jwt key missing");
+        var issuer = _configuration.GetValue<string>("JwtConfig:Issuer") ?? throw new InvalidOperationException("Issuer is missing");
+        var audience = _configuration.GetValue<string>("JwtConfig:Audience") ?? throw new InvalidOperationException("Audience is missing");
+        
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = true,
             ValidateIssuer = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
             ValidateLifetime = false,
-            ValidAudience = url,
-            ValidIssuer = url
+            ValidAudience = audience,
+            ValidIssuer = issuer
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();

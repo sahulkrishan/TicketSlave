@@ -1,6 +1,6 @@
 ﻿namespace webapi.Classes;
 
-public class ApplicationRoles
+public static class ApplicationRoles
 {
     public const string Admin = "Admin";
     public const string User = "User";

@@ -5,11 +5,12 @@ import {RegistrationModel} from "../model/registration.model";
 import {BaseService} from "./base.service";
 import {LoginModel} from "../model/login.model";
 import {ResponseResultModel} from "../model/response-result.model";
+import {TokenRefreshModel} from "../model/token-refresh.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService extends BaseService {
+export class AuthService extends BaseService {
   private apiUrl = this.baseApiUrl + '/Auth';
 
   constructor(http: HttpClient) {
@@ -27,6 +28,27 @@ export class AuthenticationService extends BaseService {
     return this.http.post<ResponseResultModel>(this.apiUrl + '/register', registrationModel)
       .pipe(
         catchError(this.handleError<ResponseResultModel>()) // Using handleError function
+      );
+  }
+
+  refreshToken(tokenRefreshModel: TokenRefreshModel): Observable<TokenRefreshModel> {
+    return this.http.post<TokenRefreshModel>(this.apiUrl + '/refreshToken', tokenRefreshModel)
+      .pipe(
+        catchError(this.handleError<ResponseResultModel>())
+      )
+  }
+
+  logout(refreshToken: string): Observable<ResponseResultModel> {
+    return this.http.post<ResponseResultModel>(this.apiUrl + '/revokeToken', refreshToken)
+      .pipe(
+        catchError(this.handleError<ResponseResultModel>())
+      );
+  }
+
+  logoutAll(): Observable<ResponseResultModel> {
+    return this.http.post<ResponseResultModel>(this.apiUrl + '/revokeTokenAll', null)
+      .pipe(
+        catchError(this.handleError<ResponseResultModel>())
       );
   }
 }

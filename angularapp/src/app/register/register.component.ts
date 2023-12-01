@@ -13,7 +13,7 @@ import {RegistrationForm} from "../../model/registration.form";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {MatTooltipModule} from "@angular/material/tooltip";
-import {AuthenticationService} from "../../service/authentication.service";
+import {AuthService} from "../../service/auth.service";
 import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
 import {RegistrationModel} from "../../model/registration.model";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
+    private authService: AuthService,
   ) {
   }
 
