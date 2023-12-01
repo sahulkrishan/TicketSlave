@@ -29,6 +29,7 @@ export class AuthInterceptor implements HttpInterceptor
       catchError((error: HttpErrorResponse) => {
         if(error?.status == 403) {
           // REFRESH
+          return throwError(() => error);
         } else {
           return throwError(() => error);
         }

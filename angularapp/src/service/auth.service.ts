@@ -34,7 +34,7 @@ export class AuthService extends BaseService {
   refreshToken(tokenRefreshModel: TokenRefreshModel): Observable<TokenRefreshModel> {
     return this.http.post<TokenRefreshModel>(this.apiUrl + '/refreshToken', tokenRefreshModel)
       .pipe(
-        catchError(this.handleError<ResponseResultModel>())
+        catchError(this.handleError<TokenRefreshModel>())
       )
   }
 

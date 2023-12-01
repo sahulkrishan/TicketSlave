@@ -112,6 +112,7 @@ public class AuthController : ControllerBase
       FirstName = registerModel.FirstName,
       LastName = registerModel.LastName,
       Email = registerModel.Email,
+      UserName = registerModel.Email,
       AcceptedTerms = registerModel.AcceptedTerms,
       DateAcceptedTerms = registerModel.AcceptedTerms ? DateTime.UtcNow : null
     };
@@ -259,10 +260,16 @@ public class AuthController : ControllerBase
   private async Task<ApplicationUser?> GetUser()
   {
     var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-    if (userId != null) return await _userManager.FindByIdAsync(userId);
+    if (userId != null) return await _userManager
+      .Users
+      .Include(user => user.RefreshTokens)
+      .FirstOrDefaultAsync(user => user.Id == userId);
 
     var email = User.FindFirstValue(ClaimTypes.Email);
-    if (email != null) return await _userManager.FindByEmailAsync(email);
+    if (email != null) return await _userManager
+      .Users
+      .Include(user => user.RefreshTokens)
+      .FirstOrDefaultAsync(user => user.NormalizedEmail == email.Normalize().ToUpperInvariant());
 
     return null;
   }
