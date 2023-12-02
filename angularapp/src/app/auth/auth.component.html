@@ -1,0 +1,34 @@
+<div class="container">
+
+  <app-login (goToRegistration)="changeAuthState(AuthState.register)"
+             [registrationCompleted]="registrationCompleted"
+             *ngIf="authState === AuthState.login"/>
+  <app-register (goToLogin)="changeAuthState(AuthState.login, $event)"
+                *ngIf="authState === AuthState.register"/>
+</div>
+
+<div class="gradient-bg">
+  <svg xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo" />
+        <feBlend in="SourceGraphic" in2="goo" />
+      </filter>
+    </defs>
+  </svg>
+  <div class="gradients-container" *ngIf="authState === AuthState.register" @fadeInOut>
+    <div class="g1 register"></div>
+    <div class="g2 register"></div>
+    <div class="g3 register"></div>
+    <div class="g4 register"></div>
+    <div class="g5 register"></div>
+  </div>
+  <div class="gradients-container" *ngIf="authState === AuthState.login" @fadeInOut>
+    <div class="g1"></div>
+    <div class="g2"></div>
+    <div class="g3"></div>
+    <div class="g4"></div>
+    <div class="g5"></div>
+  </div>
+</div>

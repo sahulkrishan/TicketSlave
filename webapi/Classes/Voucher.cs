@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace TicketSlave.Classes
+namespace webapi.Classes
 {
     public class Voucher
     {
