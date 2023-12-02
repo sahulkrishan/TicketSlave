@@ -1,10 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
-
+const int daysSignedIn = 14;
         
 builder.Services.AddSpaStaticFiles(configuration =>
 {
@@ -28,6 +29,20 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.AccessDeniedPath = "/Account/AccessDenied";
+    options.Cookie.Name = "ts_auth_bookie";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromDays(daysSignedIn);
+    options.LoginPath = "/Account/Login";
+    // ReturnUrlParameter requires 
+    //using Microsoft.AspNetCore.Authentication.Cookies;
+    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+    options.SlidingExpiration = true;
+});
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
@@ -96,10 +111,10 @@ app.MapControllerRoute(
 app.UseSpa(spa =>
 {
     spa.Options.SourcePath = "angularapp";
-    if(app.Environment.IsDevelopment())
-    {
-        spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
-    }
+    // if(app.Environment.IsDevelopment())
+    // {
+    //     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
+    // }
 });
 
 app.Run();

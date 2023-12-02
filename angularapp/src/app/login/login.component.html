@@ -53,13 +53,20 @@
         </mat-error>
       </mat-form-field>
 
+      <mat-checkbox formControlName="staySignedIn">
+        <div [class.color-warn]="this.loginForm.controls.staySignedIn.hasError('required')">
+          Ingelogd blijven
+        </div>
+      </mat-checkbox>
+
       <div class="flex-row-space">
-        <button
-          mat-stroked-button
-          type="button"
-          color="primary">
-          Wachtwoord vergeten?
-        </button>
+<!--        <button-->
+<!--          mat-stroked-button-->
+<!--          type="button"-->
+<!--          color="primary">-->
+<!--          Wachtwoord vergeten?-->
+<!--        </button>-->
+        <div></div>
 
         <div
           class="flex-row-space"

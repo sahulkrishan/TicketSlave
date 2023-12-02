@@ -63,10 +63,14 @@ export class AuthComponent {
             break;
           case ErrorCode.UserLockedOut:
             bannerOptions.title = "Account geblokkeerd"
+            if (e.duration) {
+              bannerOptions.description = "Uw account is geblokkeerd tot: " + e.duration.toLocaleString();
+              break;
+            }
             bannerOptions.description = "Uw account is geblokkeerd. Wacht een paar minuten of neem contact op met de beheerder.";
             break;
           case ErrorCode.UserSignInNotAllowed:
-            bannerOptions.title = "Account uitgeschakeld"
+            bannerOptions.title = "Account niet toegestaan"
             bannerOptions.description = "U kunt op dit moment niet inloggen, probeer het op een later moment opnieuw.";
             break;
           default:

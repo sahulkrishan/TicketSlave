@@ -16,12 +16,13 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthComponent} from "../auth/auth.component";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, MatCommonModule, MatCardModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatInputModule, MatTooltipModule, MatProgressSpinnerModule, BannerComponent],
+  imports: [CommonModule, MatCommonModule, MatCardModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatInputModule, MatTooltipModule, MatProgressSpinnerModule, BannerComponent, MatCheckboxModule],
   standalone: true,
   animations: [
     trigger(
@@ -78,6 +79,15 @@ export class LoginComponent {
       ),
       password: new FormControl(
         '',
+        {
+          nonNullable: true,
+          validators: [
+            Validators.required
+          ]
+        }
+      ),
+      staySignedIn: new FormControl(
+        false,
         {
           nonNullable: true,
           validators: [

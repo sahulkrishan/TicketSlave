@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Classes;
 using webapi.Models;
@@ -11,16 +10,13 @@ namespace webapi.Controllers;
 [Route("/api/v1/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
 
     public AuthController(
-        AppDbContext context,
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager)
     {
-        _context = context;
         _userManager = userManager;
         _signInManager = signInManager;
     }
@@ -35,7 +31,7 @@ public class AuthController : ControllerBase
                 { ResponseResult.EmailNotFoundError }
             );
 
-        var signInResult = await _signInManager.PasswordSignInAsync(user, login.Password, true, true);
+        var signInResult = await _signInManager.PasswordSignInAsync(user, login.Password, login.StaySignedIn, true);
         if (signInResult == SignInResult.Failed)
         {
             return Unauthorized(new List<ResponseResult>
@@ -46,7 +42,7 @@ public class AuthController : ControllerBase
         if (signInResult == SignInResult.LockedOut)
         {
             return Unauthorized(new List<ResponseResult>
-                { ResponseResult.UserLockedOutError }
+                { ResponseResult.UserLockedOutError(user.LockoutEnd?.UtcDateTime) }
             );
         }
 
@@ -111,13 +107,12 @@ public class AuthController : ControllerBase
         if (assignRolesResult != IdentityResult.Success)
             return BadRequest(result.Errors.Select(identityError => new ResponseResult().Parse(identityError))
                 .ToList());
-        
-        if (user.EmailConfirmed == false)
-            // Send confirmation email
-            // await SendConfirmationEmail(user);
-            return Ok(ResponseResult.AwaitingAccountVerification);
 
-        return Ok();
+        if (user.EmailConfirmed) return Ok();
+        
+        // Send confirmation email
+        await SendConfirmationEmail(user);
+        return Ok(ResponseResult.AwaitingAccountVerification);
     }
 
     // TODO: Send confirmation email

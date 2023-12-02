@@ -2,6 +2,7 @@ export interface ResponseResultModel {
   code?: string;
   field?: string;
   description?: string;
+  duration?: Date;
 }
 
 export enum ErrorCode {

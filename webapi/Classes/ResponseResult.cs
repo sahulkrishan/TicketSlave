@@ -9,6 +9,8 @@ public class ResponseResult
     public string? Description { get; set; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Field { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public DateTime? Duration { get; set; }
 
     public ResponseResult Parse(IdentityError identityError)
     {
@@ -47,11 +49,15 @@ public class ResponseResult
         Description = "Account requires verification"
     };
 
-    public static readonly ResponseResult UserLockedOutError = new()
+    public static ResponseResult UserLockedOutError(DateTime? duration)
     {
-        Code = "UserLockedOut",
-        Description = "User is locked out"
-    };
+        return new ResponseResult
+        {
+            Code = "UserLockedOut",
+            Description = "User is locked out",
+            Duration = duration
+        };
+    }
 
     public static readonly ResponseResult UserSignInNotAllowedError = new()
     {
