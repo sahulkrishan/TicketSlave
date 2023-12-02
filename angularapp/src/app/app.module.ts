@@ -28,7 +28,6 @@ import {environment} from "../environments/environment";
   imports: [
     BrowserModule, HttpClientModule, BrowserAnimationsModule, MatCardModule, EventOverviewComponent, EventCardComponent, EventCarouselComponent, AppRoutingModule, ReactiveFormsModule, RegisterComponent, MatIconModule, MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatTooltipModule, AuthComponent
   ],
-  providers: [],
   exports: [
     EventCardComponent
   ],
