@@ -4,7 +4,7 @@
       <h2 class="event-card-title !m-0">{{ eventData.title }}</h2>
       <p class="event-card-description !m-0">{{ eventData.description}}</p>
     </div>
-    <button mat-fab color="primary" (click)="navigateToEventDetails(eventData.id)">
+    <button id="fab-{{eventData.id}}" mat-fab color="primary" (click)="navigateToEventDetails(eventData.id)">
       <mat-icon>chevron_right</mat-icon>
     </button>
   </mat-card-content>

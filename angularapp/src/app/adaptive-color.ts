@@ -4,7 +4,7 @@ import {
   QuantizerCelebi,
   SchemeContent,
   SchemeVibrant,
-  Score
+  Score, TonalPalette
 } from "@material/material-color-utilities";
 import {FastAverageColor, FastAverageColorResult, FastAverageColorRgba} from "fast-average-color";
 
@@ -21,16 +21,18 @@ export class AdaptiveColor {
    * Generate Material Color Scheme from image.
    * Uses FastAverageColor to generate a DynamicScheme from an image
    * @param imageSrc image source to derive color scheme from
+   * @param isDark Whether the scheme is in dark mode or light mode.
    * @param schemeType type of DynamicScheme color to generate. Defaults to SchemeVibrant
    */
   getSchemeFromImageFast(
     imageSrc: string,
+    isDark: boolean = false,
     schemeType: IDynamicScheme = SchemeVibrant,
   ) {
     return new Promise<SchemeContent>((resolve) => {
       this.getFastAverageColor(imageSrc).then(color => {
         const argb = this.fastAverageColorRgbaToArgbInt(color.value);
-        const scheme = new schemeType(Hct.fromInt(argb), false, 0);
+        const scheme = new schemeType(Hct.fromInt(argb), isDark, 0);
         resolve(scheme);
       })
     });
