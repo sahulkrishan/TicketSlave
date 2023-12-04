@@ -216,7 +216,7 @@ namespace webapi.Migrations
                     SaleEndAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     PresaleStartAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     PresaleEndAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    PresalePasswordHash = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    PresaleCode = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Visibility = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

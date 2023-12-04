@@ -1,7 +1,11 @@
-<mat-card (click)="navigateToEventDetails(eventData.id)" mat-ripple>
-  <img class="img-aspect-ratio-square" mat-card-image [src]="eventData.imageUrls[0]" alt="Photo">
-  <mat-card-content  id="{{eventData.id}}" >
-    <mat-card-title class="event-card-title">{{ eventData.title }}</mat-card-title>
-    <p  class="event-card-description">{{ eventData.description}}</p>
+<mat-card class="aspect-video object-cover bg-cover bg-center mat-typography" [style.background-image]="'url(' + eventData.imageUrls[0] + ')'">
+  <mat-card-content class="event-card-content" id="{{eventData.id}}">
+    <div class="event-card-about">
+      <h2 class="event-card-title !m-0">{{ eventData.title }}</h2>
+      <p class="event-card-description !m-0">{{ eventData.description}}</p>
+    </div>
+    <button mat-fab color="primary" (click)="navigateToEventDetails(eventData.id)">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
   </mat-card-content>
 </mat-card>

@@ -1,20 +1,22 @@
-@media (max-width: 400px){
+@import "../app.component.scss";
+
+@media (max-width: 500px){
   #cardContainer {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
-@media (max-width: 600px)  and (min-width: 400px){
+@media (max-width: 800px)  and (min-width: 500px){
   #cardContainer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (max-width: 1000px) and (min-width:600px) {
+@media (max-width: 1280px) and (min-width:800px) {
   #cardContainer {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1280px) {
   #cardContainer {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -30,10 +32,15 @@ app-event-card {
   /* Adjust card styles */
 
 }
+#gradientContainer {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
 #overviewContainer {
-  padding: 32px;
-  /* width: 100%; */
-  /*height: 100%; !* Set to full viewport height *!*/
-  background: #f0f0f0 fixed; /* Change the background color if needed */
+  padding: 16px 32px;
 }
 

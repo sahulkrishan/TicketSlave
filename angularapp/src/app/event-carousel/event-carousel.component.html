@@ -1,7 +1,11 @@
-<div class="hero-image" [style.backgroundImage]="'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(' + eventData.imageUrls[0] + ')'">
-  <div class="hero-text">
-    <h1>{{eventData.title}}</h1>
-    <p>"Rotterdam"</p>
-    <button id="buyBtn" mat-raised-button>Buy</button>
+<div class="hero-image" [style.backgroundImage]="'linear-gradient(rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.5) 100%), url(' + eventData.imageUrls[0] + ')'">
+  <div class="translucent-white">
+    <div class="mat-headline-2 !m-0">{{eventData.title}}</div>
+    <h3 class="!m-0 hero-description">{{eventData.description}}</h3>
   </div>
+  <button
+    mat-raised-button
+    color="primary"
+    [hidden]="!buyButtonState"
+    routerLink="/events/{{eventData.id}}">Bekijken</button>
 </div>

@@ -1,8 +1,13 @@
 mat-card-content {
+  height: 100%;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 mat-card {
-  background: #0a0a0a;
+  border-radius: 16px;
+  overflow: hidden;
 }
 .seeMoreButton{
   align-items: center;
@@ -12,9 +17,22 @@ mat-card {
     background-size: cover;
 }
 
-.img-aspect-ratio-square {
-  aspect-ratio: 1/1;
+.img-aspect-ratio-16-9 {
+  aspect-ratio: 16/9;
   object-fit: cover;
+}
+
+.event-card-content {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row;
+  gap: 8px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.event-card-about {
+  display: grid;
 }
 
 .event-card-title {
@@ -23,9 +41,7 @@ mat-card {
   word-wrap: break-word;
   overflow: hidden;
   white-space: nowrap;
-  width: 100%;
 }
-
 
 .event-card-description {
   display: block;

@@ -64,4 +64,22 @@ public class ResponseResult
         Code = "AwaitingAccountVerification",
         Description = "Account is awaiting verification"
     };
+
+    public static readonly ResponseResult LocationNotFoundError = new()
+    {
+        Code = "LocationNotFound",
+        Description = "Location could not be found with the associated Id"
+    };
+
+    public static readonly ResponseResult FailedToAddObjectError = new()
+    {
+        Code = "FailedToAddObject",
+        Description = "An error occured while trying to add the object"
+    };
+
+    public static readonly ResponseResult FailedToDeleteObjectError = new()
+    {
+        Code = "FailedToDeleteObject",
+        Description = "An error occured while trying to delete the object"
+    };
 }

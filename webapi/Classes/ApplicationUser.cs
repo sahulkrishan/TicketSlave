@@ -9,7 +9,7 @@ namespace webapi.Classes
         [Required] public string LastName { get; set; }
         [Required] public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [Required] public bool AcceptedTerms { get; set; } = false;
-        public DateTime? DateAcceptedTerms { get; set; } = DateTime.UtcNow;
+        public DateTime? DateAcceptedTerms { get; set; } = null;
 
     }
 }

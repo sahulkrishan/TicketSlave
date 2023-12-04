@@ -1,0 +1,23 @@
+@import "src/app/app.component.scss";
+
+/* The hero image */
+.hero-image {
+  height: 30%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 32px 32px;
+}
+
+.hero-description {
+  max-height: 3.6em;
+  line-height: 1.8em;
+  overflow: hidden;
+}

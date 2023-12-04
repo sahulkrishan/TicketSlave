@@ -1,13 +1,17 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import {EventDetailComponent} from "./event-detail/event-detail.component";
 import {EventOverviewComponent} from "./event-overview/event-overview.component";
+import {AuthComponent} from "./auth/auth.component";
 
-const routes: Routes = [
-  { path: '', component: EventOverviewComponent }, // Default route
-  { path: 'details/:id', component: EventDetailComponent },
-  // Add more routes as needed
+export const routes: Routes = [
+  // FIXME: Add page not found component
+  // { path: '**', component: AuthComponent },  // Wildcard route for a 404 page
+  {path: '', redirectTo: '/events', pathMatch: 'full'},
+  {path: 'events', component: EventOverviewComponent},
+  {path: 'events/:id', component: EventDetailComponent},
+  {path: 'auth', component: AuthComponent},
 ];
 
 
@@ -19,4 +23,5 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

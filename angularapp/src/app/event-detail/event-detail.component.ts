@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {EventCarouselComponent} from "../event-carousel/event-carousel.component";
 import {ActivatedRoute} from "@angular/router";
-import {EventsOverviewService} from "../events-overview.service";
+import {EventService} from "../../service/event.service";
 import {Event} from "../interfaces/event";
 import {EventCardComponent} from "../event-card/event-card.component";
 import {MatButtonModule} from "@angular/material/button";
@@ -26,7 +26,7 @@ export interface Tile {
 export class EventDetailComponent implements OnInit{
 
   currentEvent: Event | undefined;
-  constructor(private route: ActivatedRoute, private eventsOverViewService: EventsOverviewService) {}
+  constructor(private route: ActivatedRoute, private eventsOverViewService: EventService) {}
   ngOnInit() {
     // Subscribe to route parameter changes
     this.route.paramMap.subscribe(params => {
