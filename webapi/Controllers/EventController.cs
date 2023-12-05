@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
-using TicketSlave.Classes;
 using webapi.Classes;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -27,16 +26,36 @@ public class EventController : ControllerBase
     {
         var foundedEvents = await _context.Events
             .Where(e => e.Visibility == Visibility.Visible)
+            .Select(x => EventDto.FromEvent(x))
             .ToListAsync();
+        
+        foreach (var e in foundedEvents)
+        {
+            e.AvailableSeats = _context.EventSeats.Count(s => s.EventId == e.Id && s.Status == EventSeatStatus.Available);
+            e.TotalSeats = _context.EventSeats.Count(s => s.EventId == e.Id);
+            
+            var availableSeats = _context.EventSeats.Where(s => s.EventId == e.Id && s.Status == EventSeatStatus.Available).ToList();
+    
+            if (availableSeats.Any())
+            {
+                e.LowestPrice = availableSeats.Min(s => s.Price);
+            }
+            else
+            {
+                e.LowestPrice = null; // Assign null if no available seats
+            }
+        }
+
         return Ok(foundedEvents);
     }
     
     [HttpGet]
     [Route("active")]
-    public async Task<ActionResult<List<Event>>> GetActiveEvents()
+    public async Task<ActionResult<List<EventDto>>> GetActiveEvents()
     {
         var foundedEvents = await _context.Events
             .Where(e => e.SaleStartAt < DateTime.UtcNow && e.SaleEndAt > DateTime.UtcNow && e.Visibility == Visibility.Visible)
+            .Select(x => EventDto.FromEvent(x))
             .ToListAsync();
         return Ok(foundedEvents);
     }
@@ -51,7 +70,7 @@ public class EventController : ControllerBase
 
     [HttpPost]
     [Authorize(Roles=ApplicationRoles.Admin)]
-    public async Task<ActionResult<Event>> CreateEvent([FromBody] EventDTO @event)
+    public async Task<ActionResult<Event>> CreateEvent([FromBody] EventDto @event)
     {
         var location = await _context.Locations.FindAsync(@event.LocationId);
         if (location == null) return NotFound(ResponseResult.LocationNotFoundError);

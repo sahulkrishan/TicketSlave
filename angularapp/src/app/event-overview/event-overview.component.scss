@@ -1,16 +1,16 @@
 @import "../app.component.scss";
 
-@media (max-width: 500px){
+@media (max-width: 550px){
   #cardContainer {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
 }
-@media (max-width: 800px)  and (min-width: 500px){
+@media (max-width: 850px)  and (min-width: 550px){
   #cardContainer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-@media (max-width: 1280px) and (min-width:800px) {
+@media (max-width: 1280px) and (min-width:850px) {
   #cardContainer {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }

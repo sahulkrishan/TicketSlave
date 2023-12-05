@@ -1,3 +1,9 @@
+@media (max-width: 550px){
+  .event-card-fab {
+    display: none;
+  }
+}
+
 mat-card-content {
   height: 100%;
   padding: 16px;
@@ -59,4 +65,19 @@ mat-card {
   max-height: 3.6em;
   line-height: 1.8em;
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.event-card-chip {
+  height: 28px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+
+  padding: 4px 12px;
+  gap: 12px;
+  overflow: hidden;
+
+  background: #151118;
+  /* M3/Elevation Dark/3 */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.30), 0 4px 8px 3px rgba(0, 0, 0, 0.15);
 }

@@ -4,11 +4,11 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {CommonModule} from "@angular/common";
 import {Event} from "../interfaces/event";
 import {EventCardComponent} from "../event-card/event-card.component";
-import { FastAverageColor } from 'fast-average-color';
 import {EventCarouselComponent} from "../event-carousel/event-carousel.component";
-import {Router} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
 import {SectionHeaderComponent} from "../section-header/section-header.component";
+import {AdaptiveColor} from "../adaptive-color";
+import {MaterialDynamicColors} from "@material/material-color-utilities";
 
 
 
@@ -23,37 +23,30 @@ export class EventOverviewComponent implements OnInit {
 
   events: Event[] = []
 
-  constructor(private eventsOverviewService: EventService, private router: Router) { }
+  constructor(private eventsOverviewService: EventService) { }
 
   ngOnInit() {
     this.eventsOverviewService.getEvents().subscribe(
       (events: Event[]) => {
         // Handle the fetched events here
         this.events = events;
-        this.getMainColor()
+        this.setAdaptiveColors()
       });
 
   }
 
-  getMainColor():void {
-    const fac = new FastAverageColor();
-    const eventcontainer = document.getElementById('gradientContainer');
-    fac.getColorAsync(this.events[0].imageUrls[0])
-      .then(color => {
-        eventcontainer!.style.background = `linear-gradient(to bottom, ${color.rgba} 0%, transparent)`;
-
-        // maakt text wit als kleur donker is, misschien handig voor later. maar voor nublijft de kaart wit
-        //eventcontainer!.style.color = kleur.isDark ? '#fff' : '#000';
+  setAdaptiveColors():void {
+    const gradientContainer = document.getElementById('gradientContainer');
+    const adaptiveColor = new AdaptiveColor();
+    adaptiveColor.getSchemeFromImageFast(this.events[0].imageUrls[0])
+      .then(scheme => {
+        const onPrimaryFixedVariant = MaterialDynamicColors.primaryContainer.getArgb(scheme);
+        const x = adaptiveColor.argbIntToRgba(onPrimaryFixedVariant)
+        console.log(x)
+        gradientContainer!.style.background = `linear-gradient(to bottom, ${x} 0%, transparent)`;
       })
       .catch(e => {
         console.log(e);
       });
   }
-  navigateToDetails(id: string){
-      const url    = '/details/' + id;
-      this.router.navigate([url]);
-
-  }
-
-  protected readonly event = event;
 }

@@ -9,14 +9,17 @@ export interface Event {
   createdBy: string;
   createdAt: string;
   imageUrls: string[];
-  eventStartAt: string;
-  eventEndAt: string;
-  saleStartAt: string;
-  saleEndAt: string;
-  presaleStartAt: string;
-  presaleEndAt: string;
-  presalePasswordHash: string;
+  eventStartAt: Date;
+  eventEndAt: Date;
+  saleStartAt: Date;
+  saleEndAt: Date;
+  presaleStartAt: Date;
+  presaleEndAt: Date;
+  presaleCode: string;
   visibility: Visibility;
+  availableSeats: number;
+  totalSeats: number;
+  lowestPrice: number | undefined;
 }
 
 export enum Visibility {
