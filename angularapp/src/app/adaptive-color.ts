@@ -2,9 +2,9 @@ import {
   DynamicScheme,
   Hct,
   QuantizerCelebi,
-  SchemeContent,
+  SchemeContent, SchemeTonalSpot,
   SchemeVibrant,
-  Score, TonalPalette
+  Score
 } from "@material/material-color-utilities";
 import {FastAverageColor, FastAverageColorResult, FastAverageColorRgba} from "fast-average-color";
 
@@ -27,12 +27,13 @@ export class AdaptiveColor {
   getSchemeFromImageFast(
     imageSrc: string,
     isDark: boolean = false,
-    schemeType: IDynamicScheme = SchemeVibrant,
+    schemeType: IDynamicScheme = SchemeTonalSpot,
   ) {
     return new Promise<SchemeContent>((resolve) => {
       this.getFastAverageColor(imageSrc).then(color => {
         const argb = this.fastAverageColorRgbaToArgbInt(color.value);
-        const scheme = new schemeType(Hct.fromInt(argb), isDark, 0);
+        console.log(color.rgba)
+          const scheme = new schemeType(Hct.fromInt(argb), isDark, 0.39);
         resolve(scheme);
       })
     });
@@ -99,7 +100,7 @@ export class AdaptiveColor {
     return `rgba(${red}, ${green}, ${blue}, ${alpha / 255})`;
   }
 
-  argbIntToRgb(argb: number, alpha: number): string {
+  argbIntToRgb(argb: number, alpha: number = 1): string {
     const red = (argb >> 16) & 0xff;   // Extract red component
     const green = (argb >> 8) & 0xff;  // Extract green component
     const blue = argb & 0xff;          // Extract blue component

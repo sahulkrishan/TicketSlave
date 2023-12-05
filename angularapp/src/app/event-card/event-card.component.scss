@@ -8,6 +8,13 @@ mat-card-content {
 mat-card {
   border-radius: 16px;
   overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.2, 0.0, 0, 1.0);
+  &:hover{
+    color:#fff;
+    opacity:1;
+    transform:scale(1.04);
+    z-index: 10;
+   }
 }
 .seeMoreButton{
   align-items: center;
@@ -41,6 +48,7 @@ mat-card {
   word-wrap: break-word;
   overflow: hidden;
   white-space: nowrap;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .event-card-description {
@@ -50,4 +58,5 @@ mat-card {
   overflow: hidden;
   max-height: 3.6em;
   line-height: 1.8em;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
 }

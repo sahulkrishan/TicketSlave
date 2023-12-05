@@ -1,8 +1,8 @@
 <mat-card class="aspect-video object-cover bg-cover bg-center mat-typography" [style.background-image]="'url(' + eventData.imageUrls[0] + ')'">
   <mat-card-content class="event-card-content" id="{{eventData.id}}">
-    <div class="event-card-about">
-      <h2 class="event-card-title !m-0">{{ eventData.title }}</h2>
-      <p class="event-card-description !m-0">{{ eventData.description}}</p>
+    <div class="event-card-about flex-grow">
+      <h2 class="event-card-title !m-0" [style.color]="titleColor">{{ eventData.title }}</h2>
+      <p class="event-card-description !m-0" [style.color]="subtitleColor">{{ eventData.description}}</p>
     </div>
     <button id="fab-{{eventData.id}}" mat-fab color="primary" (click)="navigateToEventDetails(eventData.id)">
       <mat-icon>chevron_right</mat-icon>
