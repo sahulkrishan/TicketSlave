@@ -5,7 +5,7 @@ using webapi.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
 
-        
+
 builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "angularapp/dist";
@@ -18,11 +18,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
         options.Password.RequiredLength = 12;
-        options.Password.RequireDigit = true; 
-        options.Password.RequireLowercase = true; 
-        options.Password.RequireUppercase = true; 
-        options.Password.RequireNonAlphanumeric = true; 
-        
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+
         options.User.RequireUniqueEmail = true;
         options.SignIn.RequireConfirmedEmail = true;
     })
@@ -43,7 +43,7 @@ builder.Services.AddControllers()
                     Description = error.ErrorMessage
                 }))
                 .ToList();
-            
+
             return new BadRequestObjectResult(errors)
             {
                 ContentTypes = { "application/problem+json" }
@@ -82,7 +82,7 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseSpaStaticFiles();
 }
-app.UseCors(b => 
+app.UseCors(b =>
     b.WithOrigins("http://localhost:4200"));
 
 app.UseAuthorization();

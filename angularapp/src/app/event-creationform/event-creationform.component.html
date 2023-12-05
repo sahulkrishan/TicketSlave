@@ -1,0 +1,63 @@
+<form #eventForm="ngForm">
+  <mat-form-field>
+    <input matInput placeholder="Titel" id="title" name="title" maxlength="20" required [(ngModel)]="event.title" #title="ngModel">
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="Beschrijving" id="description" name="description" maxlength="1000" required [(ngModel)]="event.description" #description="ngModel"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Selecteer een locatie</mat-label>
+    <mat-select [(value)]="selectedLocation" (selectionChange)="onLocationSelectionChange()" required>
+      <mat-option *ngFor="let location of locations" [value]="location">{{ location.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <textarea matInput placeholder="imageurls" id="imageUrls" name="imageUrls" maxlength="1000" required ngModel #imageUrls></textarea>
+  </mat-form-field>
+  <!-- Date Range Picker for eventStartAt and eventEndAt -->
+  <mat-form-field class="example-form-field">
+    <mat-label>Event Date Range</mat-label>
+    <mat-date-range-input [rangePicker]="eventDateRangePicker" name="eventDateRange">
+      <input matStartDate placeholder="Start Date" [(ngModel)]="event.eventStartAt" name="eventStartAt" required>
+      <input matEndDate placeholder="End Date" [(ngModel)]="event.eventEndAt" name="eventEndAt" required>
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="eventDateRangePicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #eventDateRangePicker></mat-date-range-picker>
+  </mat-form-field>
+
+
+  <!-- Date Range Picker for saleStartAt and saleEndAt -->
+  <mat-form-field class="example-form-field">
+    <mat-label>Sale Date Range</mat-label>
+    <mat-date-range-input [rangePicker]="saleDateRangePicker" [comparisonStart]="event.eventStartAt" [comparisonEnd]="event.eventEndAt" name="saleDateRange">
+      <input matStartDate placeholder="Start Date" [(ngModel)]="event.saleStartAt" name="saleStartAt" required>
+      <input matEndDate placeholder="End Date" [(ngModel)]="event.saleEndAt" name="saleEndAt" required>
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="saleDateRangePicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #saleDateRangePicker></mat-date-range-picker>
+  </mat-form-field>
+
+  <!-- Date Range Picker for presaleStartAt and presaleEndAt -->
+  <mat-form-field class="example-form-field">
+    <mat-label>Presale Date Range</mat-label>
+    <mat-date-range-input [rangePicker]="presaleDateRangePicker" [comparisonStart]="event.eventStartAt"  [comparisonEnd]="event.saleEndAt" name="presaleDateRange">
+      <input matStartDate placeholder="Start Date" [(ngModel)]="event.presaleStartAt" name="presaleStartAt">
+      <input matEndDate placeholder="End Date" [(ngModel)]="event.presaleEndAt" name="presaleEndAt">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="presaleDateRangePicker"></mat-datepicker-toggle>
+    <mat-date-range-picker #presaleDateRangePicker></mat-date-range-picker>
+  </mat-form-field>
+
+  <mat-form-field class="example-form-field">
+    <input matInput placeholder="Presale Code" type="password" id="presalePasswordHash" name="presalePasswordHash" [(ngModel)]="event.presaleCode" #presalePasswordHash="ngModel">
+  </mat-form-field>
+
+  <!-- Rest of the form fields -->
+  <!-- Dropdown for LocationId -->
+  <!-- Multiple photo URL fields -->
+  <!-- Submit button -->
+  <button mat-raised-button color="primary" (click)="submitForm(eventForm)">Submit</button>
+</form>

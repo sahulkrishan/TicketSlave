@@ -5,7 +5,6 @@ namespace webapi.Classes
     public class EventDto
     {
         [Key]
-        [Required]
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -19,7 +18,7 @@ namespace webapi.Classes
         public DateTime SaleEndAt { get; set; }
         public DateTime PresaleStartAt { get; set; }
         public DateTime PresaleEndAt { get; set; }
-        public DateTime PresaleCode { get; set; }
+        public string PresaleCode { get; set; }
         public Visibility Visibility { get; set; }
         public int AvailableSeats { get; set; }
         public int TotalSeats { get; set; }

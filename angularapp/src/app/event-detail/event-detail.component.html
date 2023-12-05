@@ -1,5 +1,4 @@
-<app-event-carousel *ngIf="this.currentEvent !== undefined" [eventData]="this.currentEvent!" [moreInfoButtonVisible] = "false">
-</app-event-carousel>
+<app-event-carousel *ngIf="this.currentEvent !== undefined" [eventData]="this.currentEvent!" [moreInfoButtonVisible] = "false"/>
 <mat-grid-list id="dataList" cols="2" rowHeight="6:1" style="width: 100%; height: 100%;">
   <mat-grid-tile>
     <div class="tile-content">
@@ -13,7 +12,8 @@
   </mat-grid-tile>
   <mat-grid-tile>
     <div class="tile-content">
-      <p>{{this.currentEvent?.location?.id}}</p>
+      <p>{{this.currentEvent?.location?.name}}</p>
+      <p>{{this.currentEvent?.eventStartAt}} </p>
     </div>
   </mat-grid-tile>
   <mat-grid-tile>

@@ -124,7 +124,7 @@ export class LoginComponent {
           this.loginForm.disable();
           setTimeout(() => {
             this.router.navigate(['/']).then(r => console.log(r));
-          }, 300)
+          }, 1000)
         }
       }
     );

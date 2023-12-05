@@ -53,9 +53,9 @@ export class EventCarouselComponent implements OnInit {
       return `Tickets te koop vanaf ${this.eventData.saleStartAt.toLocaleDateString()}`;
     } else if (this.eventData.availableSeats === 0) {
       return 'Uitverkocht';
-    } else if (this.eventData.totalSeats * 0.1 < this.eventData.availableSeats) {
-      return this.eventData.lowestPrice !== undefined ? `Bijna uitverkocht! Koop nu je tickets vanaf €${this.eventData.lowestPrice!.toFixed(2)}.` : 'Bijna uitverkocht!';
-    } else if (this.eventData.availableSeats > 0 && this.eventData.lowestPrice !== undefined) {
+    } else if (this.eventData.availableSeats != undefined && this.eventData.totalSeats != undefined && this.eventData.totalSeats * 0.1 < this.eventData.availableSeats) {
+      return this.eventData.lowestPrice !== undefined ? `Bijna uitverkocht! Koop nu je tickets vanaf €${this.eventData.lowestPrice.toFixed(2)}.` : 'Bijna uitverkocht!';
+    } else if (this.eventData.availableSeats != undefined && this.eventData.availableSeats > 0 && this.eventData.lowestPrice !== undefined) {
       return `Tickets verkrijgbaar vanaf €${this.eventData.lowestPrice.toFixed(2)}`;
     }
     return undefined;

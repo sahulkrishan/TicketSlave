@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  HttpClient
+  HttpClient, HttpHeaders
 } from '@angular/common/http';
-import {Event} from "../app/interfaces/event";
+import {Event, EventDto} from "../app/interfaces/event";
 import {BaseService} from "./base.service";
 
 
@@ -21,7 +21,14 @@ export class EventService extends BaseService  {
     return this.http.get<Event[]>(this.apiUrl);
   }
   getEventById(id: string): Observable<Event> {
-    return this.http.get<Event>(this.apiUrl + id);
+    return this.http.get<Event>(this.apiUrl + '/' + id);
   }
-
+  createEvent(event: EventDto){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post<EventDto>(this.apiUrl, event, httpOptions);
+  }
 }

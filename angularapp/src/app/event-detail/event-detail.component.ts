@@ -8,6 +8,7 @@ import {EventCardComponent} from "../event-card/event-card.component";
 import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FastAverageColor} from "fast-average-color";
+import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
 
 
 export interface Tile {
@@ -19,7 +20,7 @@ export interface Tile {
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [CommonModule, EventCarouselComponent, EventCardComponent, MatButtonModule, MatGridListModule],
+  imports: [CommonModule, EventCarouselComponent, EventCardComponent, MatButtonModule, MatGridListModule, NavigationBarComponent],
   templateUrl: './event-detail.component.html',
   styleUrl: './event-detail.component.css'
 })
@@ -30,16 +31,12 @@ export class EventDetailComponent implements OnInit{
   ngOnInit() {
     // Subscribe to route parameter changes
     this.route.paramMap.subscribe(params => {
-      // Get the ID from the URL
       const id = params.get('id');
 
-      // Do something with the extracted ID
-      console.log('ID from URL:', id);
-
-      // You can perform further actions with this ID here
       if(id){
         this.eventsOverViewService.getEventById(id).subscribe(result => {
           this.currentEvent = result;
+          console.log(result)
           this.getMainColor()
         });
       }

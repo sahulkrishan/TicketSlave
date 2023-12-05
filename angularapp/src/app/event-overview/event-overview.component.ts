@@ -9,13 +9,16 @@ import {MatIconModule} from "@angular/material/icon";
 import {SectionHeaderComponent} from "../section-header/section-header.component";
 import {AdaptiveColor} from "../adaptive-color";
 import {MaterialDynamicColors} from "@material/material-color-utilities";
+import {Router} from "@angular/router";
+import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
+import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
 
 
 
 @Component({
   selector: 'app-event-overview',
   standalone: true,
-  imports: [MatGridListModule, CommonModule, EventCardComponent, EventCarouselComponent, MatIconModule, SectionHeaderComponent],
+  imports: [MatGridListModule, CommonModule, EventCardComponent, EventCarouselComponent, MatIconModule, SectionHeaderComponent, NavigationBarComponent, MatPaginatorModule],
   templateUrl: './event-overview.component.html',
   styleUrls: ['./event-overview.component.scss']
 })
