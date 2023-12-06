@@ -23,11 +23,11 @@
   height: 64px;
 }
 
-::ng-deep .mdc-notched-outline__leading {
-  width: 32px !important;
-  border-radius: 100px 0 0 100px !important;
-}
+/*::ng-deep .mdc-notched-outline__leading {*/
+/*  width: 32px !important;*/
+/*  border-radius: 100px 0 0 100px !important;*/
+/*}*/
 
-::ng-deep .mdc-notched-outline__trailing {
-  border-radius: 0 100px 100px 0 !important;
-}
+/*::ng-deep .mdc-notched-outline__trailing {*/
+/*  border-radius: 0 100px 100px 0 !important;*/
+/*}*/

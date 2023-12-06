@@ -27,7 +27,7 @@ export class AdaptiveColor {
   getSchemeFromImageFast(
     imageSrc: string,
     isDark: boolean = false,
-    schemeType: IDynamicScheme = SchemeTonalSpot,
+    schemeType: IDynamicScheme = SchemeVibrant,
   ) {
     return new Promise<SchemeContent>((resolve) => {
       this.getFastAverageColor(imageSrc).then(color => {
