@@ -36,7 +36,6 @@ export class EventDetailComponent implements OnInit{
       if(id){
         this.eventsOverViewService.getEventById(id).subscribe(result => {
           this.currentEvent = result;
-          console.log(result)
           this.getMainColor()
         });
       }

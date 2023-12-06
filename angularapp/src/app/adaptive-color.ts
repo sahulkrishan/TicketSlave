@@ -32,7 +32,6 @@ export class AdaptiveColor {
     return new Promise<SchemeContent>((resolve) => {
       this.getFastAverageColor(imageSrc).then(color => {
         const argb = this.fastAverageColorRgbaToArgbInt(color.value);
-        console.log(color.rgba)
           const scheme = new schemeType(Hct.fromInt(argb), isDark, 0.39);
         resolve(scheme);
       })

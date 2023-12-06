@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using webapi.Classes;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace webapi.Controllers;
 
@@ -28,14 +24,17 @@ public class EventController : ControllerBase
             .Where(e => e.Visibility == Visibility.Visible)
             .Select(x => EventDto.FromEvent(x))
             .ToListAsync();
-        
+        var eventIds = foundedEvents.Select(e => e.Id).ToList();
+        var eventSeats = await _context.EventSeats.Where(s => eventIds.Contains(s.EventId)).ToListAsync();
         foreach (var e in foundedEvents)
         {
-            e.AvailableSeats = _context.EventSeats.Count(s => s.EventId == e.Id && s.Status == EventSeatStatus.Available);
-            e.TotalSeats = _context.EventSeats.Count(s => s.EventId == e.Id);
-            
-            var availableSeats = _context.EventSeats.Where(s => s.EventId == e.Id && s.Status == EventSeatStatus.Available).ToList();
-    
+            e.AvailableSeats =
+                eventSeats.Count(s => s.EventId == e.Id && s.Status == EventSeatStatus.Available);
+            e.TotalSeats = eventSeats.Count(s => s.EventId == e.Id);
+
+            var availableSeats = eventSeats
+                .Where(s => s.EventId == e.Id && s.Status == EventSeatStatus.Available).ToList();
+
             if (availableSeats.Any())
             {
                 e.LowestPrice = availableSeats.Min(s => s.Price);
@@ -48,13 +47,14 @@ public class EventController : ControllerBase
 
         return Ok(foundedEvents);
     }
-    
+
     [HttpGet]
     [Route("active")]
     public async Task<ActionResult<List<EventDto>>> GetActiveEvents()
     {
         var foundedEvents = await _context.Events
-            .Where(e => e.SaleStartAt < DateTime.UtcNow && e.SaleEndAt > DateTime.UtcNow && e.Visibility == Visibility.Visible)
+            .Where(e => e.SaleStartAt < DateTime.UtcNow && e.SaleEndAt > DateTime.UtcNow &&
+                        e.Visibility == Visibility.Visible)
             .Select(x => EventDto.FromEvent(x))
             .ToListAsync();
         return Ok(foundedEvents);
@@ -69,15 +69,14 @@ public class EventController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles=ApplicationRoles.Admin)]
+    [Authorize(Roles = ApplicationRoles.Admin)]
     public async Task<ActionResult<Event>> CreateEvent([FromBody] EventDto @event)
     {
         var location = await _context.Locations.FindAsync(@event.LocationId);
         if (location == null) return NotFound(ResponseResult.LocationNotFoundError);
-        
+
         var newEvent = new Event
         {
-            Id = @event.Id,
             Title = @event.Title,
             Description = @event.Description,
             ImageUrls = @event.ImageUrls,
@@ -94,7 +93,7 @@ public class EventController : ControllerBase
             PresaleCode = @event.PresaleCode,
             Visibility = @event.Visibility,
         };
-        
+
         try
         {
             _context.Events.Add(newEvent);
@@ -102,19 +101,19 @@ public class EventController : ControllerBase
         }
         catch (DbUpdateConcurrencyException)
         {
-            return StatusCode (500, ResponseResult.FailedToAddObjectError);
+            return StatusCode(500, ResponseResult.FailedToAddObjectError);
         }
-        
+
         return Ok(newEvent);
     }
 
     [HttpDelete("{id:guid}")]
-    [Authorize(Roles=ApplicationRoles.Admin)]
+    [Authorize(Roles = ApplicationRoles.Admin)]
     public async Task<ActionResult> Delete(Guid id)
     {
         var foundedEvent = await _context.Events.FindAsync(id);
         if (foundedEvent == null) return NotFound();
-        
+
         try
         {
             _context.Events.Remove(foundedEvent);
@@ -124,7 +123,7 @@ public class EventController : ControllerBase
         {
             return StatusCode(500, ResponseResult.FailedToDeleteObjectError);
         }
-        
+
         return Ok();
     }
 }

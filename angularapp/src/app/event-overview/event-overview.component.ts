@@ -43,7 +43,7 @@ export class EventOverviewComponent implements OnInit {
     const adaptiveColor = new AdaptiveColor();
     adaptiveColor.getSchemeFromImageFast(this.events[0].imageUrls[0])
       .then(scheme => {
-        const onPrimaryFixedVariant = MaterialDynamicColors.primaryContainer.getArgb(scheme);
+        const onPrimaryFixedVariant = scheme.primaryPalette.tone(20);
         const x = adaptiveColor.argbIntToRgba(onPrimaryFixedVariant)
         console.log(x)
         gradientContainer!.style.background = `linear-gradient(to bottom, ${x} 0%, transparent)`;

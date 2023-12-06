@@ -18,7 +18,7 @@
 .navigation-bar {
   position: fixed;
   background: rgba(0, 0, 0, 0.20);
-  backdrop-filter: blur(250px);
+  backdrop-filter: blur(80px);
   z-index: 999;
   height: 64px;
 }
