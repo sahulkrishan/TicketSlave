@@ -46,7 +46,7 @@ export class EventOverviewComponent implements OnInit {
         const onPrimaryFixedVariant = scheme.primaryPalette.tone(20);
         const x = adaptiveColor.argbIntToRgba(onPrimaryFixedVariant)
         console.log(x)
-        gradientContainer!.style.background = `linear-gradient(to bottom, ${x} 0%, transparent)`;
+        gradientContainer!.style.background = `linear-gradient(to bottom, ${x} 45%, transparent)`;
       })
       .catch(e => {
         console.log(e);

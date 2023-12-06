@@ -72,12 +72,15 @@ export class EventCardComponent implements AfterViewInit {
 
   getChipText(): string | undefined {
     const currentDate = new Date();
-    if (this.eventData.availableSeats != undefined && this.eventData.availableSeats > 0 && this.eventData.saleStartAt < currentDate) {
+    const saleDate = new Date(this.eventData.saleStartAt)
+    console.log(currentDate)
+    console.log(saleDate)
+    if (this.eventData.availableSeats != undefined && this.eventData.totalSeats != undefined &&  Math.ceil(this.eventData.totalSeats * 0.1 )  < this.eventData.availableSeats) {
+      return 'Bijna uitverkocht';
+    } else if (this.eventData.availableSeats != undefined && this.eventData.availableSeats > 0 && saleDate < currentDate) {
       return `Tickets verkrijgbaar`;
     } else if (this.eventData.availableSeats === 0) {
       return 'Uitverkocht';
-    } else if (this.eventData.availableSeats != undefined && this.eventData.totalSeats != undefined && this.eventData.totalSeats * 0.1 < this.eventData.availableSeats) {
-      return 'Bijna uitverkocht';
     } else if (this.eventData.presaleStartAt < currentDate && this.eventData.saleStartAt > currentDate) {
       return `Presale gestart`;
     }
