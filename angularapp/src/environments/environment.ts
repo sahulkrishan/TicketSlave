@@ -1,5 +1,8 @@
 export const environment = {
-  production: true,
   config: "prod",
-  baseHref: '/ticketslave'
+  production: true,
+  staging: false,
+  development: true,
+  baseHref: '/ticketslave',
+  applicationName: 'TicketSlave (Development)',
 };
