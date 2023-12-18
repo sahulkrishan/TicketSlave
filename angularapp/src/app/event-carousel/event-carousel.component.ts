@@ -1,5 +1,5 @@
 import {booleanAttribute, Component, Input, OnInit} from '@angular/core';
-import {Event} from "../interfaces/event";
+import {Event} from "../../interfaces/event";
 import {MatButtonModule} from "@angular/material/button";
 import {RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common";

@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Event, EventDto} from "../interfaces/event";
+import {Event, EventDto} from "../../interfaces/event";
 import {FormsModule, NgForm} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -13,7 +13,7 @@ import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatListModule} from "@angular/material/list";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatSelectModule} from "@angular/material/select";
-import {Location} from "../interfaces/location";
+import {Location} from "../../interfaces/location";
 import {LocationsService} from "../../service/locations.service";
 import {Router} from "@angular/router";
 import {EventService} from "../../service/event.service";

@@ -16,6 +16,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthComponent} from "../auth/auth.component";
+import {AccountService} from "../../service/account.service";
 
 @Component({
   selector: 'app-login',
@@ -64,7 +65,8 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private accountService: AccountService
   ) {
     this.loginForm = this.formBuilder.group<LoginForm>({
       email: new FormControl(
@@ -114,6 +116,7 @@ export class LoginComponent {
         complete: () => {
           this.loading = false;
           this.isLoggedIn = true;
+          this.loginForm.disable();
 
           this.bannerOptions = {
             state: BannerState.success,
@@ -121,10 +124,7 @@ export class LoginComponent {
             description: 'Je wordt over enkele ogenblikken doorgestuurd.',
             visible: true,
           }
-          this.loginForm.disable();
-          setTimeout(() => {
-            this.router.navigate(['/']).then(r => console.log(r));
-          }, 1000)
+          this.accountService.fetchUserProfile();
         }
       }
     );

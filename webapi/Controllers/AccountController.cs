@@ -25,7 +25,6 @@ public class AccountController: ControllerBase
   }
   
   [HttpGet]
-  [Route("profile")]
   public async Task<ActionResult<UserDto>> GetCurrentUser()
   {
     var user = await _userManager.GetUserAsync(User);

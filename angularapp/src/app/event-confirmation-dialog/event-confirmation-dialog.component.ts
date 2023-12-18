@@ -7,7 +7,7 @@ import {
   MatDialogContent,
   MatDialogTitle
 } from "@angular/material/dialog";
-import {Event} from "../interfaces/event";
+import {Event} from "../../interfaces/event";
 import {MatListModule} from "@angular/material/list";
 import {MatButtonModule} from "@angular/material/button";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";

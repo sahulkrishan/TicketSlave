@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Location} from "../app/interfaces/location";
+import {Location} from "../interfaces/location";
 import {BaseService} from "./base.service";
 
 @Injectable({

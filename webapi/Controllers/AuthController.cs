@@ -142,4 +142,12 @@ public class AuthController : ControllerBase
         var result = await _userManager.ConfirmEmailAsync(user, token);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
     }
+    
+    [HttpGet]
+    [Route("IsAuthenticated")]
+    public async Task<ActionResult<bool>> IsAuthenticated()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        return Ok(user == null ? false : User.Identity?.IsAuthenticated);
+    }
 }

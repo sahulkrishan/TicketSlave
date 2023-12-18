@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {EventCarouselComponent} from "../event-carousel/event-carousel.component";
 import {ActivatedRoute} from "@angular/router";
 import {EventService} from "../../service/event.service";
-import {Event} from "../interfaces/event";
+import {Event} from "../../interfaces/event";
 import {EventCardComponent} from "../event-card/event-card.component";
 import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";

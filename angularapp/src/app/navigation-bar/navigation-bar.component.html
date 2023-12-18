@@ -10,6 +10,8 @@
       }
     </mat-autocomplete>
   </mat-form-field>
+  <button mat-button routerLink="/auth" *ngIf="!signedIn">Inloggen</button>
+  <button mat-button routerLink="/account" *ngIf="signedIn">Hallo, {{user?.firstName}}</button>
   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
     <mat-icon>more_vert</mat-icon>
   </button>

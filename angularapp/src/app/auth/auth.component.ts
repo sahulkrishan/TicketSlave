@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RegisterComponent} from "../register/register.component";
 import {LoginComponent} from "../login/login.component";
@@ -6,6 +6,10 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
 import {BannerOptions, BannerState} from "../banner/banner.component";
+import {EventService} from "../../service/event.service";
+import {Router} from "@angular/router";
+import {AccountService} from "../../service/account.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-auth',
@@ -25,10 +29,33 @@ import {BannerOptions, BannerState} from "../banner/banner.component";
     ]),
   ]
 })
-export class AuthComponent {
+export class AuthComponent implements OnDestroy {
   readonly AuthState = AuthState;
   authState: AuthState = AuthState.login;
   registrationCompleted: boolean = false;
+
+  signedInSubscription: Subscription;
+
+  constructor(
+    private router : Router,
+    private accountService: AccountService
+  ) {
+    this.signedInSubscription = this.accountService.signedIn$.subscribe({
+      next: (isSignedIn) => {
+        if (isSignedIn) {
+          console.log("Signed in, redirecting");
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          }, 2000)
+        }
+      }
+    })
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe when the component is destroyed to prevent memory leaks
+    this.signedInSubscription.unsubscribe();
+  }
 
   changeAuthState(state: AuthState, registrationCompleted?: boolean) {
     this.authState = state;

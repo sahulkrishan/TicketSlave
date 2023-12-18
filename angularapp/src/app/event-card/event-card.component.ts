@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import {Event} from "../interfaces/event";
+import {Event} from "../../interfaces/event";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {CommonModule} from "@angular/common";
 import {MatCardModule} from "@angular/material/card";
@@ -73,8 +73,6 @@ export class EventCardComponent implements AfterViewInit {
   getChipText(): string | undefined {
     const currentDate = new Date();
     const saleDate = new Date(this.eventData.saleStartAt)
-    console.log(currentDate)
-    console.log(saleDate)
     if (this.eventData.availableSeats != undefined && this.eventData.totalSeats != undefined &&  Math.ceil(this.eventData.totalSeats * 0.1 )  < this.eventData.availableSeats) {
       return 'Bijna uitverkocht';
     } else if (this.eventData.availableSeats != undefined && this.eventData.availableSeats > 0 && saleDate < currentDate) {
