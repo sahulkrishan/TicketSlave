@@ -1,0 +1,13 @@
+<div class="center-list">
+  <h2>Locaties</h2>
+
+  <mat-selection-list class="custom-list-container" *ngIf="locations.length > 0">
+    <mat-list-item *ngFor="let location of locations" (click)="NavigateToDetails(location.id)">
+      <h3 matLine>{{ location.name }}</h3>
+    </mat-list-item>
+  </mat-selection-list>
+
+  <div *ngIf="locations.length === 0">
+    <p>Geen locaties beschikbaar.</p>
+  </div>
+</div>

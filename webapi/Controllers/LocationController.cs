@@ -19,12 +19,12 @@ namespace webapi.Controllers
             var list = await _context.Locations.ToListAsync();
             return Ok(list);
         }
-
         // GET api/<locationController>/5
         [HttpGet("{id:guid}")]
-        public string Get(Guid id)
+        public async Task<ActionResult<Location>> GetLocationById(Guid id)
         {
-            return "value";
+            var foundedLocation = await _context.Locations.FindAsync(id);
+            if (foundedLocation == null) return NotFound(); return Ok(foundedLocation);
         }
 
         // POST api/<locationController>
