@@ -58,3 +58,39 @@ mat-form-field, mat-checkbox {
   margin-left: auto;
   margin-right: auto;
 }
+
+.wrapping-horizontal-list {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.glass-card {
+  background: rgba(25, 25, 25, 0.4);
+  backdrop-filter: blur(50px);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+
+  .glass-card-header {
+    width: 100%;
+    box-sizing: border-box;
+    padding: $card-padding $card-padding $card-gap;
+  }
+
+  .glass-card-content {
+    padding: 0 $card-padding $card-padding;
+  }
+}
+
+.default-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+  width: 100%;
+  mat-form-field, mat-checkbox {
+    width: 100%;
+  }
+}

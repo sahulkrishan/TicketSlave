@@ -1,9 +1,9 @@
-<mat-card class="mat-typography auth-card">
+<mat-card class="mat-typography glass-card auth-card">
 
   <app-banner
     [bannerOptions]="bannerOptions"/>
 
-  <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.Form">
+  <div class="glass-card-header auth-card-header" *ngIf="registrationStep === RegistrationStep.Form">
     <mat-icon>person_add</mat-icon>
     <div class="text-center">
       <div class="zero-margin mat-headline-5">Registreren</div>
@@ -15,11 +15,12 @@
       mat-stroked-button
       type="button"
       color="primary"
+      [routerLink]="AppRoutes.AUTH_LOGIN"
       (click)="goToLogin.emit(false)">
       Heb je al een account?
     </button>
   </div>
-  <div class="auth-card-header" *ngIf="registrationStep === RegistrationStep.ConfirmationRequired">
+  <div class="glass-card-header auth-card-header" *ngIf="registrationStep === RegistrationStep.ConfirmationRequired">
     <mat-icon>mail</mat-icon>
     <div class="text-center">
       <p class="zero-margin mat-headline-5">Controleer uw email</p>
@@ -45,11 +46,11 @@
     </div>
   </div>
 
-  <mat-card-content class="auth-card-content" *ngIf="registrationStep === RegistrationStep.Form">
+  <mat-card-content class="glass-card-content auth-card-content" *ngIf="registrationStep === RegistrationStep.Form">
     <form
       [formGroup]="registrationForm"
       (ngSubmit)="submitForm()"
-      class="auth-form">
+      class="default-form">
 
       <div class="wrapping-horizontal-list">
         <mat-form-field appearance="outline" subscriptSizing="dynamic">

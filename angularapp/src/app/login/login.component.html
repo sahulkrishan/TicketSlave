@@ -1,9 +1,9 @@
-<mat-card class="mat-typography auth-card">
+<mat-card class="mat-typography glass-card auth-card">
 
   <app-banner
     [bannerOptions]="bannerOptions"/>
 
-  <div class="auth-card-header">
+  <div class="glass-card-header auth-card-header">
     <mat-icon>login</mat-icon>
     <div class="text-center">
       <p class="zero-margin mat-headline-5">Inloggen</p>
@@ -13,18 +13,19 @@
       mat-stroked-button
       type="button"
       color="primary"
+      [routerLink]="AppRoutes.AUTH_REGISTER"
       (click)="goToRegistration.emit(loginForm.controls.email.value)">
       Nog geen account?
     </button>
   </div>
 
 
-  <mat-card-content class="auth-card-content">
+  <mat-card-content class="glass-card-content auth-card-content">
     <form
       [formGroup]="loginForm"
       (ngSubmit)="performLogin()"
 
-      class="auth-form">
+      class="default-form">
 
       <mat-form-field id="fn" appearance="outline" subscriptSizing="dynamic">
         <mat-label>E-mailadres</mat-label>

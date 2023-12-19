@@ -2,7 +2,7 @@ export const environment = {
   config: "prod",
   production: true,
   staging: false,
-  development: true,
+  development: false,
   baseHref: '/ticketslave',
   applicationName: 'TicketSlave (Development)',
 };

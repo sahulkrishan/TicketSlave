@@ -1,6 +1,6 @@
 import {booleanAttribute, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {LoginForm} from "../../model/login.form";
 import {LoginModel} from "../../model/login.model";
@@ -17,12 +17,13 @@ import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.comp
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthComponent} from "../auth/auth.component";
 import {AccountService} from "../../service/account.service";
+import {AppRoutes} from "../app-routing.module";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, MatCommonModule, MatCardModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatInputModule, MatTooltipModule, MatProgressSpinnerModule, BannerComponent],
+  imports: [CommonModule, MatCommonModule, MatCardModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatInputModule, MatTooltipModule, MatProgressSpinnerModule, BannerComponent, RouterLink],
   standalone: true,
   animations: [
     trigger(
@@ -49,6 +50,7 @@ import {AccountService} from "../../service/account.service";
   ]
 })
 export class LoginComponent {
+  // @Input() loading: boolean = true;
   @Output() goToRegistration = new EventEmitter<string>();
   loginForm: FormGroup<LoginForm>;
   loading: boolean = false;
@@ -111,7 +113,7 @@ export class LoginComponent {
             this.loading = false;
             this.isLoggedIn = false;
             this.bannerOptions = AuthComponent.parseBannerError(error);
-          }, 300)
+          }, 300) // Duration must be greater than the animation duration to avoid flickering
         },
         complete: () => {
           this.loading = false;
@@ -129,4 +131,6 @@ export class LoginComponent {
       }
     );
   }
+
+  protected readonly AppRoutes = AppRoutes;
 }

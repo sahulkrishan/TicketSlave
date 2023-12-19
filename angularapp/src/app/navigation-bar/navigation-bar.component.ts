@@ -13,6 +13,7 @@ import {Router, RouterLink} from "@angular/router";
 import {EventService} from "../../service/event.service";
 import {AccountService} from "../../service/account.service";
 import {User} from "../../interfaces/user";
+import {AppRoutes} from "../app-routing.module";
 
 @Component({
   selector: 'app-navigation-bar',
@@ -72,8 +73,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
   }
 
   navigateToCreateEvent() {
-    const url = '/events/create';
-    this.router.navigate([url]);
+    this.router.navigate([`/${AppRoutes.EVENTS_CREATE}`])
 
   }
 
@@ -96,4 +96,6 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
 
     return this.events.filter(option => option.title.toLowerCase().includes(filterValue));
   }
+
+  protected readonly AppRoutes = AppRoutes;
 }

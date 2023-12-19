@@ -30,7 +30,28 @@ public class AccountController: ControllerBase
     var user = await _userManager.GetUserAsync(User);
     if (user == null)
       return NotFound();
-    var userDto = UserDto.FromApplicationUser(user);
+    var roles = await _userManager.GetRolesAsync(user);
+    var userDto = UserDto.FromApplicationUser(user, roles.ToArray());
     return Ok(userDto);
+  }
+  
+  [HttpPut]
+  public async Task<ActionResult<UserDto>> UpdateCurrentUser([FromBody] UserDto userDto)
+  {
+    var user = await _userManager.GetUserAsync(User);
+    if (user == null)
+      return NotFound();
+    user.FirstName = userDto.FirstName;
+    user.LastName = userDto.LastName;
+    await _userManager.UpdateAsync(user);
+    return Ok();
+  }
+    
+  [HttpPost]
+  [Route("Logout")]
+  public async Task<ActionResult<ResponseResult>> Logout()
+  {
+    await _signInManager.SignOutAsync();
+    return Ok();
   }
 }

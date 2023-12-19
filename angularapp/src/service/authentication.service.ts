@@ -29,11 +29,4 @@ export class AuthenticationService extends BaseService {
         catchError(this.handleError<ResponseResultModel>()) // Using handleError function
       );
   }
-
-  isAuthenticated(): Observable<boolean> {
-    return this.http.post<boolean>(this.apiUrl + '/isAuthenticated', null)
-      .pipe(
-        catchError(this.handleError<boolean>())
-      );
-  }
 }

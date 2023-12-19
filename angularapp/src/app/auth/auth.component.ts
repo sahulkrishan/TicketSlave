@@ -7,9 +7,10 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
 import {BannerOptions, BannerState} from "../banner/banner.component";
 import {EventService} from "../../service/event.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AccountService} from "../../service/account.service";
 import {Subscription} from "rxjs";
+import {AppRoutes} from "../app-routing.module";
 
 @Component({
   selector: 'app-auth',
@@ -20,16 +21,17 @@ import {Subscription} from "rxjs";
   animations: [
     trigger("fadeInOut", [
       transition(':enter', [
-        style({ opacity: 0 }),
-        animate('3500ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 1 })),
+        style({opacity: 0}),
+        animate('3500ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({opacity: 1})),
       ]),
       transition(':leave', [
-        animate('2000ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 0 })),
+        animate('2000ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({opacity: 0})),
       ]),
     ]),
   ]
 })
-export class AuthComponent implements OnDestroy {
+export class AuthComponent implements OnInit, OnDestroy {
+  private readonly logTag = '[AuthComponent]: ';
   readonly AuthState = AuthState;
   authState: AuthState = AuthState.login;
   registrationCompleted: boolean = false;
@@ -37,19 +39,28 @@ export class AuthComponent implements OnDestroy {
   signedInSubscription: Subscription;
 
   constructor(
-    private router : Router,
-    private accountService: AccountService
+    private router: Router,
+    private accountService: AccountService,
   ) {
     this.signedInSubscription = this.accountService.signedIn$.subscribe({
       next: (isSignedIn) => {
         if (isSignedIn) {
-          console.log("Signed in, redirecting");
+          console.log(this.logTag + "Already signed in, redirecting to home");
           setTimeout(() => {
             this.router.navigate(['/']);
-          }, 2000)
+          })
         }
       }
     })
+  }
+
+  ngOnInit() {
+    if (this.router.url === `/${AppRoutes.AUTH}/${AppRoutes.REGISTER}`) {
+      this.changeAuthState(AuthState.register);
+    }
+    if (this.router.url === `/${AppRoutes.AUTH}/${AppRoutes.LOGIN}`) {
+      this.changeAuthState(AuthState.login);
+    }
   }
 
   ngOnDestroy() {

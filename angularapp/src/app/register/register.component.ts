@@ -18,11 +18,13 @@ import {ErrorCode, ResponseResultModel} from "../../model/response-result.model"
 import {RegistrationModel} from "../../model/registration.model";
 import {HttpErrorResponse} from "@angular/common/http";
 import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.component";
+import {AppRoutes} from "../app-routing.module";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatCheckboxModule, NgOptimizedImage, MatGridListModule, MatProgressSpinnerModule, MatTooltipModule, BannerComponent],
+  imports: [CommonModule, MatCardModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatCheckboxModule, NgOptimizedImage, MatGridListModule, MatProgressSpinnerModule, MatTooltipModule, BannerComponent, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   animations: [
@@ -178,6 +180,7 @@ export class RegisterComponent implements OnInit {
   }
 
   protected readonly RegistrationStep = RegistrationStep;
+  protected readonly AppRoutes = AppRoutes;
 }
 
 

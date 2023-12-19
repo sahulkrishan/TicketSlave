@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import { EventService } from '../../service/event.service';
+import {AfterViewInit, Component, OnDestroy} from '@angular/core';
+import {EventService} from '../../service/event.service';
 import {MatGridListModule} from "@angular/material/grid-list";
 import {CommonModule} from "@angular/common";
 import {Event} from "../../interfaces/event";
@@ -8,32 +8,32 @@ import {EventCarouselComponent} from "../event-carousel/event-carousel.component
 import {MatIconModule} from "@angular/material/icon";
 import {SectionHeaderComponent} from "../section-header/section-header.component";
 import {AdaptiveColor} from "../adaptive-color";
-import {MaterialDynamicColors} from "@material/material-color-utilities";
-import {Router} from "@angular/router";
+import {RouterModule} from "@angular/router";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
-import {MatPaginatorModule, PageEvent} from "@angular/material/paginator";
+import {MatPaginatorModule} from "@angular/material/paginator";
 import {Subscription} from "rxjs";
-
+import {environment} from "../../environments/environment";
 
 
 @Component({
   selector: 'app-event-overview',
   standalone: true,
-  imports: [MatGridListModule, CommonModule, EventCardComponent, EventCarouselComponent, MatIconModule, SectionHeaderComponent, NavigationBarComponent, MatPaginatorModule],
+  imports: [RouterModule, MatGridListModule, CommonModule, EventCardComponent, EventCarouselComponent, MatIconModule, SectionHeaderComponent, NavigationBarComponent, MatPaginatorModule],
   templateUrl: './event-overview.component.html',
   styleUrls: ['./event-overview.component.scss']
 })
-export class EventOverviewComponent implements  OnDestroy {
+export class EventOverviewComponent implements AfterViewInit, OnDestroy {
+  private logTag = "[EventOverview]: ";
   eventsSubscription: Subscription;
   events: Event[] = []
 
   constructor(private eventService: EventService) {
-    this.eventsSubscription = this.eventService.events$.subscribe(
-      (events: Event[]) => {
-        // Handle the fetched events here
+    this.eventsSubscription = this.eventService.events$.subscribe({
+      next: (events) => {
         this.events = events;
-        this.setAdaptiveColors()
-      });
+        this.setAdaptiveColors();
+      }
+    });
   }
 
   ngOnDestroy() {
@@ -41,17 +41,30 @@ export class EventOverviewComponent implements  OnDestroy {
     this.eventsSubscription.unsubscribe();
   }
 
-  setAdaptiveColors():void {
+  ngAfterViewInit() {
+    this.setAdaptiveColors()
+  }
+
+  setAdaptiveColors(): void {
+    if (this.events.length == 0) return;
     const gradientContainer = document.getElementById('gradientContainer');
+    if (environment.development) {
+      console.log(this.logTag + "Setting adaptive colors...");
+      console.log(gradientContainer);
+      console.log(this.logTag + "Event image url: " + this.events[0].imageUrls[0])
+    }
     const adaptiveColor = new AdaptiveColor();
     adaptiveColor.getSchemeFromImageFast(this.events[0].imageUrls[0])
       .then(scheme => {
         const onPrimaryFixedVariant = scheme.primaryPalette.tone(20);
         const x = adaptiveColor.argbIntToRgba(onPrimaryFixedVariant)
         gradientContainer!.style.background = `linear-gradient(to bottom, ${x} 45%, transparent)`;
+        if (environment.development) {
+          console.log(this.logTag + `Generated adaptive color: ${x}`);
+        }
       })
       .catch(e => {
-        console.log(e);
+        console.error(e);
       });
   }
 }
