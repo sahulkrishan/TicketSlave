@@ -30,4 +30,15 @@ export class LocationsService extends BaseService {
     return this.http.get<Location>(this.apiUrl + '/' + id);
 
   }
+  updateLocation(location: Location){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.put<Location>(this.apiUrl, location, httpOptions)
+  }
+  deleteLocation(id: string){
+    return this.http.delete<Location>(this.apiUrl  + '/' + id)
+  }
 }

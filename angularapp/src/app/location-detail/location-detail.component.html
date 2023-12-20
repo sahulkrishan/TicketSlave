@@ -1,4 +1,4 @@
-<form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="locationForm" (ngSubmit)="readyToSubmit && onSubmit()">
   <mat-form-field>
     <input matInput formControlName="name" placeholder="Name" required [value]="location.name">
     <mat-error *ngIf="locationForm.get('name')!.hasError('required')">
@@ -62,8 +62,8 @@
   </mat-form-field>
 
   <button mat-raised-button color="primary" (click)="toggleEditMode()">
-    {{ isDisabled ? 'Bewerken toestaan' : 'Bewerken stoppen' }}
+    {{ isDisabled ? 'Bewerken starten' : 'Annuleren' }}
   </button>
 
-  <button mat-raised-button color="primary" type="submit">Submit</button>
+  <button *ngIf="this.submitBtnIsVisibile" mat-raised-button color="primary" type="submit" (click) = "onSubmit()">Submit</button>
 </form>
