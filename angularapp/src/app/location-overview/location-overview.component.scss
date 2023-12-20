@@ -1,0 +1,32 @@
+
+.center-list{
+  padding-top: 80px;
+}
+
+.custom-list-container {
+  margin: 0 auto; /* Horizontaal centreren */
+  width: 80%; /* Pas de breedte aan naar wens */
+  max-width: 600px; /* Maximale breedte van de lijstcontainer */
+  padding: 10px; /* Aangepaste padding om ruimte te bieden voor de tekst binnen de lijst */
+  border: 2px solid #ccc; /* Rand toevoegen rondom de lijstcontainer */
+}
+
+.mat-list-item {
+  border-radius: 5px; /* Voeg afgeronde hoeken toe aan de lijstitems */
+  transition: background-color 0.3s; /* Voeg een overgang toe voor een soepel hover-effect */
+  border: 1px solid #fff; /* Dunne witte rand rond elk lijstitem */
+}
+
+.mat-list-item:hover {
+  background-color: #f0f0f0; /* Aangepaste achtergrondkleur bij hover */
+}
+
+.list-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-item-content h3 {
+  margin: 0; /* Remove default margin for the <h3> element */
+}

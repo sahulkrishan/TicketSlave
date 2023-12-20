@@ -1,0 +1,65 @@
+<form [formGroup]="locationForm" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input matInput formControlName="name" placeholder="Name" required>
+    <mat-error *ngIf="locationForm.get('name')!.hasError('required')">
+      Name is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="address" placeholder="Address" required>
+    <mat-error *ngIf="locationForm.get('address')!.hasError('required')">
+      Address is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="city" placeholder="City" required>
+    <mat-error *ngIf="locationForm.get('city')!.hasError('required')">
+      City is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="postalCode" placeholder="Postal Code" required>
+    <mat-error *ngIf="locationForm.get('postalCode')!.hasError('required')">
+      Postal Code is required
+    </mat-error>
+    <mat-error *ngIf="locationForm.get('postalCode')!.hasError('pattern')">
+      Please enter a valid Postal Code (e.g., 1234 AB)
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="country" placeholder="Country" required>
+    <mat-error *ngIf="locationForm.get('country')!.hasError('required')">
+      Country is required
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="website" placeholder="Website">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="phoneNumber" placeholder="Phone Number" required>
+    <mat-error *ngIf="locationForm.get('phoneNumber')!.hasError('required')">
+      Phone Number is required
+    </mat-error>
+    <mat-error *ngIf="locationForm.get('phoneNumber')!.hasError('pattern')">
+      Please enter a valid Phone Number (10-12 digits)
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="emailAddress" placeholder="Email Address" required>
+    <mat-error *ngIf="locationForm.get('emailAddress')!.hasError('required')">
+      Email Address is required
+    </mat-error>
+    <mat-error *ngIf="locationForm.get('emailAddress')!.hasError('pattern')">
+      Please enter a valid Email Address
+    </mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>

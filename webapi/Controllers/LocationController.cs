@@ -19,12 +19,12 @@ namespace webapi.Controllers
             var list = await _context.Locations.ToListAsync();
             return Ok(list);
         }
-
         // GET api/<locationController>/5
         [HttpGet("{id:guid}")]
-        public string Get(Guid id)
+        public async Task<ActionResult<Location>> GetLocationById(Guid id)
         {
-            return "value";
+            var foundedLocation = await _context.Locations.FindAsync(id);
+            if (foundedLocation == null) return NotFound(); return Ok(foundedLocation);
         }
 
         // POST api/<locationController>
@@ -37,9 +37,23 @@ namespace webapi.Controllers
         }
 
         // PUT api/<locationController>/5
-        [HttpPut("{id:guid}")]
-        public void Put(Guid id, [FromBody] string value)
+        [HttpPut]
+        public async Task<ActionResult<Event>> UpdateLocation([FromBody] Location location)
         {
+            if(location != null)
+            {
+                var oldLocation = await _context.Locations.FindAsync(location.Id);
+                if ( oldLocation != null)
+                {
+                    _context.Remove(oldLocation);
+                    _context.Add(location);
+                    _context.SaveChangesAsync();
+                    return Ok(location);
+                }
+                return BadRequest("Didnt find the old location");
+            }
+            return BadRequest("Location is null");
+            
         }
 
         // DELETE api/<locationController>/5
@@ -51,11 +65,11 @@ namespace webapi.Controllers
             try { 
                 _context.Locations.Remove(foundedLocation);
                 await _context.SaveChangesAsync();
+                return Ok("Location deleted successfully");
             }
             catch {
-                return BadRequest("Deleting failed");
+                return BadRequest("Deleting failed succesfully");
             }
-            return Ok("Location deleted successfully");
         }
     }
 }
