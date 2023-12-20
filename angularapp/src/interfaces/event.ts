@@ -42,6 +42,26 @@ export interface EventDto {
   location?: Location;
 }
 
+export function toEvent(eventDto: EventDto): Event {
+  return {
+    createdAt: eventDto.createdAt,
+    createdBy: eventDto.createdBy,
+    description: eventDto.description,
+    eventEndAt: eventDto.eventEndAt,
+    eventStartAt: eventDto.eventStartAt,
+    id: eventDto.id ? eventDto.id : "",
+    imageUrls: eventDto.imageUrls,
+    locationId: eventDto.locationId,
+    presaleCode: eventDto.presaleCode,
+    presaleEndAt: eventDto.presaleEndAt,
+    presaleStartAt: eventDto.presaleStartAt,
+    saleEndAt: eventDto.saleEndAt,
+    saleStartAt: eventDto.saleStartAt,
+    title: eventDto.title,
+    visibility: eventDto.visibility,
+  }
+}
+
 export enum Visibility {
   Visible,
   Hidden

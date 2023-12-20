@@ -17,7 +17,6 @@ import {MatIconModule} from "@angular/material/icon";
   imports: [
     MatGridListModule,
     CommonModule,
-    EventCardComponent,
     MatCardModule,
     MatButtonModule,
     MatRippleModule,
@@ -27,8 +26,7 @@ import {MatIconModule} from "@angular/material/icon";
   styleUrls: ['./event-card.component.scss']
 })
 export class EventCardComponent implements AfterViewInit {
-  @Input()
-  eventData!: Event;
+  @Input({required: true}) eventData!: Event;
   titleColor: string = 'white';
   subtitleColor: string = 'white';
 
@@ -36,10 +34,10 @@ export class EventCardComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.getMainColor()
+    this.setAdaptiveColor()
   }
 
-  getMainColor(): void {
+  setAdaptiveColor(): void {
     const eventcontainer = document.getElementById(this.eventData.id);
     const fab = document.getElementById('fab-' + this.eventData.id);
 
@@ -73,7 +71,7 @@ export class EventCardComponent implements AfterViewInit {
   getChipText(): string | undefined {
     const currentDate = new Date();
     const saleDate = new Date(this.eventData.saleStartAt)
-    if (this.eventData.availableSeats != undefined && this.eventData.totalSeats != undefined &&  Math.ceil(this.eventData.totalSeats * 0.1 )  < this.eventData.availableSeats) {
+    if (this.eventData.availableSeats != undefined && this.eventData.totalSeats != undefined && Math.ceil(this.eventData.totalSeats * 0.1) < this.eventData.availableSeats) {
       return 'Bijna uitverkocht';
     } else if (this.eventData.availableSeats != undefined && this.eventData.availableSeats > 0 && saleDate < currentDate) {
       return `Tickets verkrijgbaar`;

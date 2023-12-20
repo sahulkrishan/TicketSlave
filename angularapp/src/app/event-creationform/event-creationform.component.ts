@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {Event, EventDto} from "../../interfaces/event";
+import {EventDto} from "../../interfaces/event";
 import {FormsModule, NgForm} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -18,24 +18,28 @@ import {LocationsService} from "../../service/locations.service";
 import {Router} from "@angular/router";
 import {EventService} from "../../service/event.service";
 import {MatNativeDateModule} from "@angular/material/core";
+import {EventCardComponent} from "../event-card/event-card.component";
+import {MatCardModule} from "@angular/material/card";
 
 
 @Component({
     selector: 'app-event-creationform',
     standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatButtonModule,
-        MatNativeDateModule,
-        MatDatepickerModule,
-        NavigationBarComponent,
-        MatButtonToggleModule,
-        MatListModule,
-        MatSelectModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    NavigationBarComponent,
+    MatButtonToggleModule,
+    MatListModule,
+    MatSelectModule,
+    EventCardComponent,
+    MatCardModule
+  ],
     templateUrl: './event-creationform.component.html',
     styleUrl: './event-creationform.component.css'
 })

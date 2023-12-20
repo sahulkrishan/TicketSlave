@@ -10,6 +10,7 @@ import {Roles} from "./roles";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {AccountLayoutComponent} from "./account/account-layout/account-layout.component";
 import {AccountProfileComponent} from "./account/account-profile/account-profile.component";
+import {AccountEventsComponent} from "./account/account-events/account-events.component";
 
 export class AppRoutes {
   public static ROOT = '';
@@ -59,6 +60,12 @@ export const routes: Routes = [
     children: [
       {path: AppRoutes.ROOT, redirectTo: AppRoutes.ACCOUNT_PROFILE, pathMatch: 'full'},
       {path: AppRoutes.ACCOUNT_PROFILE, component: AccountProfileComponent},
+      {
+        path: AppRoutes.ACCOUNT_ADMIN_EVENTS,
+        component: AccountEventsComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]}
+      },
     ]
   },
   {path: AppRoutes.FORBIDDEN, component: PageNotFoundComponent},

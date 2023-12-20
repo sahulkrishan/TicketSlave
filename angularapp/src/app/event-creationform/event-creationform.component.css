@@ -1,12 +1,8 @@
 /* Aangepaste CSS voor het formulier */
 form {
-  max-width: 600px; /* Maximale breedte van het formulier */
-  margin: auto; /* Centreert het formulier op de pagina */
-  padding: 20px; /* Ruimte rondom het formulier */
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-top: 80px;
 }
 
 mat-form-field {
