@@ -8,8 +8,8 @@ import {EventCreationformComponent} from "./event-creationform/event-creationfor
 import {authGuard} from "./auth.guard";
 import {Roles} from "./roles";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
-import {AccountComponent} from "./account/account.component";
 import {AccountLayoutComponent} from "./account/account-layout/account-layout.component";
+import {AccountProfileComponent} from "./account/account-profile/account-profile.component";
 
 export class AppRoutes {
   public static ROOT = '';
@@ -19,6 +19,10 @@ export class AppRoutes {
   public static ACCOUNT = 'account';
   public static ACCOUNT_PROFILE = `profile`;
   public static ACCOUNT_ORDERS = `orders`;
+  public static ACCOUNT_ADMIN_TICKETS = `tickets`;
+  public static ACCOUNT_ADMIN_EVENTS = `events`;
+  public static ACCOUNT_ADMIN_LOCATIONS = `locations`;
+  public static ACCOUNT_ADMIN_USERS = `users`;
   public static AUTH = 'auth';
   public static LOGIN = 'login';
   public static REGISTER = 'register'
@@ -54,7 +58,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {path: AppRoutes.ROOT, redirectTo: AppRoutes.ACCOUNT_PROFILE, pathMatch: 'full'},
-      {path: AppRoutes.ACCOUNT_PROFILE, component: AccountComponent},
+      {path: AppRoutes.ACCOUNT_PROFILE, component: AccountProfileComponent},
     ]
   },
   {path: AppRoutes.FORBIDDEN, component: PageNotFoundComponent},

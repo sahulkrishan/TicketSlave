@@ -1,1 +1,19 @@
 @import "src/app/app.component.scss";
+
+.account-drawer-content {
+  padding: 24px 48px;
+}
+
+.account-drawer {
+  background-color: rgba(0, 0, 0, 0.20);
+}
+
+.account-bg{
+  background: linear-gradient(rgba(39, 81, 189, 0.40), rgba(39, 81, 189, 0)), #000;
+  top: -64px;
+}
+
+.account-container {
+  top: 64px;
+  height: calc(100% - 64px);
+}

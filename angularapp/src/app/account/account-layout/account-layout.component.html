@@ -1,10 +1,12 @@
-<mat-drawer-container class="h-full">
-  <mat-drawer class="h-full" mode="side" opened>
+<div class="absolute account-bg h-full w-full"></div>
+<mat-drawer-container class="h-full !bg-transparent account-container">
+  <mat-drawer class="h-full account-drawer" mode="side" opened>
     <app-account-item-list/>
   </mat-drawer>
 
-  <mat-drawer-content>
+  <mat-drawer-content class="account-drawer-content">
     <router-outlet/>
   </mat-drawer-content>
 
 </mat-drawer-container>
+
