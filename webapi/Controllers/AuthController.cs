@@ -31,21 +31,21 @@ public class AuthController : ControllerBase
     {
         var user = await _userManager.FindByEmailAsync(login.Email);
         if (user == null)
-            return BadRequest(new List<ResponseResult>
+            return NotFound(new List<ResponseResult>
                 { ResponseResult.EmailNotFoundError }
             );
 
         var signInResult = await _signInManager.PasswordSignInAsync(user, login.Password, true, true);
         if (signInResult == SignInResult.Failed)
         {
-            return Unauthorized(new List<ResponseResult>
+            return StatusCode(403, new List<ResponseResult>
                 { ResponseResult.IncorrectPasswordError }
             );
         }
 
         if (signInResult == SignInResult.LockedOut)
         {
-            return Unauthorized(new List<ResponseResult>
+            return StatusCode(403, new List<ResponseResult>
                 { ResponseResult.UserLockedOutError }
             );
         }
@@ -54,11 +54,11 @@ public class AuthController : ControllerBase
         {
             
             if (user.EmailConfirmed == false)
-                return Unauthorized(new List<ResponseResult>
+                return StatusCode(403, new List<ResponseResult>
                     { ResponseResult.VerificationRequiredError }
                 );
             if (user.LockoutEnabled)
-                return Unauthorized(new List<ResponseResult>
+                return StatusCode(403, new List<ResponseResult>
                     { ResponseResult.UserSignInNotAllowedError }
                 );
         }
@@ -141,5 +141,13 @@ public class AuthController : ControllerBase
             return BadRequest(ResponseResult.EmailNotFoundError);
         var result = await _userManager.ConfirmEmailAsync(user, token);
         return result.Succeeded ? Ok() : BadRequest(result.Errors);
+    }
+    
+    [HttpGet]
+    [Route("IsAuthenticated")]
+    public async Task<ActionResult<bool>> IsAuthenticated()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        return Ok(user == null ? false : User.Identity?.IsAuthenticated);
     }
 }

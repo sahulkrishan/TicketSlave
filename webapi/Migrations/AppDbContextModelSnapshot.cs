@@ -265,10 +265,11 @@ namespace webapi.Migrations
                     b.Property<Guid>("LocationId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("PresaleEndAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("PresaleCode")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<DateTime>("PresalePasswordHash")
+                    b.Property<DateTime>("PresaleEndAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("PresaleStartAt")

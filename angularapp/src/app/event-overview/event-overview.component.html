@@ -1,0 +1,9 @@
+<app-event-carousel *ngIf="events.length > 0" [eventData]="events[0]"/>
+<div id="gradientContainer"></div>
+
+<div id="overviewContainer">
+  <app-section-header title="Evenementen" icon="local_fire_department"/>
+  <div id="cardContainer">
+    <app-event-card *ngFor="let event of events" [eventData]="event"/>
+  </div>
+</div>

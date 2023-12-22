@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RegisterComponent} from "../register/register.component";
 import {LoginComponent} from "../login/login.component";
@@ -6,6 +6,10 @@ import {animate, style, transition, trigger} from "@angular/animations";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorCode, ResponseResultModel} from "../../model/response-result.model";
 import {BannerOptions, BannerState} from "../banner/banner.component";
+import {Router} from "@angular/router";
+import {AccountService} from "../../service/account.service";
+import {Subscription} from "rxjs";
+import {AppRoutes} from "../app-routing.module";
 
 @Component({
   selector: 'app-auth',
@@ -16,19 +20,52 @@ import {BannerOptions, BannerState} from "../banner/banner.component";
   animations: [
     trigger("fadeInOut", [
       transition(':enter', [
-        style({ opacity: 0 }),
-        animate('3500ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 1 })),
+        style({opacity: 0}),
+        animate('3500ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({opacity: 1})),
       ]),
       transition(':leave', [
-        animate('2000ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({ opacity: 0 })),
+        animate('2000ms 	cubic-bezier(0.05, 0.7, 0.1, 1.0)', style({opacity: 0})),
       ]),
     ]),
   ]
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit, OnDestroy {
+  private readonly logTag = '[AuthComponent]: ';
   readonly AuthState = AuthState;
   authState: AuthState = AuthState.login;
   registrationCompleted: boolean = false;
+
+  signedInSubscription: Subscription;
+
+  constructor(
+    private router: Router,
+    private accountService: AccountService,
+  ) {
+    this.signedInSubscription = this.accountService.signedIn$.subscribe({
+      next: (isSignedIn) => {
+        if (isSignedIn) {
+          console.log(this.logTag + "Already signed in, redirecting to home");
+          setTimeout(() => {
+            this.router.navigate(['/']);
+          })
+        }
+      }
+    })
+  }
+
+  ngOnInit() {
+    if (this.router.url === `/${AppRoutes.AUTH}/${AppRoutes.REGISTER}`) {
+      this.changeAuthState(AuthState.register);
+    }
+    if (this.router.url === `/${AppRoutes.AUTH}/${AppRoutes.LOGIN}`) {
+      this.changeAuthState(AuthState.login);
+    }
+  }
+
+  ngOnDestroy() {
+    // Unsubscribe when the component is destroyed to prevent memory leaks
+    this.signedInSubscription.unsubscribe();
+  }
 
   changeAuthState(state: AuthState, registrationCompleted?: boolean) {
     this.authState = state;

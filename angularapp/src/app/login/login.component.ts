@@ -1,6 +1,6 @@
 import {booleanAttribute, Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {AuthenticationService} from '../../service/authentication.service';
 import {LoginForm} from "../../model/login.form";
 import {LoginModel} from "../../model/login.model";
@@ -16,12 +16,14 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {BannerComponent, BannerOptions, BannerState} from "../banner/banner.component";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthComponent} from "../auth/auth.component";
+import {AccountService} from "../../service/account.service";
+import {AppRoutes} from "../app-routing.module";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [CommonModule, MatCommonModule, MatCardModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatInputModule, MatTooltipModule, MatProgressSpinnerModule, BannerComponent],
+  imports: [CommonModule, MatCommonModule, MatCardModule, MatIconModule, MatButtonModule, ReactiveFormsModule, MatInputModule, MatTooltipModule, MatProgressSpinnerModule, BannerComponent, RouterLink],
   standalone: true,
   animations: [
     trigger(
@@ -48,6 +50,7 @@ import {AuthComponent} from "../auth/auth.component";
   ]
 })
 export class LoginComponent {
+  // @Input() loading: boolean = true;
   @Output() goToRegistration = new EventEmitter<string>();
   loginForm: FormGroup<LoginForm>;
   loading: boolean = false;
@@ -64,7 +67,8 @@ export class LoginComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private accountService: AccountService
   ) {
     this.loginForm = this.formBuilder.group<LoginForm>({
       email: new FormControl(
@@ -109,11 +113,12 @@ export class LoginComponent {
             this.loading = false;
             this.isLoggedIn = false;
             this.bannerOptions = AuthComponent.parseBannerError(error);
-          }, 300)
+          }, 300) // Duration must be greater than the animation duration to avoid flickering
         },
         complete: () => {
           this.loading = false;
           this.isLoggedIn = true;
+          this.loginForm.disable();
 
           this.bannerOptions = {
             state: BannerState.success,
@@ -121,12 +126,11 @@ export class LoginComponent {
             description: 'Je wordt over enkele ogenblikken doorgestuurd.',
             visible: true,
           }
-          this.loginForm.disable();
-          setTimeout(() => {
-            this.router.navigate(['/']).then(r => console.log(r));
-          }, 300)
+          this.accountService.fetchUserProfile();
         }
       }
     );
   }
+
+  protected readonly AppRoutes = AppRoutes;
 }

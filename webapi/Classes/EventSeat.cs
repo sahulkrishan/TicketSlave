@@ -13,7 +13,7 @@ namespace webapi.Classes
         public Seat Seat { get; set; }
         public Guid EventId { get; set; }
         public Event Event { get; set; }
-        public Double Price { get; set; }
+        public double Price { get; set; }
         public EventSeatStatus Status { get; set; }
     }
 }

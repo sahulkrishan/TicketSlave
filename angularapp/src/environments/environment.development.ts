@@ -1,4 +1,7 @@
 export const environment = {
   production: false,
-  baseHref: '/'
+  staging: false,
+  development: true,
+  baseHref: '',
+  applicationName: 'TicketSlave (Development)',
 };

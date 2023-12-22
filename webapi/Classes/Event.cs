@@ -23,7 +23,7 @@ namespace webapi.Classes
         public DateTime SaleEndAt { get; set; }
         public DateTime PresaleStartAt { get; set; }
         public DateTime PresaleEndAt { get; set; }
-        public DateTime PresalePasswordHash { get; set; }
+        public string PresaleCode { get; set; }
         public Visibility Visibility { get; set; } = Visibility.Hidden;
     }
 

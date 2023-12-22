@@ -1,0 +1,37 @@
+<h1 mat-dialog-title>Bevestig Evenement Details</h1>
+<div mat-dialog-content>
+    <mat-list>
+        <mat-list-item>
+            <strong>Titel:</strong> {{ event.title }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>Beschrijving:</strong> {{ event.description }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>Start Datum:</strong> {{ event.eventStartAt | date: 'medium' }}
+            <br>
+            <strong>Eind Datum:</strong> {{ event.eventEndAt | date: 'medium' }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>Start verkoop Datum:</strong> {{ event.saleStartAt | date: 'medium' }}
+            <br>
+            <strong>Eind verkoop Datum:</strong> {{ event.saleEndAt | date: 'medium' }}
+        </mat-list-item>
+        <mat-list-item  *ngIf="event.presaleStartAt">
+            <strong>Start presale Datum:</strong> {{ event.saleStartAt | date: 'medium' }}
+            <br>
+            <strong>Eind presale Datum:</strong> {{ event.saleEndAt | date: 'medium' }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>foto url:</strong> {{ event.imageUrls[0]  }}
+        </mat-list-item>
+        <mat-list-item>
+            <strong>Location:</strong> {{ event.location?.name }}
+        </mat-list-item>
+    </mat-list>
+</div>
+<div mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="false">Annuleren</button>
+    <button mat-button [mat-dialog-close]="null">concept opslaan</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Bevestigen</button>
+</div>
