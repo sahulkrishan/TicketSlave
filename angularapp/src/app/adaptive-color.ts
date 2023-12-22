@@ -2,7 +2,7 @@ import {
   DynamicScheme,
   Hct,
   QuantizerCelebi,
-  SchemeContent, SchemeTonalSpot,
+  SchemeContent,
   SchemeVibrant,
   Score
 } from "@material/material-color-utilities";

@@ -1,16 +1,18 @@
 <mat-toolbar class="navigation-bar">
-  <img src="assets/logo_singleline_light.svg" alt="TicketSlave" class="logo" (click)="navigateToOverview()">
+  <a routerLink="/login">
+    <img src="assets/logo_singleline_light.svg" alt="TicketSlave" class="logo">
+  </a>
   <span class="example-spacer"></span>
-  <mat-form-field class="example-full-width" appearance="outline" >
+  <mat-form-field class="example-full-width" appearance="outline">
     <mat-label>Events</mat-label>
     <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      @for (option of filteredOptions | async; track option) {
-      <mat-option (click)="navigateToDetails(option)" [value]="option">{{option.title}}</mat-option>
+      @for (option of filteredOptions | async;track option) {
+        <mat-option (click)="navigateToDetails(option)" [value]="option">{{ option.title }}</mat-option>
       }
     </mat-autocomplete>
   </mat-form-field>
-  @if(signedIn) {
+  @if (signedIn) {
     <button mat-button [routerLink]="AppRoutes.ACCOUNT">
       <mat-icon inline=true>person</mat-icon>
       <span>{{ user?.firstName }}</span>
@@ -18,15 +20,4 @@
   } @else {
     <button mat-button [routerLink]="AppRoutes.AUTH_LOGIN">Inloggen</button>
   }
-<!--  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">-->
-<!--    <mat-icon>more_vert</mat-icon>-->
-<!--  </button>-->
-<!--  <mat-menu #menu="matMenu">-->
-<!--    <button mat-menu-item routerLink="/auth">-->
-<!--      <span>Jouw account</span>-->
-<!--    </button>-->
-<!--    <button mat-menu-item (click)="this.navigateToCreateEvent()">-->
-<!--      <span>Maak Event</span>-->
-<!--    </button>-->
-<!--  </mat-menu>-->
 </mat-toolbar>
