@@ -1,0 +1,11 @@
+@import '/src/app/auth/auth.component.scss';
+
+@media (max-width: $max-width) {
+  .wrapping-horizontal-list {
+    flex-wrap: wrap;
+  }
+  .auth-card {
+    min-height: 100vh;
+    border-radius: 0;
+  }
+}

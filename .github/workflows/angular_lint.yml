@@ -1,0 +1,29 @@
+name: Angular Lint
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: angularapp 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.9.0'
+
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lint
+        run: ng lint

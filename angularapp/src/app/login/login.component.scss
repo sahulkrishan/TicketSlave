@@ -1,0 +1,15 @@
+@import '/src/app/auth/auth.component.scss';
+
+.banner {
+  display: block;
+  padding: 12px 24px;
+  gap: $card-gap;
+  border-radius: $card-radius $card-radius 0 0;
+  background: rgba(244, 67, 54, 0.13);
+  overflow: hidden;
+}
+
+.banner-error-state {
+  color: var(--mat-form-field-error-text-color)
+}
+

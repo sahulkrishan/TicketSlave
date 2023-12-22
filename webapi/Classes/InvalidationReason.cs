@@ -1,4 +1,4 @@
-﻿namespace TicketSlave.Classes
+﻿namespace webapi.Classes
 {
     public enum InvalidationReason
     {

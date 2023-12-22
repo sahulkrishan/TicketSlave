@@ -1,0 +1,186 @@
+@use '@angular/material' as mat;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@include mat.core();
+
+$light-primary-text: rgba(255, 255, 255, 0.9);
+$dark-primary-text: rgba(black, 0.87);
+$grey-palette: (
+  50: rgba(250, 250, 250, 0.90),
+  100: rgba(245, 245, 245, 0.9),
+  200: rgba(238, 238, 238, 0.9),
+  300: rgba(224, 224, 224, 0.9),
+  400: rgba(189, 189, 189, 0.92),
+  500: rgba(158, 158, 158, 0.95),
+  600: rgba(117, 117, 117, 0.95),
+  700: rgba(97, 97, 97, 0.95),
+  800: rgba(66, 66, 66, 0.95),
+  900: rgba(33, 33, 33, 0.95),
+  A100: #ffffff,
+  A200: #eeeeee,
+  A400: #bdbdbd,
+  A700: #616161,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $dark-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $light-primary-text,
+  )
+);
+$ts-primary: mat.define-palette(mat.$grey-palette, 100);
+$ts-accent: mat.define-palette(mat.$blue-palette, 200);
+$ts-warn: mat.define-palette(mat.$red-palette, 300);
+
+$ts-typography: mat.define-typography-config(
+  // M3: Display-large
+  $headline-1: mat.define-typography-level(57px, 64px, 400, 'Bricolage Grotesque', $letter-spacing: -0.25pt),
+  // M3: Display-medium
+  $headline-2: mat.define-typography-level(45px, 52px, 400, 'Bricolage Grotesque', $letter-spacing: 0),
+  // M3: Display-small
+  $headline-3: mat.define-typography-level(36px, 44px, 400, 'Bricolage Grotesque', $letter-spacing: 0),
+  // M3: Headline-large
+  $headline-4: mat.define-typography-level(32px, 40px, 400, 'Bricolage Grotesque', $letter-spacing: 0),
+  // (H1) M3: Headline-medium
+  $headline-5: mat.define-typography-level(28px, 36px, 400, 'Bricolage Grotesque', $letter-spacing: 0),
+  // (H2) M3: Headline-small
+  $headline-6: mat.define-typography-level(24px, 32px, 400, 'Bricolage Grotesque', $letter-spacing: 0),
+  // (H3) M3: Title-medium
+  $subtitle-1: mat.define-typography-level(16px, 24px, 500, 'Inter', 0.15pt),
+  // (H4) M3: Title-small
+  $subtitle-2: mat.define-typography-level(14px, 20px, 500, 'Inter', 0.1pt),
+  // M3: Body-medium
+  $body-2: mat.define-typography-level(14px, 20px, 400, 'Inter', 0.25pt),
+  // M3: Body-small
+  $body-1: mat.define-typography-level(12px, 12px, 400, 'Inter', 0.4pt),
+  // M3: Label-large
+  $button: mat.define-typography-level(14px, 20px, 500, 'Inter', 0.1pt),
+  // M3: Label-medium
+  $caption: mat.define-typography-level(12px, 16px, 500, 'Inter', 0.5pt),
+);
+
+$ts-theme: mat.define-dark-theme((
+  color: (
+    primary: $ts-primary,
+    accent: $ts-accent,
+    warn: $ts-warn,
+  ),
+  typography: $ts-typography,
+));
+
+@include mat.all-component-typographies($ts-theme);
+@include mat.all-component-themes($ts-theme);
+
+$success: rgba(0, 172, 82, 0.9);
+$error: rgba(244, 67, 54, 0.9);
+$warn: rgb(244, 162, 54, 0.9);
+$neutral: mat.get-color-from-palette($ts-accent, 200);
+
+// Typography
+.display-large {
+  @extend .mat-headline-1;
+}
+
+.display-medium {
+  @extend .mat-headline-2;
+}
+
+.display-small {
+  @extend .mat-headline-3;
+}
+
+.headline-large {
+  @extend .mat-headline-4;
+}
+
+.headline-medium {
+  @extend .mat-headline-5;
+}
+
+.headline-small {
+  @extend .mat-headline-6;
+}
+
+.title-medium {
+  @extend .mat-subtitle-1;
+}
+
+.title-small {
+  @extend .mat-subtitle-2;
+}
+
+.body-medium {
+  @extend .mat-body-2;
+}
+
+.body-small {
+  @extend .mat-body-1;
+}
+
+.label-large {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.1pt;
+}
+
+.label-medium {
+  @extend .mat-caption;
+}
+
+mat-label {
+  font-size: 16px;
+}
+
+.mdc-button {
+  border-radius: 999px !important;
+  min-height: 40px;
+  min-width: 48px;
+}
+
+.mat-mdc-button {
+  padding: 0 12px !important;
+}
+
+// Fix small font in Material Input field
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 18px;
+  font-size: 16px;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, "Helvetica Neue", sans-serif;
+  background: black;
+  height: 100%;
+}
+
+a {
+  color: mat.get-color-from-palette($ts-accent, 200);
+}
+
+.material-icons {
+  font-size: 24px;
+  font-family: 'Material Icons Outlined', 'Material Icons';
+
+  .mat-badge-content {
+    font-family: 'Inter', sans-serif;
+  }
+}

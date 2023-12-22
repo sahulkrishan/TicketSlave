@@ -1,0 +1,52 @@
+name: CD Deploy Solution Production
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Stop server
+        run: |
+          $result = appcmd list apppool /name:"TicketSlaveProd" | Select-String 'state:Stopped'
+          if ($result -eq $null) {
+            appcmd stop apppool "TicketSlaveProd"
+          } else {
+            Write-Host "Application pool 'TicketSlaveProd' has already stopped."
+          }
+        
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Install npm dependencies
+        working-directory: ./angularapp
+        run: npm ci
+
+      - name: Publish release
+        run: dotnet publish webapi --configuration Release -o C:\inetpub\websites\ticketslave
+
+      - name: Start server
+        run: |
+          $result = appcmd list apppool /name:"TicketSlaveProd" | Select-String 'state:Started'
+          if ($result -eq $null) {
+            appcmd start apppool "TicketSlaveProd"
+          } else {
+            Write-Host "Application pool 'TicketSlaveProd' is already running."
+          }
+

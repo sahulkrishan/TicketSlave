@@ -1,0 +1,16 @@
+<div class="hero-image" [style.backgroundImage]="'linear-gradient(rgba(0, 0, 0, 0.1) 20%, rgba(0, 0, 0, 0.7) 100%), url(' + eventData.imageUrls[0] + ')'">
+  <div>
+    <div class="mat-headline-2 !m-0" [style.color]="titleColor">{{eventData.title}}</div>
+    <p>{{eventData.location?.city}}</p>
+    <h3 class="!m-0 hero-description translucent-white" [style.color]="subtitleColor">
+      {{getBannerText()}}
+    </h3>
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    [style.color]="buttonText"
+    [style.background]="buttonBackground"
+    [hidden]="!moreInfoButtonVisible"
+    routerLink="/events/{{eventData.id}}">Bekijken</button>
+</div>

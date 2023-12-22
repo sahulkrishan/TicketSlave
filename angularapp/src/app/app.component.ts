@@ -1,26 +1,21 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {environment} from "../environments/environment";
+import {Title} from "@angular/platform-browser";
+import {RouterOutlet} from "@angular/router";
+import {NavigationBarComponent} from "./navigation-bar/navigation-bar.component";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss'],
+  standalone: true,
+  imports: [RouterOutlet, NavigationBarComponent]
 })
-export class AppComponent {
-  public forecasts?: WeatherForecast[];
+export class AppComponent implements OnInit {
+  constructor(private titleService: Title) {}
+  title = environment.applicationName;
 
-  constructor(http: HttpClient) {
-    http.get<WeatherForecast[]>('/weatherforecast').subscribe(result => {
-      this.forecasts = result;
-    }, error => console.error(error));
+  ngOnInit() {
+    this.titleService.setTitle(this.title);
   }
-
-  title = 'angularapp';
-}
-
-interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
 }

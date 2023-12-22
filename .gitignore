@@ -1,0 +1,6 @@
+.vs/
+.idea/
+webapi/bin/
+webapi/obj/
+angularapp/.vscode/
+angularapp/node_modules/
