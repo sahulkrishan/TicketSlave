@@ -18,4 +18,5 @@ export enum ErrorCode {
   VerificationRequired = 'VerificationRequired',
   ValidationError = 'ValidationError',
   AwaitingAccountVerification = 'AwaitingAccountVerification',
+  ReservationSessionExpired = 'ReservationSessionExpired',
 }

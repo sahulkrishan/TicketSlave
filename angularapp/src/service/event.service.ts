@@ -5,6 +5,7 @@ import {
 } from '@angular/common/http';
 import {Event, EventDto} from "../interfaces/event";
 import {BaseService} from "./base.service";
+import {EventSeat} from "../interfaces/event-seat";
 
 
 @Injectable({
@@ -47,6 +48,10 @@ export class EventService extends BaseService {
 
   getEventById(id: string): Observable<Event> {
     return this.http.get<Event>(this.apiUrl + '/' + id);
+  }
+
+  getEventSeats(eventId: string) {
+    return this.http.get<EventSeat[]>(`${this.apiUrl}/${eventId}/seats`);
   }
 
   createEvent(event: EventDto) {

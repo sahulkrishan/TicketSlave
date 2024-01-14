@@ -1,9 +1,9 @@
 <mat-toolbar class="navigation-bar">
-  <a routerLink="/login">
+  <a [routerLink]="AppRoutes.ROOT">
     <img src="assets/logo_singleline_light.svg" alt="TicketSlave" class="logo">
   </a>
   <span class="example-spacer"></span>
-  <mat-form-field class="example-full-width" appearance="outline">
+  <mat-form-field appearance="outline">
     <mat-label>Events</mat-label>
     <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -12,10 +12,14 @@
       }
     </mat-autocomplete>
   </mat-form-field>
+  <button mat-button [routerLink]="AppRoutes.CHECKOUT">
+    <mat-icon inline="true">shopping_cart</mat-icon>
+    Winkelwagen
+  </button>
   @if (signedIn) {
-    <button mat-button [routerLink]="AppRoutes.ACCOUNT">
-      <mat-icon inline=true>person</mat-icon>
-      <span>{{ user?.firstName }}</span>
+    <button mat-button [routerLink]="AppRoutes.ACCOUNT" >
+      <mat-icon inline="true">person</mat-icon>
+      {{ user?.firstName }}
     </button>
   } @else {
     <button mat-button [routerLink]="AppRoutes.AUTH_LOGIN">Inloggen</button>

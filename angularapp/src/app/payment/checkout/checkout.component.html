@@ -1,0 +1,38 @@
+<div class="absolute default-bg h-full w-full"></div>
+<div class="mainContainer">
+  <div class="checkoutContainer">
+    <app-section-header title="Winkelwagen" icon="shopping_cart"/>
+
+    @if (cart !== undefined) {
+      <mat-card>
+        <mat-card-content class="checkoutContainer">
+          <div>
+            <div>Items gereserveerd voor</div>
+            <h2>{{ remainingTime | date: 'mm:ss' }}</h2>
+          </div>
+          <mat-icon>schedule</mat-icon>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+  <div class="checkoutContainer">
+    <div>
+      @if (cart === undefined) {
+        <div>Je winkelwagen is leeg.</div>
+        <button
+          class="mt-3"
+          mat-raised-button
+          color="primary"
+          routerLink="/{{AppRoutes.OVERVIEW}}">
+          Bekijk evenementen
+        </button>
+      } @else {
+        <div>{{ cart.id }}</div>
+        <ng-container *ngFor="let item of cart.eventSeats">
+          <div>{{ item.eventId }}</div>
+        </ng-container>
+      }
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,14 @@
+@import "../../app.component.scss";
+
+@media (min-width: 550px) {
+  .checkoutContainer {
+    grid-template-columns: 1fr auto !important;
+  }
+}
+
+.checkoutContainer {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr;
+}
+

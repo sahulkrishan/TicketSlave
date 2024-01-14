@@ -27,6 +27,7 @@
     "@angular/platform-browser-dynamic": "^17.0.5",
     "@angular/router": "^17.0.5",
     "@material/material-color-utilities": "^0.2.7",
+    "@stripe/stripe-js": "^2.2.2",
     "fast-average-color": "^9.4.0",
     "jest-editor-support": "*",
     "rxjs": "~7.8.0",

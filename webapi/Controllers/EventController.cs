@@ -63,7 +63,8 @@ public class EventController : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<Event>> GetEventById(Guid id)
     {
-        var foundedEvent = await _context.Events.FindAsync(id);
+        var foundedEvent = await _context.Events.Include(events => events.Location)
+            .FirstOrDefaultAsync(e => e.Id == id);
         if (foundedEvent == null) return NotFound();
         return Ok(foundedEvent);
     }
@@ -75,25 +76,24 @@ public class EventController : ControllerBase
         var location = await _context.Locations.FindAsync(@event.LocationId);
         if (location == null) return NotFound(ResponseResult.LocationNotFoundError);
 
-        var newEvent = new Event
+        var newEvent = Event.FromEventDto(@event);
+        newEvent.Location = location;
+        newEvent.LocationId = location.Id;
+        
+        var locationSeats = _context.Seats.Where(seats => seats.LocationId == location.Id).ToList();
+        foreach (var seat in locationSeats)
         {
-            Title = @event.Title,
-            Description = @event.Description,
-            ImageUrls = @event.ImageUrls,
-            CreatedAt = @event.CreatedAt,
-            CreatedBy = @event.CreatedBy,
-            LocationId = location.Id,
-            Location = location,
-            EventEndAt = @event.EventEndAt,
-            EventStartAt = @event.EventStartAt,
-            SaleEndAt = @event.SaleEndAt,
-            SaleStartAt = @event.SaleStartAt,
-            PresaleStartAt = @event.PresaleStartAt,
-            PresaleEndAt = @event.PresaleEndAt,
-            PresaleCode = @event.PresaleCode,
-            Visibility = @event.Visibility,
-        };
-
+            var eventSeat = new EventSeat
+            {
+                Event = newEvent,
+                EventId = newEvent.Id,
+                Seat = seat,
+                SeatId = seat.Id,
+                Status = EventSeatStatus.Available,
+                Price = 999999999999999999 // TODO REPLACE ME WITH DEFAULT ZONE OR SEAT PRICE
+            };
+            _context.EventSeats.Add(eventSeat);
+        }
         try
         {
             _context.Events.Add(newEvent);
@@ -107,6 +107,20 @@ public class EventController : ControllerBase
         return Ok(newEvent);
     }
 
+    [HttpGet]
+    [Route("{id:guid}/seats")]
+    public async Task<ActionResult<List<EventSeat>>> GetEventSeats(Guid id)
+    {
+        var foundedEvent = await _context.Events.FindAsync(id);
+        if (foundedEvent == null) return NotFound();
+
+        var eventSeats = _context.EventSeats
+            .Include(eventSeat => eventSeat.Seat)
+            .Where(eventSeat => eventSeat.EventId == id);
+
+        return Ok(eventSeats);
+    }
+    
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = ApplicationRoles.Admin)]
     public async Task<ActionResult> Delete(Guid id)

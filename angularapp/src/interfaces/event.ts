@@ -18,7 +18,7 @@ export interface Event {
   visibility: Visibility;
 
   // Calculated fields
-  location?: Location;
+  location?: Location | undefined;
   availableSeats?: number;
   totalSeats?: number;
   lowestPrice?: number | undefined;
