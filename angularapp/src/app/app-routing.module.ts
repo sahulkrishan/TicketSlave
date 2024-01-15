@@ -81,13 +81,13 @@ export const routes: Routes = [
         data: {roles: [Roles.ADMIN]}
       },
       {
-        path: AppRoutes.ACCOUNT_ADMIN_LOCATIONS,
+        path: `${AppRoutes.ACCOUNT}/${AppRoutes.LOCATIONS}`,
         component: LocationOverviewComponent,
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]},
       },
       {
-        path: `${AppRoutes.ACCOUNT_ADMIN_LOCATIONS}/${AppRoutes.PARAM_ID}`,
+        path: `${AppRoutes.ACCOUNT}/${AppRoutes.LOCATIONS}/${AppRoutes.PARAM_ID}`,
         component: LocationDetailComponent,
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]}
