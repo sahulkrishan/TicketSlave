@@ -1,7 +1,6 @@
 import {inject} from "@angular/core";
-import {first, map, of, switchMap} from "rxjs";
+import {map, of, switchMap} from "rxjs";
 import {CanActivateFn, Router} from "@angular/router";
-import {Roles} from "./roles";
 import {AccountService} from "../service/account.service";
 import {AppRoutes} from "./app-routing.module";
 import {environment} from "../environments/environment";

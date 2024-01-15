@@ -20,6 +20,7 @@ import {EventService} from "../../service/event.service";
 import {MatNativeDateModule} from "@angular/material/core";
 import {EventCardComponent} from "../event-card/event-card.component";
 import {MatCardModule} from "@angular/material/card";
+import {SectionHeaderComponent} from "../section-header/section-header.component";
 
 
 @Component({
@@ -38,10 +39,11 @@ import {MatCardModule} from "@angular/material/card";
     MatListModule,
     MatSelectModule,
     EventCardComponent,
-    MatCardModule
+    MatCardModule,
+    SectionHeaderComponent
   ],
     templateUrl: './event-creationform.component.html',
-    styleUrl: './event-creationform.component.css'
+    styleUrl: './event-creationform.component.scss'
 })
 export class EventCreationformComponent implements OnInit {
     @ViewChild('imageUrls', {static: false}) imageUrlsTextArea!: ElementRef;

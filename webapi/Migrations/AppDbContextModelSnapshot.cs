@@ -266,7 +266,6 @@ namespace webapi.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("PresaleCode")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("PresaleEndAt")
@@ -304,8 +303,11 @@ namespace webapi.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid?>("ReservationSessionId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("SeatId")
                         .HasColumnType("uuid");
@@ -316,6 +318,8 @@ namespace webapi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("ReservationSessionId");
 
                     b.HasIndex("SeatId");
 
@@ -419,21 +423,20 @@ namespace webapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("EventSeatId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("ReservedById")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ReserveredUntil")
+                    b.Property<DateTime>("ReservedUntil")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("StripeSessionId")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventSeatId");
-
-                    b.HasIndex("ReservedById");
+                    b.HasIndex("ReservedById")
+                        .IsUnique();
 
                     b.ToTable("ReservationSessions");
                 });
@@ -618,6 +621,10 @@ namespace webapi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("webapi.Classes.ReservationSession", null)
+                        .WithMany("EventSeatList")
+                        .HasForeignKey("ReservationSessionId");
+
                     b.HasOne("webapi.Classes.Seat", "Seat")
                         .WithMany()
                         .HasForeignKey("SeatId")
@@ -650,19 +657,11 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Classes.ReservationSession", b =>
                 {
-                    b.HasOne("webapi.Classes.EventSeat", "EventSeat")
-                        .WithMany()
-                        .HasForeignKey("EventSeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("webapi.Classes.ApplicationUser", "ReservedBy")
-                        .WithMany()
-                        .HasForeignKey("ReservedById")
+                        .WithOne("ReservationSession")
+                        .HasForeignKey("webapi.Classes.ReservationSession", "ReservedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("EventSeat");
 
                     b.Navigation("ReservedBy");
                 });
@@ -693,9 +692,19 @@ namespace webapi.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
+            modelBuilder.Entity("webapi.Classes.ApplicationUser", b =>
+                {
+                    b.Navigation("ReservationSession");
+                });
+
             modelBuilder.Entity("webapi.Classes.Order", b =>
                 {
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("webapi.Classes.ReservationSession", b =>
+                {
+                    b.Navigation("EventSeatList");
                 });
 #pragma warning restore 612, 618
         }

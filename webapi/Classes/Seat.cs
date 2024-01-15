@@ -25,7 +25,7 @@ namespace webapi.Classes
     {
         Regular,
         VIP,
-        ReducedVisibilty,
+        ReducedVisibility,
         Accessible,
         StandingOnly
     }

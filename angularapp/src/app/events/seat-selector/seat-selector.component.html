@@ -1,0 +1,48 @@
+<div class="mainContainer">
+  <app-section-header title="Tickets selecteren" icon="confirmation_number"/>
+  @if (loading) {
+    <mat-spinner diameter="36"></mat-spinner>
+  } @else {
+    @if (eventSeats.length === 0) {
+      <div>
+        <p>Er zijn geen tickets (meer) beschikbaar op dit moment.</p>
+      </div>
+      <button mat-raised-button color="primary" (click)="goBack()">
+        Terug naar evenement
+      </button>
+    }
+    <ng-container *ngFor="let eventSeat of eventSeats">
+      <mat-card class="mat-typography glass-card">
+        <mat-card-content class="glass-card-content">
+          <h2>{{ eventSeat.seat.name }}</h2>
+          <h3>€{{ eventSeat.price / 100 }}</h3>
+          <div class="my-3 flex flex-row flex-wrap gap-3">
+            <div>
+              <h4 class="!m-0">Zone</h4>
+              <h2 class="!m-0">{{ eventSeat.seat.zone }}</h2>
+
+            </div>
+            <div>
+              <h4 class="!m-0">Stoelnummer</h4>
+              <h2 class="!m-0">{{ eventSeat.seat.seatNumber }}</h2>
+            </div>
+          </div>
+          <button
+            id="add-to-cart-{{eventSeat.id}}"
+            mat-button
+            (click)="addToCart(eventSeat.id)"
+            [disabled]="eventSeat.status !== EventSeatStatus.Available">
+            @if (eventSeat.status === EventSeatStatus.Available) {
+              Toevoegen aan winkelwagen
+            } @else if (eventSeat.status === EventSeatStatus.Reserved) {
+              Gereserveerd
+            } @else if (eventSeat.status === EventSeatStatus.Sold) {
+              Verkocht
+            }
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </ng-container>
+
+  }
+</div>

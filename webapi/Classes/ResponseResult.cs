@@ -23,6 +23,12 @@ public class ResponseResult
         Description = "You must accept the terms and conditions"
     };
 
+    public static readonly ResponseResult UserNotFoundError = new()
+    {
+        Code = "UserNotFound",
+        Description = "User not found"
+    };
+
     public static readonly ResponseResult UserExistsError = new()
     {
         Code = "UserExists",
@@ -81,5 +87,29 @@ public class ResponseResult
     {
         Code = "FailedToDeleteObject",
         Description = "An error occured while trying to delete the object"
+    };
+
+    public static readonly ResponseResult EventSeatNotFoundError = new()
+    {
+        Code = "EventSeatNotFound",
+        Description = "Event seat could not be found with the provided id"
+    };
+
+    public static readonly ResponseResult EventSeatUnavailableError = new()
+    {
+        Code = "EventSeatUnavailable",
+        Description = "Event seat is not currently available"
+    };
+
+    public static readonly ResponseResult EventSeatReservedError = new()
+    {
+        Code = "EventSeatReserved",
+        Description = "Event seat is already reserved and is not available"
+    };
+
+    public static readonly ResponseResult ReservationSessionExpiredError = new()
+    {
+        Code = "ReservationSessionExpired",
+        Description = "Reservation session has expired"
     };
 }

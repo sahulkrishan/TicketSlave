@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {EventCarouselComponent} from "../event-carousel/event-carousel.component";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {EventService} from "../../service/event.service";
 import {Event} from "../../interfaces/event";
 import {EventCardComponent} from "../event-card/event-card.component";
@@ -9,6 +9,16 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {FastAverageColor} from "fast-average-color";
 import {NavigationBarComponent} from "../navigation-bar/navigation-bar.component";
+import {SectionHeaderComponent} from "../section-header/section-header.component";
+import {environment} from "../../environments/environment";
+import {AdaptiveColor} from "../adaptive-color";
+import {MatCardModule} from "@angular/material/card";
+import {AccountService} from "../../service/account.service";
+import {MatInputModule} from "@angular/material/input";
+import {MatIconModule} from "@angular/material/icon";
+import {Roles} from "../roles";
+import {FormsModule} from "@angular/forms";
+import {AppRoutes} from "../app-routing.module";
 
 
 export interface Tile {
@@ -20,14 +30,21 @@ export interface Tile {
 @Component({
   selector: 'app-event-detail',
   standalone: true,
-  imports: [CommonModule, EventCarouselComponent, EventCardComponent, MatButtonModule, MatGridListModule, NavigationBarComponent],
+  imports: [CommonModule, EventCarouselComponent, EventCardComponent, MatButtonModule, MatGridListModule, NavigationBarComponent, SectionHeaderComponent, MatCardModule, MatInputModule, MatIconModule, FormsModule, RouterLink],
   templateUrl: './event-detail.component.html',
-  styleUrl: './event-detail.component.css'
+  styleUrl: './event-detail.component.scss'
 })
-export class EventDetailComponent implements OnInit{
+export class EventDetailComponent implements OnInit, AfterViewInit{
+  private logTag = "[EventDetail]: ";
 
   currentEvent: Event | undefined;
-  constructor(private route: ActivatedRoute, private eventsOverViewService: EventService) {}
+  canEdit: boolean = false;
+  editMode: boolean = false;
+  constructor(
+    private route: ActivatedRoute,
+    private accountService: AccountService,
+    private eventsOverViewService: EventService
+  ) {}
   ngOnInit() {
     // Subscribe to route parameter changes
     this.route.paramMap.subscribe(params => {
@@ -36,26 +53,46 @@ export class EventDetailComponent implements OnInit{
       if(id){
         this.eventsOverViewService.getEventById(id).subscribe(result => {
           this.currentEvent = result;
-          this.getMainColor()
+          this.setAdaptiveColors();
+          if(environment.development) {
+            console.log(this.logTag + "Current event: ");
+            console.log(this.currentEvent);
+          }
         });
       }
     });
+    this.accountService.userProfile$.subscribe(profile => {
+      this.canEdit = profile?.roles.includes(Roles.ADMIN);
+      console.log(this.logTag + "Can edit: " + this.canEdit);
+    });
   }
 
-  getMainColor():void {
-    const fac = new FastAverageColor();
-    const eventcontainer = document.getElementById('dataList');
-    if(this.currentEvent != undefined) {
-      fac.getColorAsync(this.currentEvent.imageUrls[0])
-        .then(color => {
-          eventcontainer!.style.background = `linear-gradient(to bottom, ${color.rgba}, black)`;
+  ngAfterViewInit() {
+    this.setAdaptiveColors()
+  }
 
-          // maakt text wit als kleur donker is, misschien handig voor later. maar voor nublijft de kaart wit
-          //eventcontainer!.style.color = kleur.isDark ? '#fff' : '#000';
-        })
-        .catch(e => {
-          console.log(e);
-        });
+
+  setAdaptiveColors(): void {
+    if (this.currentEvent == undefined) return;
+    const gradientContainer = document.getElementById('gradientContainer');
+    if (environment.development) {
+      console.log(this.logTag + "Setting adaptive colors...");
+      console.log(gradientContainer);
     }
+    const adaptiveColor = new AdaptiveColor();
+    adaptiveColor.getSchemeFromImageFast(this.currentEvent.imageUrls[0])
+      .then(scheme => {
+        const onPrimaryFixedVariant = scheme.primaryPalette.tone(20);
+        const x = adaptiveColor.argbIntToRgba(onPrimaryFixedVariant)
+        gradientContainer!.style.background = `linear-gradient(to bottom, ${x} 45%, transparent)`;
+        if (environment.development) {
+          console.log(this.logTag + `Generated adaptive color: ${x}`);
+        }
+      })
+      .catch(e => {
+        console.error(e);
+      });
   }
+
+  protected readonly AppRoutes = AppRoutes;
 }

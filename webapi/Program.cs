@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using webapi.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
 builder.Services.AddSpaStaticFiles(configuration =>
 {
     configuration.RootPath = "angularapp/dist";

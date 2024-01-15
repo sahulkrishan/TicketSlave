@@ -1,5 +1,4 @@
-<div class="container">
-
+<div class="authContainer">
   <app-login (goToRegistration)="changeAuthState(AuthState.register)"
              [registrationCompleted]="registrationCompleted"
              *ngIf="authState === AuthState.login"/>
