@@ -5,8 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import {CommonModule} from "@angular/common";
 import {LocationsService} from "../../service/locations.service";
-import { Location } from "../interfaces/location"
 import {Router} from "@angular/router";
+import {Location} from "../../interfaces/location";
 
 @Component({
   selector: 'app-location-creationform',

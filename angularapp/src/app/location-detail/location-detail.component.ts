@@ -1,12 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {NgIf} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import { Location } from '../interfaces/location';
 import {LocationsService} from "../../service/locations.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Location} from "../../interfaces/location";
 
 @Component({
   selector: 'app-location-detail',
@@ -122,13 +122,16 @@ export class LocationDetailComponent implements OnInit{
   }
 
   onSubmit() {
-    this.readyToSubmit = true;
-    const newLocation: Location = this.locationForm.value as Location;
-    this.locationService.updateLocation(newLocation).subscribe((result: Location) => {
-      console.log("Het gewijzigde locatie: ", result);
+    if(this.locationForm.valid) {
+      this.readyToSubmit = true;
+      const newLocation: Location = this.locationForm.value as Location;
+      this.locationService.updateLocation(newLocation).subscribe((result: Location) => {
+        console.log("Het gewijzigde locatie: ", result);
 
-    });
-    this.locationForm.disable()
-    this.submitBtnIsVisibile = false;
+      });
+      this.locationForm.disable()
+      this.submitBtnIsVisibile = false;
+      this.isDisabled = true;
+    }
   }
 }

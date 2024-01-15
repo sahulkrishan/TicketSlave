@@ -11,6 +11,8 @@ import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {AccountLayoutComponent} from "./account/account-layout/account-layout.component";
 import {AccountProfileComponent} from "./account/account-profile/account-profile.component";
 import {AccountEventsComponent} from "./account/account-events/account-events.component";
+import {LocationOverviewComponent} from "./location-overview/location-overview.component";
+import {LocationDetailComponent} from "./location-detail/location-detail.component";
 
 export class AppRoutes {
   public static ROOT = '';
@@ -32,7 +34,7 @@ export class AppRoutes {
   public static FORBIDDEN = `forbidden`;
 }
 
-export const routes: Routes = [
+const routes: Routes = [
   {path: AppRoutes.ROOT, redirectTo: '/events', pathMatch: 'full'},
   {
     path: AppRoutes.AUTH,
@@ -63,6 +65,18 @@ export const routes: Routes = [
       {
         path: AppRoutes.ACCOUNT_ADMIN_EVENTS,
         component: AccountEventsComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]}
+      },
+      {
+        path: AppRoutes.ACCOUNT_ADMIN_LOCATIONS,
+        component: LocationOverviewComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]},
+      },
+      {
+        path: `${AppRoutes.ACCOUNT_ADMIN_LOCATIONS}/${AppRoutes.PARAM_ID}`,
+        component: LocationDetailComponent,
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]}
       },
