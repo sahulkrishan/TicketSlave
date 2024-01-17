@@ -61,5 +61,20 @@
     </mat-error>
   </mat-form-field>
 
+  <ng-container formArrayName="contacts" *ngFor="let zone of this.location.zones; index as i">
+    <ng-container [formGroupName]="i">
+      <label for="phone">PhoneNo:</label>
+      <input type="text" id="zoneName" name="zoneName" placeholder="zone naam"  formControlName="zoneName">
+
+      <label for="phone">numberOfSeats:</label>
+      <input type="number" id="numberOfSeats" name="numberOfSeats" placeholder="0" formControlName="numberOfSeats">
+
+      <button class="btn-remove" type="button" (click)="removeZoneField(i)">x</button>
+
+      <br><br>
+    </ng-container>
+  </ng-container>
+  <button class="btn-add" type="button" (click)="addZoneField()">Add</button>
+
   <button mat-raised-button color="primary" type="submit">Submit</button>
 </form>

@@ -45,7 +45,7 @@ export class LocationOverviewComponent implements OnInit {
   }
 
   NavigateToDetails(id: string) {
-    this.router.navigate([`${AppRoutes.ACCOUNT}/${AppRoutes.ACCOUNT_ADMIN_LOCATIONS}/${id}`])
+    //this.router.navigate([`${AppRoutes.ACCOUNT}/${AppRoutes.ACCOUNT_ADMIN_LOCATIONS}/${id}`])
   }
 
   navigateToCreationForm() {

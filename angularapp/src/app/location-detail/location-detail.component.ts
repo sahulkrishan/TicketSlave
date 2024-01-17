@@ -33,7 +33,8 @@ export class LocationDetailComponent implements OnInit{
     name: "",
     phoneNumber: "",
     postalCode: "",
-    website: ""
+    website: "",
+    zones: []
   }
 
   oldLocation: Location = {
@@ -45,7 +46,8 @@ export class LocationDetailComponent implements OnInit{
     name: "",
     phoneNumber: "",
     postalCode: "",
-    website: ""
+    website: "",
+    zones: []
   }
 
 
