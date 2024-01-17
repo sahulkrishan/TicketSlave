@@ -14,7 +14,7 @@ public class CartController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
-    private const int ReservationSessionTimeout = 10; // minutes
+    private const int ReservationSessionTimeout = 100; // minutes
 
     public CartController(AppDbContext context,
         UserManager<ApplicationUser> userManager)
@@ -151,12 +151,12 @@ public class CartController : ControllerBase
                     { ResponseResult.EventSeatReservedError }
                 );
             case EventSeatStatus.Available:
-                if (eventSeat.Event.PresaleCode != null && eventSeat.Event.PresaleCode != presaleCode)
-                {
-                    return NotFound(new List<ResponseResult>
-                        { ResponseResult.EventSeatNotFoundError }
-                    );
-                }
+                // if (eventSeat.Event.PresaleCode != null && eventSeat.Event.PresaleCode != presaleCode)
+                // {
+                //     return NotFound(new List<ResponseResult>
+                //         { ResponseResult.EventSeatNotFoundError }
+                //     );
+                // }
 
                 eventList.Add(eventSeat);
                 eventSeat.Status = EventSeatStatus.Reserved;
@@ -174,12 +174,16 @@ public class CartController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult> GetCart()
+    public async Task<ActionResult<Cart>> GetCart()
     {
         var user = await _userManager
             .Users
             .Include(usr => usr.ReservationSession)
             .ThenInclude(session => session.EventSeatList)
+            .ThenInclude(eventSeat => eventSeat.Event)
+            .Include(usr => usr.ReservationSession)
+            .ThenInclude(session => session.EventSeatList)
+            .ThenInclude(eventSeat => eventSeat.Seat)
             .FirstOrDefaultAsync(usr => usr.Id == _userManager.GetUserId(User));
         if (user == null)
             return NotFound(new List<ResponseResult>
@@ -196,7 +200,7 @@ public class CartController : ControllerBase
             );
         }
 
-        return Ok(ReservationSessionDto.From(user.ReservationSession));
+        return Ok(Cart.From(user.ReservationSession));
     }
 
     [HttpDelete]

@@ -4,8 +4,8 @@
     <app-section-header title="Winkelwagen" icon="shopping_cart"/>
 
     @if (cart !== undefined) {
-      <mat-card>
-        <mat-card-content class="checkoutContainer">
+      <mat-card class="mat-typography glass-card">
+        <mat-card-content class="glass-card-content checkoutContainer">
           <div>
             <div>Items gereserveerd voor</div>
             <h2>{{ remainingTime | date: 'mm:ss' }}</h2>
@@ -16,7 +16,7 @@
     }
   </div>
   <div class="checkoutContainer">
-    <div>
+    <div class="grid gap-2">
       @if (cart === undefined) {
         <div>Je winkelwagen is leeg.</div>
         <button
@@ -27,10 +27,51 @@
           Bekijk evenementen
         </button>
       } @else {
-        <div>{{ cart.id }}</div>
-        <ng-container *ngFor="let item of cart.eventSeats">
-          <div>{{ item.eventId }}</div>
+        <ng-container *ngFor="let item of cart.items">
+          <mat-card class="mat-typography glass-card flex flex-row w-full bg-center bg-cover bg-no-repeat"
+                    [style.background-image]="'url(' + item.event.imageUrls[0] + ')'">
+            <!--            <img class="flex-grow" mat-card-image [src]="item.event.imageUrls[0]" [alt]="item.event.title"/>-->
+            <mat-card-content class="glass-card-content !backdrop-blur-lg w-full">
+              <div class="flex justify-between">
+                <div>
+                  <h2 class="!m-0">{{ item.event.title }}</h2>
+                  <h3 class="!m-0">{{ item.event.description }}</h3>
+                  <div>{{ item.event.eventStartAt | date: 'dd-MM-yyyy' }}</div>
+                </div>
+                <div>
+                  <h2>{{ 999999 / 100 | currency }}</h2>
+                </div>
+              </div>
+
+              <mat-card class="mat-typography glass-card">
+                <mat-card-content class="glass-card-content">
+                  @for (eventSeat of item.selectedEventSeats;track eventSeat.id) {
+                    <h3>{{ eventSeat.seat.name}}</h3>
+                    <div class="my-3 flex flex-row flex-wrap gap-3">
+                      <div>
+                        <h4 class="!m-0">Zone</h4>
+                        <h2 class="!m-0">{{ eventSeat.seat.zone }}</h2>
+
+                      </div>
+                      <div>
+                        <h4 class="!m-0">Stoelnummer</h4>
+                        <h2 class="!m-0">{{ eventSeat.seat.seatNumber }}</h2>
+                      </div>
+                    </div>
+                    <h3>{{ eventSeat.price / 100 | currency }}</h3>
+                  }
+                </mat-card-content>
+              </mat-card>
+
+              <button mat-button color="primary" routerLink="/{{AppRoutes.EVENTS}}/{{item.event.id}}/{{AppRoutes.SEAT_SELECTOR}}">
+                Tickets toevoegen
+              </button>
+            </mat-card-content>
+          </mat-card>
         </ng-container>
+        <button mat-button color="primary" (click)="pay()">
+          Betalen
+        </button>
       }
     </div>
   </div>

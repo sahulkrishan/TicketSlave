@@ -1,12 +1,11 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {PaymentService} from "../../../service/payment.service";
 import {loadStripe} from "@stripe/stripe-js/pure";
 import {Stripe} from "@stripe/stripe-js";
 import {environment} from "../../../environments/environment";
 import {SectionHeaderComponent} from "../../section-header/section-header.component";
-import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, CurrencyPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
 import {CartService} from "../../../service/cart.service";
-import {ReservationSession} from "../../../interfaces/reservation-session";
 import {HttpResponse} from "@angular/common/http";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
@@ -15,6 +14,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {AppRoutes} from "../../app-routing.module";
 import {RouterLink} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
+import {Cart} from "../../../interfaces/cart";
+import {EventSeatStatus} from "../../../interfaces/event-seat";
 
 
 @Component({
@@ -29,15 +30,16 @@ import {MatButtonModule} from "@angular/material/button";
     DatePipe,
     NgForOf,
     RouterLink,
-    MatButtonModule
+    MatButtonModule,
+    CurrencyPipe
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
-  @Input() reservationSessionId: string = '9535f56a-cf84-4ef9-8829-a5b2ad443f85';
+  reservationSessionId?: string;
   private stripePromise?: Promise<Stripe | null>;
-  cart: ReservationSession | undefined;
+  cart: Cart | undefined;
   remainingTime: number = 0;
   countdownInterval: any; // To store the interval ID
 
@@ -50,13 +52,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.cartService.getCart().subscribe({
-      next: (response: ReservationSession) => {
+      next: (response: Cart) => {
         this.cart = response;
         // Start the countdown
         console.log(this.cart)
         const date = new Date(response.reservedUntil);
         this.calculateRemainingTime(date.getTime());
         this.startCountdown(date.getTime());
+        this.reservationSessionId = response.reservationSessionId;
       },
       error: (error: HttpResponse<ResponseResultModel>) => {
         if (error.status === 404) {
@@ -80,6 +83,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       if (this.remainingTime <= 0) {
         this.remainingTime = 0;
         clearInterval(this.countdownInterval); // Stop the countdown if remaining time is less than or equal to 0
+        window.location.reload();
       }
       console.log(this.remainingTime);
     }, 1000); // Update the countdown every second (1000 milliseconds)
@@ -93,6 +97,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   async pay(stripePublicKey: string = environment.stripePublicKey) {
+    if (this.reservationSessionId === undefined) {
+      return
+    }
     this.stripePromise = loadStripe(stripePublicKey);
     const stripe = await this.stripePromise;
     this.paymentService.createCheckoutSession(this.reservationSessionId).subscribe((response: string) => {
@@ -101,4 +108,5 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   protected readonly AppRoutes = AppRoutes;
+  protected readonly EventSeatStatus = EventSeatStatus;
 }

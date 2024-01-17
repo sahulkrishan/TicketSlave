@@ -10,6 +10,7 @@ namespace webapi.Classes
         [Required]
         public Guid Id { get; set; }
         public Guid SeatId { get; set; }
+        public Seat Seat { get; set; }
         public Guid EventId { get; set; }
         public long Price { get; set; }
         public EventSeatStatus Status { get; set; }
@@ -18,6 +19,7 @@ namespace webapi.Classes
         {
             Id = eventSeat.Id,
             SeatId = eventSeat.SeatId,
+            Seat = eventSeat.Seat,
             EventId = eventSeat.EventId,
             Price = eventSeat.Price,
             Status = eventSeat.Status
