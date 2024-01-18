@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="2.5.0" />
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.8.7" />
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.20.5" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.14" />

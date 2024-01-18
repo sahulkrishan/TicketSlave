@@ -95,6 +95,12 @@ public class ResponseResult
         Description = "Event seat could not be found with the provided id"
     };
 
+    public static readonly ResponseResult InvalidPresaleCodeError = new()
+    {
+        Code = "InvalidPresaleCode",
+        Description = "Presale code has not been provided or is invalid"
+    };
+
     public static readonly ResponseResult EventSeatUnavailableError = new()
     {
         Code = "EventSeatUnavailable",
