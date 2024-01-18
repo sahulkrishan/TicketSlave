@@ -1,11 +1,9 @@
 <div class="center-list">
   <h2>Locaties</h2>
 
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="this.navigateToCreationForm()">
-      <span>add Event</span>
+    <button mat-raised-button (click)="this.navigateToCreationForm()">
+      <span>add location</span>
     </button>
-  </mat-menu>
 
   <mat-selection-list class="custom-list-container" *ngIf="locations.length > 0">
     <mat-list-item *ngFor="let location of locations" (click)="NavigateToDetails(location.id)">

@@ -29,9 +29,17 @@ namespace webapi.Controllers
 
         // POST api/<locationController>
         [HttpPost]
-        public async Task<ActionResult<Event>> CreateLocation([FromBody] Location location)
+        public async Task<ActionResult<Event>> CreateLocation([FromBody] LocationDTO location)
         {
-            _context.Locations.Add(location);
+            Location lct = new Location();
+            lct.City = location.City;
+            lct.Country = location.Country;
+            lct.PhoneNumber = location.PhoneNumber;
+            lct.PostalCode = location.PostalCode;
+            lct.Address = location.Address;
+            lct.Website = location.Website;
+            lct.Name = location.Name;
+            _context.Locations.Add(lct);
             await _context.SaveChangesAsync();
             return Ok(location);
         }

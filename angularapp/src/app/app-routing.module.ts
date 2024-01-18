@@ -15,6 +15,7 @@ import {CheckoutComponent} from "./payment/checkout/checkout.component";
 import {SeatSelectorComponent} from "./events/seat-selector/seat-selector.component";
 import {LocationOverviewComponent} from "./location-overview/location-overview.component";
 import {LocationDetailComponent} from "./location-detail/location-detail.component";
+import {LocationCreationformComponent} from "./location-creationform/location-creationform.component";
 
 export class AppRoutes {
   public static ROOT = '';
@@ -81,7 +82,7 @@ export const routes: Routes = [
         data: {roles: [Roles.ADMIN]}
       },
       {
-        path: `${AppRoutes.ACCOUNT}/${AppRoutes.LOCATIONS}`,
+        path: `${AppRoutes.LOCATIONS}`,
         component: LocationOverviewComponent,
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]},
@@ -91,6 +92,12 @@ export const routes: Routes = [
         component: LocationDetailComponent,
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]}
+      },
+      {
+        path: `${AppRoutes.LOCATIONS}/${AppRoutes.CREATE}`,
+        component: LocationCreationformComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]},
       },
     ]
   },

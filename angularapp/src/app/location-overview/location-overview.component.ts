@@ -49,7 +49,7 @@ export class LocationOverviewComponent implements OnInit {
   }
 
   navigateToCreationForm() {
-    this.router.navigate(['/location/create/'])
+    this.router.navigate(['account/locations/create/'])
   }
 
   deleteLocation(id: string) {

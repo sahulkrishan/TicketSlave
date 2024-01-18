@@ -60,6 +60,7 @@ export class LocationCreationformComponent {
           Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
         ]
       ],
+    zones: [{zoneName: "", numberOfSeats: 0}],
   })
 
   constructor(private formBuilder: FormBuilder, private locationService: LocationsService, private router: Router) {}
