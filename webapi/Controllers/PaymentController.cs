@@ -21,7 +21,7 @@ public class PaymentController : ControllerBase
     public async Task<ActionResult> Create(Guid reservationSessionId)
     {
         // TODO: Replace with actual domain
-        var domain = "https://localhost:4200" + $"/order/{reservationSessionId}";
+        var domain = "https://localhost:4200" + $"/checkout";
 
         var reservationSession = await _context.ReservationSessions
             .Include(session => session.EventSeatList)
@@ -65,7 +65,7 @@ public class PaymentController : ControllerBase
             LineItems = sessionLineItemOptionsList,
             Mode = "payment",
             SuccessUrl = domain + "?success=true",
-            CancelUrl = domain + "?canceled=true",
+            CancelUrl = domain + "?canceled=true"
         };
         var service = new SessionService();
         var session = await service.CreateAsync(options);
