@@ -12,11 +12,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {ErrorCode, ResponseResultModel} from "../../../model/response-result.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AppRoutes} from "../../app-routing.module";
-import {RouterLink} from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
 import {Cart} from "../../../interfaces/cart";
-import {EventSeatStatus} from "../../../interfaces/event-seat";
-
 
 @Component({
   selector: 'app-checkout',
@@ -46,18 +44,23 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   constructor(
     private paymentService: PaymentService,
     private cartService: CartService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private route: ActivatedRoute
   ) {
   }
 
   ngOnInit() {
+    const isPaymentCancelled = Boolean(this.route.snapshot.paramMap.get('canceled'));
+    const isPaymentSuccessful = Boolean(this.route.snapshot.paramMap.get('success'));
+
+    console.log(isPaymentCancelled, isPaymentSuccessful)
+
     this.cartService.getCart().subscribe({
       next: (response: Cart) => {
         this.cart = response;
         // Start the countdown
         console.log(this.cart)
         const date = new Date(response.reservedUntil);
-        this.calculateRemainingTime(date.getTime());
         this.startCountdown(date.getTime());
         this.reservationSessionId = response.reservationSessionId;
       },
@@ -78,6 +81,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   startCountdown(reservedUntilDate: number): void {
+    this.calculateRemainingTime(reservedUntilDate);
     this.countdownInterval = setInterval(() => {
       this.calculateRemainingTime(reservedUntilDate);
       if (this.remainingTime <= 0) {
@@ -108,5 +112,4 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   protected readonly AppRoutes = AppRoutes;
-  protected readonly EventSeatStatus = EventSeatStatus;
 }
