@@ -64,6 +64,10 @@ export class AccountService extends BaseService {
     return this.http.get<Order>(this.apiUrl + `/Orders/${id}`);
   }
 
+  putUser(user: User) {
+    return this.http.put<User>(this.apiUrl, user);
+  }
+
   logout() {
     return this.http.post<HttpResponse<never>>(this.apiUrl + "/logout", null);
   }

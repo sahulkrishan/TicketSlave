@@ -71,10 +71,9 @@ export const routes: Routes = [
       {path: AppRoutes.ROOT, redirectTo: AppRoutes.PROFILE, pathMatch: 'full'},
       {path: AppRoutes.PROFILE, component: AccountProfileComponent},
       {
-        path: AppRoutes.EVENTS,
-        component: AccountEventsComponent,
+        path: AppRoutes.ORDERS,
+        component: AccountOrdersComponent,
         canActivate: [authGuard],
-        data: {roles: [Roles.ADMIN]},
       },
       {
         path: `${AppRoutes.ORDERS}/${AppRoutes.PARAM_ID}`,
@@ -82,9 +81,10 @@ export const routes: Routes = [
         canActivate: [authGuard],
       },
       {
-        path: AppRoutes.ORDERS,
-        component: AccountOrdersComponent,
+        path: AppRoutes.EVENTS,
+        component: AccountEventsComponent,
         canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]},
       },
       {
         path: `${AppRoutes.EVENTS}/${AppRoutes.CREATE}`,
