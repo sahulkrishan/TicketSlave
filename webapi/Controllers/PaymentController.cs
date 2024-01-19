@@ -12,11 +12,12 @@ namespace webapi.Controllers;
 public class PaymentController : ControllerBase
 {
     private readonly AppDbContext _context;
-    private const string StripeWebhookSecret = "whsec_93b6cf54b42f153d49307702f6206253d5b24050d2acd49f22188fca8d1b78d5";
+    private readonly IConfiguration _config;
 
-    public PaymentController(AppDbContext context)
+    public PaymentController(AppDbContext context, IConfiguration config)
     {
         _context = context;
+        _config = config;
     }
 
     [Route("createCheckoutSession")]
@@ -35,7 +36,7 @@ public class PaymentController : ControllerBase
             .Include(session => session.ReservedBy)
             .FirstOrDefaultAsync(session => session.Id == reservationSessionId);
 
-        if (reservationSession == null) 
+        if (reservationSession == null)
             throw new Exception("ReservationSession not found");
 
         if (!reservationSession.EventSeatList.Any())
@@ -71,8 +72,8 @@ public class PaymentController : ControllerBase
             // UiMode = "embedded",
             Metadata = new Dictionary<string, string>
             {
-                {"reservationSessionId", reservationSessionId.ToString() },
-                {"userId", reservationSession.ReservedById }
+                { "reservationSessionId", reservationSessionId.ToString() },
+                { "userId", reservationSession.ReservedById }
             },
         };
         var service = new SessionService();
@@ -96,7 +97,7 @@ public class PaymentController : ControllerBase
             var stripeEvent = EventUtility.ConstructEvent(
                 json,
                 Request.Headers["Stripe-Signature"].ToString(),
-                StripeWebhookSecret
+                _config["Stripe:WebhookSecret"]
             );
             var session = (stripeEvent.Data.Object as Session)!;
 
@@ -140,6 +141,28 @@ public class PaymentController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Checks Stripe's payment status
+    /// Should be called periodically to ensure no payments are missed until session has been marked as expired or completed
+    /// </summary>
+    [NonAction]
+    private async Task CheckPaymentStatus(string sessionId)
+    {
+        var service = new SessionService();
+        var session = await service.GetAsync(sessionId);
+        var order = await _context.Orders
+            .Include(order => order.Tickets)
+            .SingleOrDefaultAsync(order => order.StripeSessionId == session.Id);
+
+        if (order == null)
+        {
+            await CreateOrder(session);
+            if (session.PaymentStatus == "paid")
+            {
+                await FulfillOrder(session);
+            }
+        }
+    }
 
     /// <summary>
     /// Create and store order
@@ -181,9 +204,10 @@ public class PaymentController : ControllerBase
             eventSeat.Status = EventSeatStatus.Sold;
             _context.Entry(eventSeat).State = EntityState.Modified;
         }
+
         _context.Orders.Add(order);
         await _context.SaveChangesAsync();
-        
+
         _context.ReservationSessions.Remove(reservationSession);
         await _context.SaveChangesAsync();
     }
@@ -198,7 +222,7 @@ public class PaymentController : ControllerBase
         var order = await _context.Orders
             .Include(order => order.Tickets)
             .SingleAsync(order => order.StripeSessionId == session.Id);
-        if (order == null) 
+        if (order == null)
             throw new Exception("Order not found");
 
         // Mark tickets as valid

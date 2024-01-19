@@ -222,20 +222,17 @@ public class CartController : ControllerBase
             {
                 // No order has been made
                 // Expire the Stripe session and set the event seats to available
-                try
-                {
-                    await service.ExpireAsync(reservationSession.StripeSessionId);
-                }
-                catch (StripeException ex) when (ex.StripeError?.Code == "checkout.session.completed")
-                {
-                    // TODO: EITHER REFUND OR PROCESS THE ORDER ANYWAY
-                }
-                foreach (var eventSeat in reservationSession.EventSeatList)
-                {
-                    eventSeat.Status = EventSeatStatus.Available;
-                    _context.Entry(eventSeat).State = EntityState.Modified;
-                }
+                await service.ExpireAsync(reservationSession.StripeSessionId);
             }
+            else
+            {
+                return;
+            }
+        }
+        foreach (var eventSeat in reservationSession.EventSeatList)
+        {
+            eventSeat.Status = EventSeatStatus.Available;
+            _context.Entry(eventSeat).State = EntityState.Modified;
         }
 
         _context.ReservationSessions.Remove(reservationSession);
