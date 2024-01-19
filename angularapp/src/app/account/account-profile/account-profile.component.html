@@ -25,7 +25,7 @@
 
       <div class="flex-row-end">
         <button mat-raised-button color="warn" type="button" class="!text-white" (click)="logout()">Uitloggen</button>
-        <button mat-raised-button color="primary" type="button" (click)="logout()" [disabled]="accountForm.pristine">Bijwerken</button>
+        <button mat-raised-button color="primary" type="button" (click)="putUser()" [disabled]="accountForm.pristine">Bijwerken</button>
       </div>
     </form>
 

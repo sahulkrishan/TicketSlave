@@ -9,6 +9,7 @@ import {AccountForm} from "../../../model/account.form";
 import {Router} from "@angular/router";
 import {AccountService} from "../../../service/account.service";
 import {AppRoutes} from "../../app-routing.module";
+import {User} from "../../../interfaces/user";
 
 @Component({
   selector: 'app-account-profile',
@@ -27,6 +28,7 @@ import {AppRoutes} from "../../app-routing.module";
 })
 export class AccountProfileComponent implements OnInit {
   accountForm!: FormGroup<AccountForm>;
+  user: User | undefined = undefined;
 
 
   constructor(
@@ -67,6 +69,7 @@ export class AccountProfileComponent implements OnInit {
   ngOnInit() {
     this.accountService.userProfile$.subscribe({
       next: (account) => {
+        this.user = account;
         this.accountForm.setValue({
           firstName: account.firstName,
           lastName: account.lastName,
@@ -76,6 +79,16 @@ export class AccountProfileComponent implements OnInit {
     });
   }
 
+  putUser() {
+    if (this.user === undefined) {return;}
+    this.user.firstName = <string>this.accountForm.value.firstName;
+    this.user.lastName = <string>this.accountForm.value.lastName;
+    this.accountService.putUser(this.user).subscribe({
+      next: () => {
+        this.accountForm.markAsPristine();
+      }
+    })
+  }
   logout() {
     this.accountService.logout().subscribe({
       next: () => {
