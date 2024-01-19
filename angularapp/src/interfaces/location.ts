@@ -8,4 +8,9 @@ export interface Location {
   website: string;
   phoneNumber: string;
   emailAddress: string;
+  zones: Zone[];
+}
+export interface Zone {
+  zoneName: string;
+  numberOfSeats: number;
 }

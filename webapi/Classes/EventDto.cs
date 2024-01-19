@@ -18,7 +18,6 @@ namespace webapi.Classes
         public DateTime SaleEndAt { get; set; }
         public DateTime PresaleStartAt { get; set; }
         public DateTime PresaleEndAt { get; set; }
-        public string PresaleCode { get; set; }
         public Visibility Visibility { get; set; }
         public int AvailableSeats { get; set; }
         public int TotalSeats { get; set; }
@@ -41,7 +40,6 @@ namespace webapi.Classes
                 SaleStartAt = @event.SaleStartAt,
                 PresaleEndAt = @event.PresaleEndAt,
                 PresaleStartAt = @event.PresaleStartAt,
-                PresaleCode = @event.PresaleCode,
                 Visibility = @event.Visibility
             };
         }

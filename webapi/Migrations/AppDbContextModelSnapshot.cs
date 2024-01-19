@@ -266,7 +266,6 @@ namespace webapi.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("PresaleCode")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("PresaleEndAt")
@@ -304,8 +303,11 @@ namespace webapi.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uuid");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
+                    b.Property<long>("Price")
+                        .HasColumnType("bigint");
+
+                    b.Property<Guid?>("ReservationSessionId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("SeatId")
                         .HasColumnType("uuid");
@@ -316,6 +318,8 @@ namespace webapi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EventId");
+
+                    b.HasIndex("ReservationSessionId");
 
                     b.HasIndex("SeatId");
 
@@ -371,42 +375,32 @@ namespace webapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("LocationId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("OrderedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("OrderedBy")
+                    b.Property<long?>("Price")
                         .IsRequired()
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("StripePaymentIntentId")
                         .HasColumnType("text");
 
-                    b.Property<string>("PaymentMethod")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("TransactionId")
-                        .IsRequired()
+                    b.Property<string>("StripeSessionId")
                         .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("VoucherId")
+                    b.Property<Guid?>("VoucherId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("VoucherId");
 
@@ -419,21 +413,20 @@ namespace webapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("EventSeatId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("ReservedById")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ReserveredUntil")
+                    b.Property<DateTime>("ReservedUntil")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("StripeSessionId")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EventSeatId");
-
-                    b.HasIndex("ReservedById");
+                    b.HasIndex("ReservedById")
+                        .IsUnique();
 
                     b.ToTable("ReservationSessions");
                 });
@@ -479,15 +472,10 @@ namespace webapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("EventSeatId")
+                        .HasColumnType("uuid");
 
-                    b.Property<string>("EventSeatId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("InvalidationReason")
+                    b.Property<int?>("InvalidationReason")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsValid")
@@ -495,10 +483,6 @@ namespace webapi.Migrations
 
                     b.Property<Guid?>("OrderId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Price")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -509,9 +493,11 @@ namespace webapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("EventSeatId");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tickets");
                 });
@@ -618,6 +604,10 @@ namespace webapi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("webapi.Classes.ReservationSession", null)
+                        .WithMany("EventSeatList")
+                        .HasForeignKey("ReservationSessionId");
+
                     b.HasOne("webapi.Classes.Seat", "Seat")
                         .WithMany()
                         .HasForeignKey("SeatId")
@@ -631,38 +621,28 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Classes.Order", b =>
                 {
-                    b.HasOne("webapi.Classes.Location", "Location")
+                    b.HasOne("webapi.Classes.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("LocationId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("webapi.Classes.Voucher", "Voucher")
                         .WithMany()
-                        .HasForeignKey("VoucherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("VoucherId");
 
-                    b.Navigation("Location");
+                    b.Navigation("User");
 
                     b.Navigation("Voucher");
                 });
 
             modelBuilder.Entity("webapi.Classes.ReservationSession", b =>
                 {
-                    b.HasOne("webapi.Classes.EventSeat", "EventSeat")
-                        .WithMany()
-                        .HasForeignKey("EventSeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("webapi.Classes.ApplicationUser", "ReservedBy")
-                        .WithMany()
-                        .HasForeignKey("ReservedById")
+                        .WithOne("ReservationSession")
+                        .HasForeignKey("webapi.Classes.ReservationSession", "ReservedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("EventSeat");
 
                     b.Navigation("ReservedBy");
                 });
@@ -680,9 +660,9 @@ namespace webapi.Migrations
 
             modelBuilder.Entity("webapi.Classes.Ticket", b =>
                 {
-                    b.HasOne("webapi.Classes.ApplicationUser", "ApplicationUser")
+                    b.HasOne("webapi.Classes.EventSeat", "EventSeat")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
+                        .HasForeignKey("EventSeatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -690,12 +670,30 @@ namespace webapi.Migrations
                         .WithMany("Tickets")
                         .HasForeignKey("OrderId");
 
-                    b.Navigation("ApplicationUser");
+                    b.HasOne("webapi.Classes.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("EventSeat");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("webapi.Classes.ApplicationUser", b =>
+                {
+                    b.Navigation("ReservationSession");
                 });
 
             modelBuilder.Entity("webapi.Classes.Order", b =>
                 {
                     b.Navigation("Tickets");
+                });
+
+            modelBuilder.Entity("webapi.Classes.ReservationSession", b =>
+                {
+                    b.Navigation("EventSeatList");
                 });
 #pragma warning restore 612, 618
         }

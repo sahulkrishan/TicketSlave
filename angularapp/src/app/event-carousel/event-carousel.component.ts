@@ -50,13 +50,13 @@ export class EventCarouselComponent implements OnInit {
 
   getBannerText(): string | undefined {
     if (this.eventData.availableSeats != undefined && this.eventData.totalSeats != undefined && Math.ceil(this.eventData.totalSeats * 0.1 ) < this.eventData.availableSeats) {
-      return this.eventData.lowestPrice !== undefined ? `Bijna uitverkocht! Koop nu je tickets vanaf €${this.eventData.lowestPrice.toFixed(2)}.` : 'Bijna uitverkocht!';
+      return this.eventData.lowestPrice !== undefined ? `Bijna uitverkocht! Koop nu je tickets vanaf €${(this.eventData.lowestPrice/100).toFixed(2)}.` : 'Bijna uitverkocht!';
     } else if (this.eventData.saleStartAt > new Date()) {
       return `Tickets te koop vanaf ${this.eventData.saleStartAt.toLocaleDateString()}`;
     } else if (this.eventData.availableSeats === 0) {
       return 'Uitverkocht';
     } else  if (this.eventData.availableSeats != undefined && this.eventData.availableSeats > 0 && this.eventData.lowestPrice !== undefined) {
-      return `Tickets verkrijgbaar vanaf €${this.eventData.lowestPrice.toFixed(2)}`;
+      return `Tickets verkrijgbaar vanaf €${(this.eventData.lowestPrice/100).toFixed(2)}`;
     }
     return undefined;
   }

@@ -73,7 +73,7 @@ export class NavigationBarComponent implements OnInit, OnDestroy {
   }
 
   navigateToCreateEvent() {
-    this.router.navigate([`/${AppRoutes.EVENTS_CREATE}`])
+    this.router.navigate([`/${AppRoutes.CREATE}`])
 
   }
 

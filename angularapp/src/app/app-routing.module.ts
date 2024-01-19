@@ -11,29 +11,36 @@ import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {AccountLayoutComponent} from "./account/account-layout/account-layout.component";
 import {AccountProfileComponent} from "./account/account-profile/account-profile.component";
 import {AccountEventsComponent} from "./account/account-events/account-events.component";
+import {CheckoutComponent} from "./payment/checkout/checkout.component";
+import {SeatSelectorComponent} from "./events/seat-selector/seat-selector.component";
+import {LocationOverviewComponent} from "./location-overview/location-overview.component";
+import {LocationDetailComponent} from "./location-detail/location-detail.component";
+import {LocationCreationformComponent} from "./location-creationform/location-creationform.component";
 
 export class AppRoutes {
   public static ROOT = '';
   public static PARAM_ID = ':id';
-  public static EVENTS = 'events';
-  public static EVENTS_CREATE = 'createEvent';
+  public static OVERVIEW = 'overview';
   public static ACCOUNT = 'account';
-  public static ACCOUNT_PROFILE = `profile`;
-  public static ACCOUNT_ORDERS = `orders`;
-  public static ACCOUNT_ADMIN_TICKETS = `tickets`;
-  public static ACCOUNT_ADMIN_EVENTS = `events`;
-  public static ACCOUNT_ADMIN_LOCATIONS = `locations`;
-  public static ACCOUNT_ADMIN_USERS = `users`;
+  public static PROFILE = `profile`;
+  public static ORDERS = `orders`;
+  public static TICKETS = `tickets`;
+  public static EVENTS = `events`;
+  public static SEAT_SELECTOR = `seatsSelector`;
+  public static CREATE = 'create';
+  public static LOCATIONS = `locations`;
+  public static USERS = `users`;
   public static AUTH = 'auth';
   public static LOGIN = 'login';
   public static REGISTER = 'register'
   public static AUTH_LOGIN = `/${AppRoutes.AUTH}/${AppRoutes.LOGIN}`;
   public static AUTH_REGISTER = `/${AppRoutes.AUTH}/${AppRoutes.REGISTER}`;
   public static FORBIDDEN = `forbidden`;
+  public static CHECKOUT = `checkout`;
 }
 
 export const routes: Routes = [
-  {path: AppRoutes.ROOT, redirectTo: '/events', pathMatch: 'full'},
+  {path: AppRoutes.ROOT, redirectTo: `/${AppRoutes.OVERVIEW}`, pathMatch: 'full'},
   {
     path: AppRoutes.AUTH,
     component: AuthComponent,
@@ -43,31 +50,58 @@ export const routes: Routes = [
     ]
   },
   {
-    path: AppRoutes.EVENTS,
+    path: AppRoutes.OVERVIEW,
     component: EventOverviewComponent,
   },
-  {path: `${AppRoutes.EVENTS}/${AppRoutes.PARAM_ID}`, component: EventDetailComponent},
   {
-    path: AppRoutes.EVENTS_CREATE,
-    component: EventCreationformComponent,
-    canActivate: [authGuard],
-    data: {roles: [Roles.ADMIN]}
+    path: `${AppRoutes.EVENTS}/${AppRoutes.PARAM_ID}`,
+    component: EventDetailComponent,
+  },
+  {
+    path: `${AppRoutes.EVENTS}/${AppRoutes.PARAM_ID}/${AppRoutes.SEAT_SELECTOR}`,
+    component: SeatSelectorComponent,
   },
   {
     path: AppRoutes.ACCOUNT,
     component: AccountLayoutComponent,
     canActivate: [authGuard],
     children: [
-      {path: AppRoutes.ROOT, redirectTo: AppRoutes.ACCOUNT_PROFILE, pathMatch: 'full'},
-      {path: AppRoutes.ACCOUNT_PROFILE, component: AccountProfileComponent},
+      {path: AppRoutes.ROOT, redirectTo: AppRoutes.PROFILE, pathMatch: 'full'},
+      {path: AppRoutes.PROFILE, component: AccountProfileComponent},
       {
-        path: AppRoutes.ACCOUNT_ADMIN_EVENTS,
+        path: AppRoutes.EVENTS,
         component: AccountEventsComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]},
+      },
+
+      {
+        path: `${AppRoutes.EVENTS}/${AppRoutes.CREATE}`,
+        component: EventCreationformComponent,
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]}
       },
+      {
+        path: `${AppRoutes.LOCATIONS}`,
+        component: LocationOverviewComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]},
+      },
+      {
+        path: `${AppRoutes.ACCOUNT}/${AppRoutes.LOCATIONS}/${AppRoutes.PARAM_ID}`,
+        component: LocationDetailComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]}
+      },
+      {
+        path: `${AppRoutes.LOCATIONS}/${AppRoutes.CREATE}`,
+        component: LocationCreationformComponent,
+        canActivate: [authGuard],
+        data: {roles: [Roles.ADMIN]},
+      },
     ]
   },
+  {path: AppRoutes.CHECKOUT, component: CheckoutComponent},
   {path: AppRoutes.FORBIDDEN, component: PageNotFoundComponent},
   {path: '**', component: PageNotFoundComponent},  // Wildcard route for a 404 page
 ];

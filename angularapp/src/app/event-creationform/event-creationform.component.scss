@@ -1,0 +1,16 @@
+@import "src/app/app.component.scss";
+/* Aangepaste CSS voor het formulier */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+mat-form-field {
+  width: 100%; /* Breedte van de formuliervelden */
+}
+
+textarea {
+  resize: vertical; /* Toestaan van verticale grootteaanpassing voor textarea */
+  min-height: 100px; /* Minimale hoogte van de textarea */
+}

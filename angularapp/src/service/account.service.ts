@@ -4,6 +4,7 @@ import {HttpClient, HttpResponse} from "@angular/common/http";
 import {Observable, ReplaySubject} from "rxjs";
 import {User} from "../interfaces/user";
 import {environment} from "../environments/environment";
+import {Order} from "../interfaces/order";
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,14 @@ export class AccountService extends BaseService {
         this._signedIn.next(false);
       }
     })
+  }
+
+  getOrders() {
+    return this.http.get<Order[]>(this.apiUrl + "/Orders");
+  }
+
+  getOrder(id: string) {
+    return this.http.get<Order>(this.apiUrl + `/Orders/${id}`);
   }
 
   logout() {
