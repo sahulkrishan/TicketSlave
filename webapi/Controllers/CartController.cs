@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
+using Stripe.BillingPortal;
 using webapi.Classes;
 
 namespace webapi.Controllers;
@@ -14,7 +16,7 @@ public class CartController : ControllerBase
 {
     private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
-    private const int ReservationSessionTimeout = 15; // seconds
+    private const int ReservationSessionTimeout = 60; // seconds
 
     public CartController(AppDbContext context,
         UserManager<ApplicationUser> userManager)
@@ -40,6 +42,17 @@ public class CartController : ControllerBase
             .Include(eventSeat => eventSeat.Event)
             .Include(eventSeat => eventSeat.Seat)
             .FirstOrDefaultAsync(eventSeat => eventSeat.Id == eventSeatId);
+
+        var hasTicket = await _context.Tickets
+            .AnyAsync(ticket => ticket.EventSeatId == eventSeatId && ticket.IsValid == true);
+
+        if (hasTicket)
+        {
+            // Event seat is already assigned to a Ticket and is not available in anyway
+            return BadRequest(new List<ResponseResult>
+                { ResponseResult.EventSeatSoldError }
+            );
+        }
 
         if (eventSeat == null)
         {
@@ -73,9 +86,11 @@ public class CartController : ControllerBase
             {
                 reservedUntil = DateTime.UtcNow.AddSeconds(ReservationSessionTimeout);
             }
+
             user.ReservationSession.ReservedUntil = reservedUntil;
             _context.Entry(user.ReservationSession).State = EntityState.Modified;
         }
+
         switch (eventSeat.Status)
         {
             case EventSeatStatus.Sold:
@@ -84,10 +99,11 @@ public class CartController : ControllerBase
                 );
             case EventSeatStatus.Reserved:
                 // TODO NOT SURE WHAT TO DO HERE, CHECK IF USER IS THE SAME?
-                if (user.ReservationSession.EventSeatList.Contains(eventSeat)) {
+                if (user.ReservationSession.EventSeatList.Contains(eventSeat))
+                {
                     break;
                 }
-                
+
                 return NotFound(new List<ResponseResult>
                     { ResponseResult.EventSeatReservedError }
                 );
@@ -108,12 +124,14 @@ public class CartController : ControllerBase
                     { ResponseResult.EventSeatUnavailableError }
                 );
         }
-        
-        await _context.SaveChangesAsync();
-        
-        // If the user does not complete the reservation within the timeout, the tickets will be released
-        BackgroundJob.Schedule(() => InvalidateReservationSession(user.ReservationSession.Id), user.ReservationSession.ReservedUntil);
 
+        await _context.SaveChangesAsync();
+
+        // If the user does not complete the reservation within the timeout, the tickets will be released
+        var jobId = BackgroundJob.Schedule(
+            () => InvalidateReservationSession(user.ReservationSession.Id),
+            user.ReservationSession.ReservedUntil
+        );
         
         return Ok(Cart.From(user.ReservationSession));
     }
@@ -194,21 +212,42 @@ public class CartController : ControllerBase
     [AutomaticRetry(Attempts = 3)]
     public async Task InvalidateReservationSession(Guid reservationSessionId)
     {
+        var reservationSession = GetReservationSession(reservationSessionId);
+        if (reservationSession.StripeSessionId != null)
+        {
+            var service = new Stripe.Checkout.SessionService();
+            var order = await _context.Orders
+                .FirstOrDefaultAsync(order => order.StripeSessionId == reservationSession.StripeSessionId);
+            if (order == null)
+            {
+                // No order has been made
+                // Expire the Stripe session and set the event seats to available
+                try
+                {
+                    await service.ExpireAsync(reservationSession.StripeSessionId);
+                }
+                catch (StripeException ex) when (ex.StripeError?.Code == "checkout.session.completed")
+                {
+                    // TODO: EITHER REFUND OR PROCESS THE ORDER ANYWAY
+                }
+                foreach (var eventSeat in reservationSession.EventSeatList)
+                {
+                    eventSeat.Status = EventSeatStatus.Available;
+                    _context.Entry(eventSeat).State = EntityState.Modified;
+                }
+            }
+        }
+
+        _context.ReservationSessions.Remove(reservationSession);
+        await _context.SaveChangesAsync();
+    }
+
+    private ReservationSession GetReservationSession(Guid reservationSessionId)
+    {
         var reservationSession = _context.ReservationSessions.Where(session => session.Id == reservationSessionId)
             .Include(session => session.EventSeatList)
             .FirstOrDefault();
         if (reservationSession == null) throw new Exception("Reservation session not found");
-        if (reservationSession.StripeSessionId != null)
-        {
-            var service = new Stripe.Checkout.SessionService();
-            await service.ExpireAsync(reservationSession.StripeSessionId);
-        }
-        foreach (var eventSeat in reservationSession.EventSeatList)
-        {
-            eventSeat.Status = EventSeatStatus.Available;
-            _context.Entry(eventSeat).State = EntityState.Modified;
-        }
-        _context.ReservationSessions.Remove(reservationSession);
-        await _context.SaveChangesAsync();
+        return reservationSession;
     }
 }

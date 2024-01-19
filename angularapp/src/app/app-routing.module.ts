@@ -15,6 +15,7 @@ import {CheckoutComponent} from "./payment/checkout/checkout.component";
 import {SeatSelectorComponent} from "./events/seat-selector/seat-selector.component";
 import {LocationOverviewComponent} from "./location-overview/location-overview.component";
 import {LocationDetailComponent} from "./location-detail/location-detail.component";
+import {AccountOrdersComponent} from "./account/account-orders/account-orders.component";
 
 export class AppRoutes {
   public static ROOT = '';
@@ -72,6 +73,11 @@ export const routes: Routes = [
         component: AccountEventsComponent,
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]},
+      },
+      {
+        path: AppRoutes.ORDERS,
+        component: AccountOrdersComponent,
+        canActivate: [authGuard],
       },
 
       {

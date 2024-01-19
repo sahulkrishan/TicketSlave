@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using webapi.Classes;
 
 namespace webapi.Controllers;
@@ -45,6 +46,34 @@ public class AccountController: ControllerBase
     user.LastName = userDto.LastName;
     await _userManager.UpdateAsync(user);
     return Ok();
+  }
+
+  [HttpGet]
+  [Route("Orders")]
+  public ActionResult<List<OrderDto>> GetOrders()
+  {
+    var orders = _context.Orders
+      .Where(order => order.UserId == _userManager.GetUserId(User))
+      .Include(order => order.Tickets)
+        .ThenInclude(ticket => ticket.EventSeat)
+          .ThenInclude(eventSeat => eventSeat.Event)
+      .Include(order => order.Tickets)
+        .ThenInclude(ticket => ticket.EventSeat)
+          .ThenInclude(eventSeat => eventSeat.Seat)
+      .Select(OrderDto.From)
+      .OrderByDescending(x => x.OrderedAt)
+      .ToList();
+    return orders;
+  }
+
+  [HttpGet]
+  [Route("Orders/{orderId:guid}")]
+  public async Task<ActionResult<OrderDto>> GetOrder(Guid orderId)
+  {
+    var order = await _context.Orders.FindAsync(orderId);
+    if (order == null)
+      return NotFound();
+    return OrderDto.From(order);
   }
     
   [HttpPost]

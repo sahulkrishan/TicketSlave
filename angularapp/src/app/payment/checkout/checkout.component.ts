@@ -15,6 +15,7 @@ import {AppRoutes} from "../../app-routing.module";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import {MatButtonModule} from "@angular/material/button";
 import {Cart} from "../../../interfaces/cart";
+import {BannerComponent, BannerOptions, BannerState} from "../../banner/banner.component";
 
 @Component({
   selector: 'app-checkout',
@@ -29,7 +30,8 @@ import {Cart} from "../../../interfaces/cart";
     NgForOf,
     RouterLink,
     MatButtonModule,
-    CurrencyPipe
+    CurrencyPipe,
+    BannerComponent
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
@@ -41,6 +43,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   remainingTime: number = 0;
   countdownInterval: any; // To store the interval ID
 
+  bannerOptions: BannerOptions = {
+    state: BannerState.error,
+    title: 'Onbekende fout',
+    description: undefined,
+    visible: false,
+  };
+
   constructor(
     private paymentService: PaymentService,
     private cartService: CartService,
@@ -50,8 +59,17 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const isPaymentCancelled = Boolean(this.route.snapshot.paramMap.get('canceled'));
-    const isPaymentSuccessful = Boolean(this.route.snapshot.paramMap.get('success'));
+    const isPaymentCancelled = Boolean(this.route.snapshot.queryParamMap.get('canceled'));
+    const isPaymentSuccessful = Boolean(this.route.snapshot.queryParamMap.get('success'));
+
+    if (isPaymentCancelled) {
+      this.bannerOptions = {
+        visible: true,
+        title: 'Betaling geannuleerd',
+        description: 'Jouw bestelling is niet voltooid omdat je de betaling hebt geannuleerd.',
+        state: BannerState.error
+      }
+    }
 
     console.log(isPaymentCancelled, isPaymentSuccessful)
 

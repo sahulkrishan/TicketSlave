@@ -107,6 +107,12 @@ public class ResponseResult
         Description = "Event seat is not currently available"
     };
 
+    public static readonly ResponseResult EventSeatSoldError = new()
+    {
+        Code = "EventSeatSold",
+        Description = "Event seat has already been sold"
+    };
+
     public static readonly ResponseResult EventSeatReservedError = new()
     {
         Code = "EventSeatReserved",
