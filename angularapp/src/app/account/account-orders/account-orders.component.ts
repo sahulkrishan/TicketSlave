@@ -8,6 +8,8 @@ import {SectionHeaderComponent} from "../../section-header/section-header.compon
 import {AccountService} from "../../../service/account.service";
 import {Order} from "../../../interfaces/order";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {Router} from "@angular/router";
+import {AppRoutes} from "../../app-routing.module";
 
 @Component({
   selector: 'app-account-orders',
@@ -30,6 +32,7 @@ export class AccountOrdersComponent implements OnInit{
   orders: Order[] = [];
   constructor(
     private accountService: AccountService,
+    private router: Router
   ) {
   }
 
@@ -40,5 +43,9 @@ export class AccountOrdersComponent implements OnInit{
         }
       }
     )
+  }
+
+  goToDetails(id: string) {
+    this.router.navigate([`${AppRoutes.ACCOUNT}/${AppRoutes.ORDERS}/${id}`]);
   }
 }

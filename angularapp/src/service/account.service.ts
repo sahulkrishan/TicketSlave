@@ -60,6 +60,10 @@ export class AccountService extends BaseService {
     return this.http.get<Order[]>(this.apiUrl + "/Orders");
   }
 
+  getOrder(id: string) {
+    return this.http.get<Order>(this.apiUrl + `/Orders/${id}`);
+  }
+
   logout() {
     return this.http.post<HttpResponse<never>>(this.apiUrl + "/logout", null);
   }
