@@ -1,0 +1,58 @@
+<app-section-header title="Bestellingen" icon="shopping_cart"/>
+<div class="flex flex-wrap flex-col gap-4">
+  @for (order of orders;track order) {
+    <mat-card class="mat-typography glass-card" (click)="goToDetails(order.id)">
+
+      <div class="flex flex-wrap gap-4 bg-opacity-5 bg-white py-4 px-6">
+        <div>
+          <h3 class="!m-0">Bestelnummer</h3>
+          <h5 class="!m-0">{{ order.id }}</h5>
+        </div>
+
+        <div>
+          <h3 class="!m-0">Besteld op</h3>
+          <h5 class="!m-0">{{ order.orderedAt | date:'yyyy-MM-dd' }}</h5>
+        </div>
+
+        <div>
+          <h3 class="!m-0">Totaal</h3>
+          <h5 class="!m-0">
+            @if (order.price === undefined) {
+              Onbekend
+            } @else {
+              €{{ order.price / 100 }}
+            }
+          </h5>
+        </div>
+      </div>
+      <mat-card-content class="glass-card-content flex flex-col gap-4">
+        @for (ticket of order.tickets;track ticket) {
+          <div class="flex flex-wrap gap-4">
+            <div class="aspect-square object-cover bg-cover bg-center" style="width: 96px; height: 96px"
+                 [style.background-image]="'url(' + ticket.eventSeat.event.imageUrls[0] + ')'">
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <div>
+                <h4 class="!m-0">Item</h4>
+                <h2 class="!m-0">{{ ticket.eventSeat.seat.name }}</h2>
+              </div>
+              <div>
+                <h4 class="!m-0">Evenement</h4>
+                <h2 class="!m-0">{{ ticket.eventSeat.event.title }}</h2>
+              </div>
+              <div>
+                <h4 class="!m-0">Zone</h4>
+                <h2 class="!m-0">{{ ticket.eventSeat.seat.zone }}</h2>
+
+              </div>
+              <div>
+                <h4 class="!m-0">Stoelnummer</h4>
+                <h2 class="!m-0">{{ ticket.eventSeat.seat.seatNumber }}</h2>
+              </div>
+            </div>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

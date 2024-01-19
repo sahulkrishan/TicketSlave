@@ -3,6 +3,7 @@
   <div class="checkoutContainer">
     <app-section-header title="Winkelwagen" icon="shopping_cart"/>
 
+
     @if (cart !== undefined) {
       <mat-card class="mat-typography glass-card">
         <mat-card-content class="glass-card-content checkoutContainer">
@@ -15,6 +16,10 @@
       </mat-card>
     }
   </div>
+  <mat-card class="mat-typography glass-card mb-2">
+    <app-banner
+      [bannerOptions]="bannerOptions"/>
+  </mat-card>
   <div class="checkoutContainer">
     <div class="grid gap-2">
       @if (cart === undefined) {
@@ -46,7 +51,7 @@
               <mat-card class="mat-typography glass-card">
                 <mat-card-content class="glass-card-content">
                   @for (eventSeat of item.selectedEventSeats;track eventSeat.id) {
-                    <h3>{{ eventSeat.seat.name}}</h3>
+                    <h3>{{ eventSeat.seat.name }}</h3>
                     <div class="my-3 flex flex-row flex-wrap gap-3">
                       <div>
                         <h4 class="!m-0">Zone</h4>
@@ -63,7 +68,8 @@
                 </mat-card-content>
               </mat-card>
 
-              <button mat-button color="primary" routerLink="/{{AppRoutes.EVENTS}}/{{item.event.id}}/{{AppRoutes.SEAT_SELECTOR}}">
+              <button mat-button color="primary"
+                      routerLink="/{{AppRoutes.EVENTS}}/{{item.event.id}}/{{AppRoutes.SEAT_SELECTOR}}">
                 Tickets toevoegen
               </button>
             </mat-card-content>
