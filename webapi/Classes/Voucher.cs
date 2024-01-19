@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace TicketSlave.Classes
+namespace webapi.Classes
 {
     public class Voucher
     {
+        [Key]
         [Required]
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string UserId { get; set; }
         [Required]
         public string VoucherType { get; set; }
@@ -16,12 +18,5 @@ namespace TicketSlave.Classes
         [Required]
         public DateTime ValidUntil { get; set; }
         public InvalidationReason InvalidationReason { get; set; }
-        [Required]
-        public bool IsRedeemed { get; set; }
-        public DateTime RedeemedAt { get; set; }
-        [Required]
-        public int TimesUsed { get; set; }
-        [Required]
-        public int MaxUses { get; set; }
     }
 }

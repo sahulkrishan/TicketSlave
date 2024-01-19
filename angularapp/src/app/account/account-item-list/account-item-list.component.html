@@ -1,0 +1,32 @@
+<mat-nav-list>
+  <div mat-subheader>Account</div>
+  <mat-list-item [routerLink]="AppRoutes.PROFILE">
+    <mat-icon matListItemIcon>person</mat-icon>
+    <div matListItemTitle>Profiel</div>
+  </mat-list-item>
+  <mat-list-item [routerLink]="AppRoutes.ORDERS">
+    <mat-icon matListItemIcon>shopping_cart</mat-icon>
+    <div matListItemTitle>Bestellingen</div>
+  </mat-list-item>
+
+  @if(userProfile?.roles?.includes(Roles.ADMIN))
+  {
+    <div mat-subheader>Beheren</div>
+    <mat-list-item [routerLink]="AppRoutes.TICKETS">
+      <mat-icon matListItemIcon>confirmation_number</mat-icon>
+      <div matListItemTitle>Tickets</div>
+    </mat-list-item>
+    <mat-list-item [routerLink]="AppRoutes.EVENTS">
+      <mat-icon matListItemIcon>event</mat-icon>
+      <div matListItemTitle>Evenementen</div>
+    </mat-list-item>
+    <mat-list-item [routerLink]="AppRoutes.LOCATIONS">
+      <mat-icon matListItemIcon>stadium</mat-icon>
+      <div matListItemTitle>Locaties</div>
+    </mat-list-item>
+<!--    <mat-list-item [routerLink]="AppRoutes.USERS">-->
+<!--      <mat-icon matListItemIcon>group</mat-icon>-->
+<!--      <div matListItemTitle>Gebruikers</div>-->
+<!--    </mat-list-item>-->
+  }
+</mat-nav-list>

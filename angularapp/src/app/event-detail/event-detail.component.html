@@ -1,0 +1,53 @@
+<app-event-carousel *ngIf="this.currentEvent !== undefined" [eventData]="this.currentEvent!"
+                    [moreInfoButtonVisible]="false"/>
+
+<div id="gradientContainer"></div>
+
+<div id="overviewContainer">
+
+  <button mat-raised-button color="primary" class="mt-2" [routerLink]="AppRoutes.SEAT_SELECTOR">
+    <span>Tickets selecteren</span>
+  </button>
+  @if (canEdit && !editMode) {
+    <button mat-raised-button color="primary" class="mt-2" (click)="editMode = !editMode">
+      <span>Bewerken</span>
+    </button>
+  }
+  @if (canEdit && editMode) {
+
+    <button mat-button class="mt-2" (click)="editMode = false">
+      <span>Annuleren</span>
+    </button>
+    <button mat-raised-button color="primary" class="mt-2">
+      <span>Opslaan</span>
+    </button>
+  }
+  <app-section-header title="Omschrijving" icon="info"/>
+  <mat-card class="mat-typography glass-card">
+    <mat-card-content class="glass-card-content">
+      @if (canEdit && editMode) {
+        <mat-form-field appearance="outline">
+          <mat-label>Textarea</mat-label>
+          <textarea matInput [(ngModel)]="currentEvent!.description"></textarea>
+        </mat-form-field>
+      } @else {
+        <div>{{ currentEvent?.description }}</div>
+      }
+    </mat-card-content>
+  </mat-card>
+  @if (currentEvent?.location !== null) {
+    <app-section-header title="Locatie" icon="pin_drop"/>
+    <mat-card class="mat-typography glass-card">
+      <mat-card-content class="glass-card-content">
+        <h3 class="!m-0 hero-description translucent-white">
+          {{ currentEvent?.location?.name }}
+        </h3>
+        <div>{{ currentEvent?.location?.address }} - {{ currentEvent?.location?.city }}
+          - {{ currentEvent?.location?.postalCode }} - {{ currentEvent?.location?.country }}
+        </div>
+        <div>{{ currentEvent?.location?.phoneNumber }}</div>
+        <div>{{ currentEvent?.location?.website }}</div>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

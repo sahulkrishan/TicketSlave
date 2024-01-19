@@ -1,0 +1,27 @@
+<mat-toolbar class="navigation-bar">
+  <a [routerLink]="AppRoutes.ROOT">
+    <img src="assets/logo_singleline_light.svg" alt="TicketSlave" class="logo">
+  </a>
+  <span class="example-spacer"></span>
+  <mat-form-field appearance="outline">
+    <mat-label>Zoeken</mat-label>
+    <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      @for (option of filteredOptions | async;track option) {
+        <mat-option (click)="navigateToDetails(option)" [value]="option">{{ option.title }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+  <button mat-button [routerLink]="AppRoutes.CHECKOUT">
+    <mat-icon inline="true">shopping_cart</mat-icon>
+    Winkelwagen
+  </button>
+  @if (signedIn) {
+    <button mat-button [routerLink]="AppRoutes.ACCOUNT" >
+      <mat-icon inline="true">person</mat-icon>
+      {{ user?.firstName }}
+    </button>
+  } @else {
+    <button mat-button [routerLink]="AppRoutes.AUTH_LOGIN">Inloggen</button>
+  }
+</mat-toolbar>

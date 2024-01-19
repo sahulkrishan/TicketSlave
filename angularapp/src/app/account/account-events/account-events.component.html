@@ -1,0 +1,11 @@
+<app-section-header title="Evenementen" icon="event"/>
+<mat-card class="mat-typography glass-card">
+  <mat-card-content class="glass-card-content">
+    <button mat-button color="primary" [routerLink]="AppRoutes.CREATE">
+      <mat-icon>add</mat-icon>
+      <span>Evenement toevoegen</span>
+    </button>
+
+    <app-event-card *ngFor="let event of events" [eventData]="event"/>
+  </mat-card-content>
+</mat-card>

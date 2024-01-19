@@ -1,22 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using webapi.Classes;
 
-namespace TicketSlave.Classes
+namespace webapi.Classes
 {
     public class EventSeat
     {
         [Key]
+        [Required]
         public Guid Id { get; set; }
         public Guid SeatId { get; set; }
         public Seat Seat { get; set; }
         public Guid EventId { get; set; }
         public Event Event { get; set; }
+        public long Price { get; set; }
         public EventSeatStatus Status { get; set; }
-    }
-
-    public enum EventSeatStatus
-    {
-        Available,
-        Reserved,
-        Sold
     }
 }

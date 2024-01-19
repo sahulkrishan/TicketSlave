@@ -1,0 +1,14 @@
+@import "src/app/app.component.scss";
+
+.account-drawer-content {
+  padding: 24px 48px;
+}
+
+.account-drawer {
+  background-color: rgba(0, 0, 0, 0.20);
+}
+
+.account-container {
+  top: 64px;
+  height: calc(100% - 64px);
+}

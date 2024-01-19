@@ -1,0 +1,33 @@
+<app-section-header title="Profiel" icon="person"/>
+<mat-card class="mat-typography glass-card">
+  <mat-card-content class="glass-card-content">
+    <form
+      [formGroup]="accountForm"
+      class="default-form">
+
+      <div class="wrapping-horizontal-list">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Voornaam</mat-label>
+          <input matInput formControlName="firstName" type="text" name="firstName" autocomplete="on">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>Achternaam</mat-label>
+          <input matInput formControlName="lastName" type="text" name="lastName" autocomplete="on">
+        </mat-form-field>
+
+      </div>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>E-mailadres</mat-label>
+        <input matInput formControlName="email" type="email" name="email" autocomplete="on" readonly>
+      </mat-form-field>
+
+      <div class="flex-row-end">
+        <button mat-raised-button color="warn" type="button" class="!text-white" (click)="logout()">Uitloggen</button>
+        <button mat-raised-button color="primary" type="button" (click)="putUser()" [disabled]="accountForm.pristine">Bijwerken</button>
+      </div>
+    </form>
+
+  </mat-card-content>
+</mat-card>

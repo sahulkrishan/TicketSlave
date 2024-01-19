@@ -1,15 +1,12 @@
-﻿namespace TicketSlave.Classes
+﻿namespace webapi.Classes;
+
+public enum InvalidationReason
 {
-    public enum InvalidationReason
-    {
-        CustomerServiceCancellation,
-        EventCancelled,
-        EventModified,
-        EventPassed,
-        Expired,
-        FraudulantActivity,
-        Redeemed,
-        Refunded,
-        UsageLimitReached
-    }
+    AwaitingPayment,
+    EventCancelled,
+    EventModified,
+    Expired,
+    Redeemed,
+    OrderCancelled,
+    UsageLimitReached
 }
