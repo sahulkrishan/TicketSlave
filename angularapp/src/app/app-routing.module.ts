@@ -16,6 +16,8 @@ import {SeatSelectorComponent} from "./events/seat-selector/seat-selector.compon
 import {LocationOverviewComponent} from "./location-overview/location-overview.component";
 import {LocationDetailComponent} from "./location-detail/location-detail.component";
 import {LocationCreationformComponent} from "./location-creationform/location-creationform.component";
+import {AccountOrdersComponent} from "./account/account-orders/account-orders.component";
+import {AccountOrderDetailComponent} from "./account/account-order-detail/account-order-detail.component";
 
 export class AppRoutes {
   public static ROOT = '';
@@ -74,7 +76,16 @@ export const routes: Routes = [
         canActivate: [authGuard],
         data: {roles: [Roles.ADMIN]},
       },
-
+      {
+        path: `${AppRoutes.ORDERS}/${AppRoutes.PARAM_ID}`,
+        component: AccountOrderDetailComponent,
+        canActivate: [authGuard],
+      },
+      {
+        path: AppRoutes.ORDERS,
+        component: AccountOrdersComponent,
+        canActivate: [authGuard],
+      },
       {
         path: `${AppRoutes.EVENTS}/${AppRoutes.CREATE}`,
         component: EventCreationformComponent,

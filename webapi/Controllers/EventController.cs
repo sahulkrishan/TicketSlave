@@ -90,7 +90,7 @@ public class EventController : ControllerBase
                 Seat = seat,
                 SeatId = seat.Id,
                 Status = EventSeatStatus.Available,
-                Price = 999999999999999999 // TODO REPLACE ME WITH DEFAULT ZONE OR SEAT PRICE
+                Price = 999999 // TODO REPLACE ME WITH DEFAULT ZONE OR SEAT PRICE
             };
             _context.EventSeats.Add(eventSeat);
         }
